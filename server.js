@@ -4,6 +4,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import authRoutes from './routes/auth.route.js'
 import userRoutes from './routes/user.route.js'
+import { verifyToken } from "./controllers/middlewares/auth.middleware.js";
 
 const app = express();
 
@@ -17,7 +18,7 @@ app.get('/', (req, res) => {
     })
 })
 
-app.use('/users', userRoutes);
+app.use('/users', verifyToken, userRoutes);
 app.use('/auth', authRoutes);
 
 app.listen(PORT, () => {
