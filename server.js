@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
     })
 })
 
-app.use('/users', verifyToken, userRoutes);
+app.use('/users', userRoutes);
 app.use('/auth', authRoutes);
 
 app.listen(PORT, () => {
