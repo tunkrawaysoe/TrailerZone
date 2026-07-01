@@ -13,21 +13,162 @@ datasource db {
 }
 
 model User {
-  id            Int            @id @default(autoincrement())
-  name          String
-  email         String         @unique
-  phoneNumber   String         @unique
-  password      String
+  id          Int    @id @default(autoincrement())
+  name        String
+  username    String @unique
+  email       String @unique
+  phoneNumber String @unique
+  password    String
+
   refreshTokens RefreshToken[]
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
+
+  reviews    Review[]
+  watchlists Watchlist[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model RefreshToken {
-  id        Int      @id @default(autoincrement())
-  token     String   @unique
-  userId    Int
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id    Int    @id @default(autoincrement())
+  token String @unique
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   createdAt DateTime @default(now())
   expiresAt DateTime
+}
+
+model Movie {
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String
+  releaseDate DateTime?
+  duration    Int?
+  posterUrl   String?
+  backdropUrl String?
+  language    String?
+
+  trailers   Trailer[]
+  reviews    Review[]
+  watchlists Watchlist[]
+
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  movieGenres    MovieGenre[]
+  movieActors    MovieActor[]
+  movieDirectors MovieDirector[]
+}
+
+model Genre {
+  id          Int          @id @default(autoincrement())
+  name        String       @unique
+  movieGenres MovieGenre[]
+}
+
+model MovieGenre {
+  movieId Int
+  genreId Int
+
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  genre Genre @relation(fields: [genreId], references: [id], onDelete: Cascade)
+
+  @@id([movieId, genreId])
+  @@index([movieId])
+  @@index([genreId])
+}
+
+model Trailer {
+  id Int @id @default(autoincrement())
+
+  title      String
+  youtubeKey String
+
+  movieId Int
+  movie   Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@index([movieId])
+}
+
+model Review {
+  id Int @id @default(autoincrement())
+
+  rating Int
+
+  comment String
+
+  movieId Int
+  movie   Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, movieId])
+  @@index([movieId])
+  @@index([userId])
+}
+
+model Watchlist {
+  userId  Int
+  movieId Int
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@id([userId, movieId])
+  @@index([movieId])
+  @@index([userId])
+}
+
+model Actor {
+  id           Int     @id @default(autoincrement())
+  name         String
+  profileImage String?
+  biography    String?
+
+  birthDate DateTime?
+
+  movies MovieActor[]
+}
+
+model MovieActor {
+  movieId Int
+  actorId Int
+
+  characterName String?
+
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  actor Actor @relation(fields: [actorId], references: [id], onDelete: Cascade)
+
+  @@id([movieId, actorId])
+  @@index([movieId])
+  @@index([actorId])
+}
+
+model Director {
+  id        Int       @id @default(autoincrement())
+  name      String
+  biography String?
+  birthDate DateTime?
+
+  movies MovieDirector[]
+}
+
+model MovieDirector {
+  movieId    Int
+  directorId Int
+
+  movie    Movie    @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  director Director @relation(fields: [directorId], references: [id], onDelete: Cascade)
+
+  @@id([movieId, directorId])
+  @@index([movieId])
+  @@index([directorId])
 }

@@ -4,6 +4,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import authRoutes from './routes/auth.route.js'
 import userRoutes from './routes/user.route.js'
+import movieRoutes from './routes/movie.route.js'
 import { verifyToken } from "./controllers/middlewares/auth.middleware.js";
 
 const app = express();
@@ -20,7 +21,9 @@ app.get('/', (req, res) => {
 
 app.use('/users', userRoutes);
 app.use('/auth', authRoutes);
+app.use('/movies', movieRoutes)
 
 app.listen(PORT, () => {
     console.log("Server is running at", PORT);
 })
+console.log("hi")
