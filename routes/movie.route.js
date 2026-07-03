@@ -66,7 +66,8 @@ router.post("/", async (req, res) => {
         duration,
         posterUrl,
         backdropUrl,
-        language
+        language,
+        genreIds
     } = req.body;
 
     if (!title || !description) {
@@ -87,6 +88,15 @@ router.post("/", async (req, res) => {
                 language,
             },
         });
+
+        if (genreIds?.length) {
+            await prisma.movieGenre.createMany({
+                data: genreIds.map(id => ({
+                    movieId: movie.id,
+                    genreId: id,
+                }))
+            });
+        }
 
         return res.status(201).json({
             message: "Movie created successfully",
@@ -113,6 +123,13 @@ router.get("/:id", async (req, res) => {
         const movie = await prisma.movie.findUnique({
             where: {
                 id: movieId
+            },
+            include: {
+                movieGenres: {
+                    include: {
+                        genre: true
+                    }
+                }
             }
         });
 
@@ -123,7 +140,9 @@ router.get("/:id", async (req, res) => {
         }
 
         return res.status(200).json({
-            movie
+            ...movie, movieGenres: movie.movieGenres.map(mg => {
+                return mg.genre.name
+            })
         });
     } catch (err) {
         console.error(err);
@@ -219,6 +238,56 @@ router.delete("/:id", async (req, res) => {
 
         return res.status(500).json({
             message: "Something went wrong",
+        });
+    }
+});
+
+router.post('/:movieId/reviews', async (req, res) => {
+    const movieId = Number(req.params.movieId);
+    const userId = Number(req.body.userId);
+    const { rating, comment } = req.body;
+
+    if (isNaN(movieId)) {
+        return res.status(400).json({
+            message: "Invalid movie id"
+        });
+    }
+
+    if (isNaN(userId)) {
+        return res.status(400).json({
+            message: "Invalid user id"
+        });
+    }
+
+    if (rating === undefined || !comment) {
+        return res.status(400).json({
+            message: "Rating and comment are required"
+        });
+    }
+
+    try {
+        await prisma.review.create({
+            data: {
+                rating,
+                comment,
+                movieId,
+                userId,
+            }
+        });
+
+        return res.status(201).json({
+            message: "Review added successfully"
+        });
+
+    } catch (error) {
+        if (error.code === 'P2002') {
+            return res.status(400).json({
+                message: "You already reviewed this movie"
+            });
+        }
+
+        return res.status(500).json({
+            message: "Something went wrong"
         });
     }
 });

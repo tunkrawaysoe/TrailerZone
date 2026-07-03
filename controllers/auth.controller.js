@@ -5,8 +5,8 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const REFRESH_SECRET = process.env.JWT_REFRESH_SECRET;
 
 export const register = async (req, res) => {
-    const { name, email, phoneNumber, password } = req.body;
-    if (!name || !email || !phoneNumber || !password) {
+    const { name, username, email, phoneNumber, password } = req.body;
+    if (!name || !username || !email || !phoneNumber || !password) {
         return res.status(400).json({
             messsage: 'all field are required'
         });
@@ -24,6 +24,7 @@ export const register = async (req, res) => {
         const newUser = await prisma.user.create({
             data: {
                 name,
+                username,
                 email,
                 phoneNumber,
                 password
