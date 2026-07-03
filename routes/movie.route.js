@@ -1,13 +1,62 @@
 import express from "express";
 import prisma from "../lib/prisma.js";
-
+import redis from '../lib/redis.js'
 const router = express.Router();
 
-router.get('/', async (req, res) => {
-    const allMovies = await prisma.movie.findMany();
-    if (!allMovies) return res.status(204).json({ message: "There is no movie yet" });
-    return res.status(200).json({ allMovies });
-})
+function getMovieRedisKey(pageNo, limit) {
+    return `movies:${pageNo}:${limit}`;
+}
+
+router.get("/", async (req, res) => {
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
+
+    const movieKey = getMovieRedisKey(page, limit);
+
+    try {
+        const cacheMovies = await redis.get(movieKey);
+
+        if (cacheMovies) {
+            console.log("cache hit");
+            return res.status(200).json(JSON.parse(cacheMovies));
+        }
+
+        const totalMovies = await prisma.movie.count();
+
+        const movies = await prisma.movie.findMany({
+            skip: (page - 1) * limit,
+            take: limit,
+            orderBy: {
+                releaseDate: "desc",
+            },
+        });
+
+        const totalPages = Math.ceil(totalMovies / limit);
+
+        const data = {
+            page,
+            limit,
+            movies,
+            totalPages,
+            totalMovies,
+        };
+
+        console.log("cache miss");
+
+        await redis.set(movieKey, JSON.stringify(data), {
+            EX: 60,
+        });
+
+        return res.status(200).json(data);
+
+    } catch (error) {
+        console.error(error);
+
+        return res.status(500).json({
+            message: "Something went wrong",
+        });
+    }
+});
 
 router.post("/", async (req, res) => {
     const {
