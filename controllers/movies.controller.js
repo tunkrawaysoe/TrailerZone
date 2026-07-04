@@ -7,6 +7,42 @@ import { configDotenv } from "dotenv";
 export const getAllMovies = async (req, res) => {
     const page = Number(req.query.page) || 1;
     const limit = Number(req.query.limit) || 10;
+    const genreId = Number(req.query.genreId);
+    const search = req.query.search || "";
+    const sort = req.query.sort || "latest";
+
+    const where = {};
+
+    if (!isNaN(genreId)) {
+        where.movieGenres = {
+            some: {
+                genreId,
+            },
+        };
+    }
+
+    if (search) {
+        where.title = {
+            contains: search,
+            mode: "insensitive",
+        };
+    }
+
+    let orderBy = { releaseDate: "desc" };
+
+    switch (sort) {
+        case "oldest":
+            orderBy = { releaseDate: "asc" };
+            break;
+
+        case "title":
+            orderBy = { title: "asc" };
+            break;
+
+        case "latest":
+        default:
+            orderBy = { releaseDate: "desc" };
+    }
 
     const movieKey = getMovieRedisKey(page, limit);
 
@@ -18,22 +54,36 @@ export const getAllMovies = async (req, res) => {
             return res.status(200).json(JSON.parse(cacheMovies));
         }
 
-        const totalMovies = await prisma.movie.count();
+        const totalMovies = await prisma.movie.count({
+            where,
+        });
 
         const movies = await prisma.movie.findMany({
+            where,
+            orderBy,
             skip: (page - 1) * limit,
             take: limit,
-            orderBy: {
-                releaseDate: "desc",
+            include: {
+                movieGenres: {
+                    include: {
+                        genre: true,
+                    },
+                },
             },
         });
 
+        const formattedMovies = movies.map(mv => (
+            {
+                ...mv,
+                movieGenres: mv.movieGenres.map(mg => mg.genre.name)
+            }
+        ));
         const totalPages = Math.ceil(totalMovies / limit);
 
         const data = {
             page,
             limit,
-            movies,
+            movies : formattedMovies,
             totalPages,
             totalMovies,
         };
