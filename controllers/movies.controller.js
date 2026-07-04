@@ -1,6 +1,8 @@
+import { join } from "@prisma/client/runtime/library";
 import prisma from "../lib/prisma.js";
 import redis from "../lib/redis.js"
 import { getMovieRedisKey } from "../lib/ulti.js";
+import { configDotenv } from "dotenv";
 
 export const getAllMovies = async (req, res) => {
     const page = Number(req.query.page) || 1;
@@ -286,3 +288,119 @@ export const reviewMovie = async (req, res) => {
         });
     }
 };
+
+export const updateReview = async (req, res) => {
+    const reviewId = Number(req.params.id);
+    const { rating, comment } = req.body
+
+    if (isNaN(reviewId)) {
+        return res.status(400).json({
+            message: "Invalid review id"
+        });
+    }
+    try {
+        const updatedReview = await prisma.review.update({
+            where: {
+                id: reviewId
+            },
+            data: {
+                ...(rating !== undefined && { rating }),
+                ...(comment !== undefined && { comment })
+            }
+
+        })
+        return res.status(200).json({
+            message: "Review updated successfully",
+            review: updatedReview
+        });
+    } catch (error) {
+        if (error.code === "P2025") {
+            return res.status(404).json({
+                message: "Review not found"
+            });
+        }
+
+        return res.status(500).json({
+            message: "Something went wrong"
+        });
+    }
+};
+
+export const deleteReview = async (req, res) => {
+    const reviewId = Number(req.params.id);
+
+    if (isNaN(reviewId)) {
+        return res.status(400).json({
+            message: "Invalid review id"
+        });
+    }
+
+    try {
+        await prisma.review.delete({
+            where: {
+                id: reviewId
+            }
+        });
+
+        return res.status(200).json({
+            message: "Review deleted successfully"
+        });
+
+    } catch (error) {
+        if (error.code === "P2025") {
+            return res.status(404).json({
+                message: "Review not found"
+            });
+        }
+
+        return res.status(500).json({
+            message: "Something went wrong"
+        });
+    }
+};
+
+export const getMovieReviews = async (req, res) => {
+    const movieId = Number(req.params.movieId);
+
+    if (isNaN(movieId)) {
+        return res.status(400).json({
+            message: "Invalid movie id"
+        });
+    }
+
+    try {
+        const movie = await prisma.movie.findUnique({
+            where: {
+                id: movieId
+            },
+            include: {
+                reviews: {
+                    include: {
+                        user: {
+                            select: {
+                                id: true,
+                                name: true
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        if (!movie) {
+            return res.status(404).json({
+                message: "Movie not found"
+            });
+        }
+
+        return res.status(200).json({
+            message: "Movie reviews",
+            reviews: movie.reviews
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            message: "Something went wrong"
+        });
+    }
+}
