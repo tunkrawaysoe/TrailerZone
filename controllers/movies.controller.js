@@ -177,21 +177,45 @@ export const getMovie = async (req, res) => {
                     include: {
                         genre: true
                     }
+                },
+                movieActors: {
+                    select: {
+                        characterName: true,
+                        actor: {
+                            select: {
+                                id: true,
+                                name: true,
+                                profileImage: true
+                            }
+                        }
+                    }
                 }
             }
         });
+
 
         if (!movie) {
             return res.status(404).json({
                 message: "Movie not found"
             });
         }
+        const { movieActors, movieGenres, ...movieData } = movie;
 
+        const formattedGenres = movie.movieGenres.map(mg => mg.genre.name);
+        const formattedActor = movie.movieActors.map(ma => {
+            return {
+                id: ma.actor.id,
+                name: ma.actor.name,
+                profileImage: ma.actor.profileImage,
+                characterName: ma.characterName,
+            }
+        })
         return res.status(200).json({
-            ...movie, movieGenres: movie.movieGenres.map(mg => {
-                return mg.genre.name
-            })
-        });
+            ...movieData,
+            genres: formattedGenres,
+            actors: formattedActor
+        })
+
     } catch (err) {
         console.error(err);
 
@@ -519,3 +543,56 @@ export const getMovieTrailers = async (req, res) => {
         });
     }
 };
+
+export const addActorToMovie = async (req, res) => {
+    const movieId = Number(req.params.movieId);
+    const actorId = Number(req.body.actorId);
+    const { characterName } = req.body;
+
+    if (isNaN(movieId)) {
+        return res.status(400).json({
+            message: "Invalid movie id"
+        });
+    }
+
+    if (isNaN(actorId)) {
+        return res.status(400).json({
+            message: "Invalid actor id"
+        });
+    }
+
+    try {
+        const movieActor = await prisma.movieActor.create({
+            data: {
+                movieId,
+                actorId,
+                characterName
+            }
+        });
+
+        return res.status(201).json({
+            message: "Actor added to movie successfully",
+            movieActor
+        });
+
+    } catch (error) {
+        console.log(error);
+
+        if (error.code === "P2003") {
+            return res.status(404).json({
+                message: "Actor or movie not found"
+            });
+        }
+
+        if (error.code === "P2002") {
+            return res.status(409).json({
+                message: "This actor has already been added to this movie"
+            });
+        }
+
+        return res.status(500).json({
+            message: "Something went wrong"
+        });
+    }
+};
+

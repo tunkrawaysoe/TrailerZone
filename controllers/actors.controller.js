@@ -49,20 +49,29 @@ export const getActor = async (req, res) => {
             where: { id: actorId },
             include: {
                 movies: {
-                    include: {
+                    select: {
                         movie: {
                             select: {
                                 id: true,
                                 title: true,
-                                posterUrl: true,
-                            },
-                        },
-                    },
+                                releaseDate: true,
+                                posterUrl: true
+                            }
+                        }
+                    }
                 },
             },
         });
+        const formattedactor = actor.movies.map(mv => {
+            return {
+                id: mv.movie.id,
+                title: mv.movie.title,
+                releaseDate: mv.movie.releaseDate,
+                posterUrl: mv.movie.posterUrl
+            }
+        })
 
-        return res.status(200).json({ actor });
+        return res.status(200).json({ ...actor, movies: formattedactor });
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: "Something went wrong" });

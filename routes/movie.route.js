@@ -1,5 +1,5 @@
 import express from "express";
-import { createMovie, getAllMovies, getMovie, updateMovie, deleteMovie, reviewMovie, updateReview, deleteReview, getMovieReviews, createTrailer, getMovieTrailers } from "../controllers/movies.controller.js";
+import { createMovie, getAllMovies, getMovie, updateMovie, deleteMovie, reviewMovie, updateReview, deleteReview, getMovieReviews, createTrailer, getMovieTrailers, addActorToMovie } from "../controllers/movies.controller.js";
 
 const router = express.Router();
 
@@ -15,15 +15,17 @@ router.delete("/:id", deleteMovie);
 
 router.post('/:movieId/reviews', reviewMovie);
 
-router.get('/:movieId/reviews', getMovieReviews)
+router.get('/:movieId/reviews', getMovieReviews);
 
 router.patch('/review/:id', updateReview);
 
-router.delete('/review/:id', deleteReview)
+router.delete('/review/:id', deleteReview);
 
-router.post('/:movieId/trailer', createTrailer)
+router.post('/:movieId/trailer', createTrailer);
 
-router.get('/:movieId/trailer', getMovieTrailers)
+router.get('/:movieId/trailer', getMovieTrailers);
+
+router.post('/:movieId/actor',addActorToMovie);
 
 
 export default router;

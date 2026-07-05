@@ -8,6 +8,7 @@ import movieRoutes from './routes/movie.route.js'
 import watchlistRoutes from './routes/watchlist.route.js'
 import trailerRoutes from './routes/trailer.route.js'
 import actorRoutes from './routes/actors.route.js'
+import directorRoutes from './routes/directors.route.js'
 import { verifyToken } from "./middlewares/auth.middleware.js";
 
 const app = express();
@@ -24,10 +25,11 @@ app.get('/', (req, res) => {
 
 app.use('/users', userRoutes);
 app.use('/auth', authRoutes);
-app.use('/movies', movieRoutes)
-app.use('/watchlist', watchlistRoutes)
-app.use('/trailer', trailerRoutes)
-app.use('/actors', actorRoutes)
+app.use('/movies', movieRoutes);
+app.use('/watchlist', watchlistRoutes);
+app.use('/trailer', trailerRoutes);
+app.use('/actors', actorRoutes);
+app.use('/directors',directorRoutes);
 
 app.listen(PORT, () => {
     console.log("Server is running at", PORT);
