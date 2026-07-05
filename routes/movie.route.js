@@ -1,5 +1,5 @@
 import express from "express";
-import { createMovie, getAllMovies, getMovie, updateMovie, deleteMovie, reviewMovie, updateReview, deleteReview, getMovieReviews } from "../controllers/movies.controller.js";
+import { createMovie, getAllMovies, getMovie, updateMovie, deleteMovie, reviewMovie, updateReview, deleteReview, getMovieReviews, createTrailer, getMovieTrailers } from "../controllers/movies.controller.js";
 
 const router = express.Router();
 
@@ -21,6 +21,9 @@ router.patch('/review/:id', updateReview);
 
 router.delete('/review/:id', deleteReview)
 
+router.post('/:movieId/trailer', createTrailer)
+
+router.get('/:movieId/trailer', getMovieTrailers)
 
 
 export default router;

@@ -83,7 +83,7 @@ model Trailer {
   id Int @id @default(autoincrement())
 
   title      String
-  youtubeKey String
+  youtubeKey String @unique
 
   movieId Int
   movie   Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)

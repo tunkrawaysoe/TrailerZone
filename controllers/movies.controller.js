@@ -3,6 +3,7 @@ import prisma from "../lib/prisma.js";
 import redis from "../lib/redis.js"
 import { getMovieRedisKey } from "../lib/ulti.js";
 import { configDotenv } from "dotenv";
+import { json } from "express";
 
 export const getAllMovies = async (req, res) => {
     const page = Number(req.query.page) || 1;
@@ -83,7 +84,7 @@ export const getAllMovies = async (req, res) => {
         const data = {
             page,
             limit,
-            movies : formattedMovies,
+            movies: formattedMovies,
             totalPages,
             totalMovies,
         };
@@ -454,3 +455,61 @@ export const getMovieReviews = async (req, res) => {
         });
     }
 }
+
+export const createTrailer = async (req, res) => {
+    const movieId = Number(req.params.movieId);
+    const { title, youtubeKey } = req.body;
+    if (isNaN(movieId)) {
+        return res.status(400).json({ message: "Invalid movie id" });
+    }
+    if (!title || !youtubeKey) return res.status(400).json({ message: "Title and youtube key are required." });
+    try {
+        const trailer = await prisma.trailer.create({
+            data: {
+                title,
+                youtubeKey,
+                movieId
+            }
+        })
+
+        return res.status(201).json({
+            message: "Trailer created successfully",
+            trailer
+        })
+        
+    } catch (error) {
+        if (error.code === 'P2002') {
+            return res.status(409).json({ message: "This trailer already exists for the movie" })
+        }
+        res.status(500).json({ message: "Something went wrong" });
+    }
+}
+
+export const getMovieTrailers = async (req, res) => {
+    const movieId = Number(req.params.movieId);
+
+    if (isNaN(movieId)) {
+        return res.status(400).json({
+            message: "Invalid movie id"
+        });
+    }
+
+    try {
+        const trailers = await prisma.trailer.findMany({
+            where: {
+                movieId,
+            },
+        });
+
+        return res.status(200).json({
+            trailers,
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        return res.status(500).json({
+            message: "Something went wrong",
+        });
+    }
+};
