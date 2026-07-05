@@ -476,10 +476,16 @@ export const createTrailer = async (req, res) => {
             message: "Trailer created successfully",
             trailer
         })
-        
+
     } catch (error) {
         if (error.code === 'P2002') {
             return res.status(409).json({ message: "This trailer already exists for the movie" })
+        }
+
+        if (error.code === "P2003") {
+            return res.status(400).json({
+                message: "Invalid movieId (movie does not exist)"
+            });
         }
         res.status(500).json({ message: "Something went wrong" });
     }
