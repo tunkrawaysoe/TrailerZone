@@ -1,5 +1,5 @@
 import express from "express";
-import { createMovie, getAllMovies, getMovie, updateMovie, deleteMovie, reviewMovie, updateReview, deleteReview, getMovieReviews, createTrailer, getMovieTrailers, addActorToMovie, addDirectorToMovie, getTopRatedMovies, } from "../controllers/movies.controller.js";
+import { createMovie, getAllMovies, getMovie, updateMovie, deleteMovie, reviewMovie, updateReview, deleteReview, getMovieReviews, createTrailer, getMovieTrailers, addActorToMovie, addDirectorToMovie, getTopRatedMovies, getSimilarMovies, } from "../controllers/movies.controller.js";
 
 const router = express.Router();
 
@@ -31,6 +31,6 @@ router.post('/:movieId/actor', addActorToMovie);
 
 router.post('/:id/director', addDirectorToMovie);
 
-
+router.get('/:id/similar', getSimilarMovies)
 
 export default router;

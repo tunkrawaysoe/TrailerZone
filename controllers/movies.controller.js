@@ -711,3 +711,64 @@ export const getTopRatedMovies = async (req, res) => {
         });
     }
 };
+
+export const getSimilarMovies = async (req, res) => {
+    const movieId = Number(req.params.id);
+
+    if (isNaN(movieId)) {
+        return res.status(400).json({
+            message: "Invalid movie id"
+        });
+    }
+
+    try {
+        const movieGenre = await prisma.movie.findUnique({
+            where: {
+                id: movieId
+            },
+            select: {
+                movieGenres: {
+                    select: {
+                        genre: {
+                            select: {
+                                id: true
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        if (!movieGenre) {
+            return res.status(404).json({
+                message: "Movie not found"
+            });
+        }
+
+        const genreIds = movieGenre.movieGenres.map(g => g.genre.id);
+
+        const movies = await prisma.movie.findMany({
+            where: {
+                id: {
+                    not: movieId
+                },
+                movieGenres: {
+                    some: {
+                        genreId: {
+                            in: genreIds
+                        }
+                    }
+                }
+            }
+        });
+
+        return res.status(200).json({ movies });
+
+    } catch (error) {
+        console.error(error);
+
+        return res.status(500).json({
+            message: "Something went wrong"
+        });
+    }
+};
