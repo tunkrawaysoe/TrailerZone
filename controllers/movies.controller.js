@@ -189,6 +189,16 @@ export const getMovie = async (req, res) => {
                             }
                         }
                     }
+                },
+                movieDirectors: {
+                    select: {
+                        director: {
+                            select: {
+                                id: true,
+                                name: true
+                            }
+                        }
+                    }
                 }
             }
         });
@@ -199,7 +209,7 @@ export const getMovie = async (req, res) => {
                 message: "Movie not found"
             });
         }
-        const { movieActors, movieGenres, ...movieData } = movie;
+        const { movieActors, movieGenres, movieDirectors, ...movieData } = movie;
 
         const formattedGenres = movie.movieGenres.map(mg => mg.genre.name);
         const formattedActor = movie.movieActors.map(ma => {
@@ -210,10 +220,18 @@ export const getMovie = async (req, res) => {
                 characterName: ma.characterName,
             }
         })
+        const formattedDirector = movie.movieDirectors.map(md => {
+            return {
+                id: md.director.id,
+                name: md.director.name
+            }
+        })
+
         return res.status(200).json({
             ...movieData,
             genres: formattedGenres,
-            actors: formattedActor
+            actors: formattedActor,
+            directors: formattedDirector
         })
 
     } catch (err) {
@@ -318,7 +336,6 @@ export const reviewMovie = async (req, res) => {
     const movieId = Number(req.params.movieId);
     const userId = Number(req.body.userId);
     const { rating, comment } = req.body;
-
     if (isNaN(movieId)) {
         return res.status(400).json({
             message: "Invalid movie id"
@@ -352,9 +369,15 @@ export const reviewMovie = async (req, res) => {
         });
 
     } catch (error) {
+        console.log(error)
         if (error.code === 'P2002') {
             return res.status(400).json({
                 message: "You already reviewed this movie"
+            });
+        }
+        if (error.code === 'P2003') {
+            return res.status(400).json({
+                message: "Movie or user not found"
             });
         }
 
@@ -596,3 +619,95 @@ export const addActorToMovie = async (req, res) => {
     }
 };
 
+export const addDirectorToMovie = async (req, res) => {
+    const movieId = Number(req.params.id);
+    const directorId = Number(req.body.directorId);
+    if (isNaN(movieId)) {
+        return res.status(400).json({
+            message: "Invalid movie id"
+        });
+    }
+    if (isNaN(directorId)) {
+        return res.status(400).json({
+            message: "Invalid actor id"
+        });
+    }
+    try {
+        const movieDiector = await prisma.movieDirector.create({
+            data: {
+                movieId,
+                directorId,
+            }
+        })
+        res.status(201).json({ message: "Director is added to the movie" });
+    } catch (error) {
+
+        if (error.code === "P2003") {
+            return res.status(404).json({
+                message: "Director or movie not found"
+            });
+        }
+
+        if (error.code === "P2002") {
+            return res.status(409).json({
+                message: "This director has already been added to this movie"
+            });
+        }
+
+        return res.status(500).json({
+            message: "Something went wrong"
+        });
+    }
+
+
+
+}
+
+export const getTopRatedMovies = async (req, res) => {
+    try {
+        const movies = await prisma.movie.findMany({
+            select: {
+                id: true,
+                title: true,
+                releaseDate: true,
+                posterUrl: true,
+                reviews: {
+                    select: {
+                        rating: true
+                    }
+                }
+            },
+        });
+
+        const topRatedMovies = movies
+            .map(movie => {
+                const { reviews, ...movieData } = movie;
+                const totalReviews = reviews.length;
+                const totalRating = reviews.reduce(
+                    (sum, review) => sum + review.rating,
+                    0
+                );
+
+                const averageRating =
+                    totalReviews === 0 ? 0 : totalRating / totalReviews;
+
+                return {
+                    ...movieData,
+                    averageRating: Number(averageRating.toFixed(1)),
+                    totalReviews
+                };
+            })
+            .sort((a, b) => b.averageRating - a.averageRating);
+
+        return res.status(200).json({
+            movies: topRatedMovies
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        return res.status(500).json({
+            message: "Something went wrong"
+        });
+    }
+};

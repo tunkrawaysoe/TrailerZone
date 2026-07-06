@@ -77,8 +77,14 @@ export const getDirector = async (req, res) => {
                 message: "Director not found"
             });
         }
-
-        return res.status(200).json({ director });
+        const formattedMovie = director.movies.map(mv => {
+            return {
+                id: mv.movie.id,
+                title: mv.movie.title,
+                posterUrl: mv.movie.posterUrl
+            }
+        })
+        return res.status(200).json({ ...director, movies: formattedMovie });
 
     } catch (error) {
         console.log(error);

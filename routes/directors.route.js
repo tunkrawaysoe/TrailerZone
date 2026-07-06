@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get('/', getDirectors);
 
-router.get('/', getDirector);
+router.get('/:id', getDirector);
 
 router.post('/', createDirector);
 

@@ -1,11 +1,13 @@
 import express from "express";
-import { createMovie, getAllMovies, getMovie, updateMovie, deleteMovie, reviewMovie, updateReview, deleteReview, getMovieReviews, createTrailer, getMovieTrailers, addActorToMovie } from "../controllers/movies.controller.js";
+import { createMovie, getAllMovies, getMovie, updateMovie, deleteMovie, reviewMovie, updateReview, deleteReview, getMovieReviews, createTrailer, getMovieTrailers, addActorToMovie, addDirectorToMovie, getTopRatedMovies, } from "../controllers/movies.controller.js";
 
 const router = express.Router();
 
 router.get("/", getAllMovies);
 
 router.post("/", createMovie);
+
+router.get("/top-rated", getTopRatedMovies)
 
 router.get("/:id", getMovie);
 
@@ -25,7 +27,10 @@ router.post('/:movieId/trailer', createTrailer);
 
 router.get('/:movieId/trailer', getMovieTrailers);
 
-router.post('/:movieId/actor',addActorToMovie);
+router.post('/:movieId/actor', addActorToMovie);
+
+router.post('/:id/director', addDirectorToMovie);
+
 
 
 export default router;
