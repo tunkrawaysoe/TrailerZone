@@ -45,7 +45,13 @@ export const getAllMovies = async (req, res) => {
             orderBy = { releaseDate: "desc" };
     }
 
-    const movieKey = getMovieRedisKey(page, limit);
+    const movieKey = getMovieRedisKey(
+        page,
+        limit,
+        genreId,
+        search,
+        sort
+    );
 
     try {
         const cacheMovies = await redis.get(movieKey);
@@ -145,6 +151,8 @@ export const createMovie = async (req, res) => {
                 }))
             });
         }
+        const key = await redis.keys("movies:*")
+        await redis.del(key);
 
         return res.status(201).json({
             message: "Movie created successfully",
@@ -812,4 +820,58 @@ export const getPopularMovies = async (req, res) => {
         console.log(error)
     }
 
+}
+
+export const getMovieStatus = async (req, res) => {
+    const movieId = Number(req.params.id);
+
+    if (isNaN(movieId)) {
+        return res.status(400).json({
+            message: "Invalid movie id"
+        });
+    }
+    try {
+        const watchlistCount = await prisma.watchlist.count({
+            where: {
+                movieId,
+            }
+        });
+        const actorCount = await prisma.movieActor.count({
+            where: {
+                movieId
+            }
+        });
+        const directorCount = await prisma.movieDirector.count({
+            where: {
+                movieId
+            }
+        });
+
+        const movieReviews = await prisma.review.aggregate({
+            where: {
+                movieId
+            },
+            _avg: {
+                rating: true,
+            },
+            _count: {
+                id: true
+            }
+
+        });
+        const averageRating = movieReviews._avg.rating;
+        const totalReviews = movieReviews._count.id;
+
+        res.status(200).json({
+            averageRating,
+            totalReviews,
+            watchlistCount,
+            actorCount,
+            directorCount
+        })
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: "Something went wrong" });
+    }
 }
