@@ -665,42 +665,34 @@ export const addDirectorToMovie = async (req, res) => {
 
 export const getTopRatedMovies = async (req, res) => {
     try {
-        const movies = await prisma.movie.findMany({
-            select: {
-                id: true,
-                title: true,
-                releaseDate: true,
-                posterUrl: true,
-                reviews: {
-                    select: {
-                        rating: true
-                    }
+        const topRatedMovies = await prisma.review.groupBy({
+            by: ["movieId"],
+            _avg: {
+                rating: true
+            },
+            _count: {
+                id: true
+            },
+            orderBy: {
+                _avg: {
+                    rating: "desc"
                 }
             },
+            take: 15
         });
 
-        const topRatedMovies = movies
-            .map(movie => {
-                const { reviews, ...movieData } = movie;
-                const totalReviews = reviews.length;
-                const totalRating = reviews.reduce(
-                    (sum, review) => sum + review.rating,
-                    0
-                );
+        const movieIds = topRatedMovies.map(({ movieId }) => movieId);
 
-                const averageRating =
-                    totalReviews === 0 ? 0 : totalRating / totalReviews;
-
-                return {
-                    ...movieData,
-                    averageRating: Number(averageRating.toFixed(1)),
-                    totalReviews
-                };
-            })
-            .sort((a, b) => b.averageRating - a.averageRating);
+        const movies = await prisma.movie.findMany({
+            where: {
+                id: {
+                    in: movieIds
+                }
+            }
+        })
 
         return res.status(200).json({
-            movies: topRatedMovies
+            movies
         });
 
     } catch (error) {
@@ -778,3 +770,46 @@ export const getSimilarMovies = async (req, res) => {
         });
     }
 };
+
+export const getPopularMovies = async (req, res) => {
+    try {
+        const movies = await prisma.movie.findMany({
+            select: {
+                id: true,
+                title: true,
+                releaseDate: true,
+                posterUrl: true,
+                reviews: {
+                    select: {
+                        rating: true
+                    }
+                },
+                watchlists: {
+                    select: {
+                        userId: true
+                    }
+                }
+            }
+        })
+        const popularMovies = movies.map(({ reviews, watchlists, ...movieData }) => {
+            const totalReviews = reviews.length;
+            const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+            const averageRating = totalReviews === 0 ? 0 : (totalRating / totalReviews);
+            const totalWatchLists = watchlists.length;
+
+            const popularityScore =
+                (totalReviews * 0.5) +
+                (averageRating * 10) +
+                (totalWatchLists * 0.3);
+
+            return {
+                ...movieData,
+                popularityScore
+            }
+        }).sort((a, b) => b.popularityScore - a.popularityScore);
+        res.status(200).json({ movies: popularMovies });
+    } catch (error) {
+        console.log(error)
+    }
+
+}
