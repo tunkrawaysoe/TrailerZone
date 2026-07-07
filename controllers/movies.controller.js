@@ -759,6 +759,12 @@ export const getSimilarMovies = async (req, res) => {
                         }
                     }
                 }
+            },
+            select: {
+                id: true,
+                title: true,
+                releaseDate: true,
+                posterUrl: true
             }
         });
 

@@ -2,7 +2,7 @@ import prisma from "../lib/prisma.js";
 
 export const addToWatchlist = async (req, res) => {
     const movieId = Number(req.params.movieId);
-    const userId = Number(req.body.userId); // later from JWT
+    const userId = Number(req.body.userId);
 
     if (isNaN(movieId) || isNaN(userId)) {
         return res.status(400).json({
@@ -37,7 +37,7 @@ export const addToWatchlist = async (req, res) => {
 };
 
 export const getWatchlist = async (req, res) => {
-    const userId = Number(req.query.userId); 
+    const userId = Number(req.query.userId);
 
     if (isNaN(userId)) {
         return res.status(400).json({
@@ -48,13 +48,25 @@ export const getWatchlist = async (req, res) => {
     try {
         const watchlist = await prisma.watchlist.findMany({
             where: { userId },
-            include: {
-                movie: true
+            select: {
+                createdAt: true,
+                movie: {
+                    select: {
+                        id: true,
+                        title: true,
+                        releaseDate: true,
+                        posterUrl: true
+                    }
+                }
             }
         });
 
+        const formattedWatchlist = watchlist.map(({ createdAt, movie }) => {
+            return { ...movie, createdAt }
+        })
+
         return res.status(200).json({
-            watchlist
+            watchlist: formattedWatchlist
         });
 
     } catch (error) {
