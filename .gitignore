@@ -1,5 +1,12 @@
-node_modules/
-.env
-/generated/prisma
+# Backend
+backend/node_modules/
+backend/.env
+backend/generated/prisma/
 
-/generated/prisma
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
+# General
+*.log
+.DS_Store
