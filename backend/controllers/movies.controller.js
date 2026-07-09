@@ -342,7 +342,7 @@ export const deleteMovie = async (req, res) => {
 
 export const reviewMovie = async (req, res) => {
     const movieId = Number(req.params.movieId);
-    const userId = Number(req.body.userId);
+    const userId = req.user.id;
     const { rating, comment } = req.body;
     if (isNaN(movieId)) {
         return res.status(400).json({
@@ -435,12 +435,6 @@ export const updateReview = async (req, res) => {
 export const deleteReview = async (req, res) => {
     const reviewId = Number(req.params.id);
 
-    if (isNaN(reviewId)) {
-        return res.status(400).json({
-            message: "Invalid review id"
-        });
-    }
-
     try {
         await prisma.review.delete({
             where: {
@@ -453,11 +447,6 @@ export const deleteReview = async (req, res) => {
         });
 
     } catch (error) {
-        if (error.code === "P2025") {
-            return res.status(404).json({
-                message: "Review not found"
-            });
-        }
 
         return res.status(500).json({
             message: "Something went wrong"

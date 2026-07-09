@@ -9,7 +9,6 @@ import watchlistRoutes from './routes/watchlist.route.js'
 import trailerRoutes from './routes/trailer.route.js'
 import actorRoutes from './routes/actors.route.js'
 import directorRoutes from './routes/directors.route.js'
-import { verifyToken } from "./middlewares/auth.middleware.js";
 
 const app = express();
 

@@ -1,5 +1,7 @@
 import express from "express";
 import { createMovie, getAllMovies, getMovie, updateMovie, deleteMovie, reviewMovie, updateReview, deleteReview, getMovieReviews, createTrailer, getMovieTrailers, addActorToMovie, addDirectorToMovie, getTopRatedMovies, getSimilarMovies, getPopularMovies, getMovieStatus, } from "../controllers/movies.controller.js";
+import { authenticate } from "../middlewares/auth.middleware.js";
+import { ownsReview } from "../middlewares/ownsReview.middleware.js";
 
 const router = express.Router();
 
@@ -17,13 +19,13 @@ router.patch("/:id", updateMovie);
 
 router.delete("/:id", deleteMovie);
 
-router.post('/:movieId/reviews', reviewMovie);
+router.post('/:movieId/reviews', authenticate, reviewMovie);
 
 router.get('/:movieId/reviews', getMovieReviews);
 
-router.patch('/review/:id', updateReview);
+router.patch('/review/:id', authenticate, ownsReview, updateReview);
 
-router.delete('/review/:id', deleteReview);
+router.delete('/review/:id', authenticate, ownsReview, deleteReview);
 
 router.post('/:movieId/trailer', createTrailer);
 
