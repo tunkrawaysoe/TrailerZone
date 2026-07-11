@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export const MainCard = () => {
   const movies = [
@@ -54,13 +55,15 @@ export const MainCard = () => {
 
       <div className="movie-main-container">
         {movies.map((movie) => (
-          <div className="movie-main-card" key={movie.id}>
-            <div className="image-container">
-              <img src={movie.poster} />
+          <Link to={`/movies/${movie.id}`} className="movie-link">
+            <div className="movie-main-card" key={movie.id}>
+              <div className="image-container">
+                <img src={movie.poster} />
+              </div>
+              <p className="movie-main-card-title">{movie.title}</p>
+              <p className="movie-main-card-date">{movie.year}</p>
             </div>
-            <p className="movie-main-card-title">{movie.title}</p>
-            <p className="movie-main-card-date">{movie.year}</p>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

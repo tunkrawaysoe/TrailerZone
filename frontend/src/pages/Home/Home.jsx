@@ -1,11 +1,12 @@
 import Hero from "../../components/Hero";
 import { MainCard } from "../../components/MainCard";
-import MovieSection from "../../components/MovieSection";
-import { Navbar } from "../../components/Navbar";
+import MovieSection from "../../components/MovieCardSection";
+import Navbar from "../../components/Navbar";
 import "./Home.css";
+
 export default function Home() {
   const popularMovies = [
-     {
+    {
       id: 20,
       title: "Schindler's List",
       year: 1993,
