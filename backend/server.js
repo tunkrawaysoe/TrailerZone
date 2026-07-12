@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
+import cors from 'cors'
 import cookieParser from "cookie-parser";
 import authRoutes from './routes/auth.route.js'
 import userRoutes from './routes/user.route.js'
@@ -14,6 +15,12 @@ const app = express();
 
 app.use(cookieParser());
 app.use(express.json());
+app.use(
+    cors({
+        origin: "http://localhost:5173",
+        credentials: true, 
+    })
+);
 
 const PORT = process.env.PORT || 3000;
 
@@ -29,7 +36,7 @@ app.use('/movies', movieRoutes);
 app.use('/watchlist', watchlistRoutes);
 app.use('/trailer', trailerRoutes);
 app.use('/actors', actorRoutes);
-app.use('/directors',directorRoutes);
+app.use('/directors', directorRoutes);
 
 app.listen(PORT, () => {
     console.log("Server is running at", PORT);

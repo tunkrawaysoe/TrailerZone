@@ -688,9 +688,7 @@ export const getTopRatedMovies = async (req, res) => {
             }
         })
 
-        return res.status(200).json({
-            movies
-        });
+        return res.status(200).json(movies);
 
     } catch (error) {
         console.error(error);
@@ -804,7 +802,7 @@ export const getPopularMovies = async (req, res) => {
                 popularityScore
             }
         }).sort((a, b) => b.popularityScore - a.popularityScore);
-        res.status(200).json({ movies: popularMovies });
+        res.status(200).json(popularMovies);
     } catch (error) {
         console.log(error)
     }
