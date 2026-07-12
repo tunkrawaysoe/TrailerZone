@@ -9,6 +9,7 @@ export default function Home() {
   const [popularMovies, setPopularMovies] = useState([]);
   const [topRatedMovies, setTopRatedMovies] = useState([]);
   const [allMovies, setAllMovies] = useState([]);
+  
   async function fetchMovies() {
     const [popularResponse, topRatedResponse, allMoviesResponse] =
       await Promise.all([

@@ -6,7 +6,6 @@ const MovieSection = ({ movies, title }) => {
     <section className="section">
       <div className="header">
         <h3 className="title">{title}</h3>
-        <a href="#">See All</a>
       </div>
 
       <div className="movie-cast-container">
