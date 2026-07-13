@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   return (
@@ -7,7 +8,7 @@ export default function Navbar() {
         <h1 className="logo">MovieHub</h1>
         <ul className="nav-links">
           <li>
-            <a href="http://127.0.0.1:5500/sample%20html/index.html">Home</a>
+            <Link to={"/"}>Home</Link>
           </li>
           <li>
             <a href="http://127.0.0.1:5500/sample%20html/movie.html">Movies</a>

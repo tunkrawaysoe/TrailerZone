@@ -9,9 +9,9 @@ const ActorCard = ({ casts }) => {
       <div className="movie-cast-container">
         {casts.map((cast) => (
           <div className="actor-card" key={cast.id}>
-            <img src={cast.image} />
+            <img src={cast.profileImage} />
             <p className="actor-name">{cast.name}</p>
-            <p className="character">{cast.character}</p>
+            <p className="character">{cast.characterName}</p>
           </div>
         ))}
       </div>

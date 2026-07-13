@@ -10,7 +10,7 @@ const MovieSection = ({ movies, title }) => {
 
       <div className="movie-cast-container">
         {movies.map((movie) => (
-          <MovieCard movie={movie} key={movie.id}/>
+          <MovieCard movie={movie} key={movie.id} />
         ))}
       </div>
     </section>

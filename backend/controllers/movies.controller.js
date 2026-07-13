@@ -755,7 +755,7 @@ export const getSimilarMovies = async (req, res) => {
             }
         });
 
-        return res.status(200).json({ movies });
+        return res.status(200).json(movies);
 
     } catch (error) {
         console.error(error);

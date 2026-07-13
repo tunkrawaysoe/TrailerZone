@@ -1,23 +1,25 @@
 import React from "react";
 import ActorCard from "./ActorCard";
 
-const MovieDetailsCard = ({ details, casts }) => {
+const MovieDetailsCard = ({ details }) => {
+  const casts = details.actors || [];
+  
   return (
     <>
       <section className="movie-details-container">
         <div className="image-card">
-          <img src={details.poster} />
+          <img src={details.posterUrl} />
         </div>
 
         <div className="movie-details">
           <h1>{details.title}</h1>
           <div className="movie-meta">
             <span>{details.title}</span>
-            {details.genres.map((genre) => (
+            {details.genres?.map((genre) => (
               <span key={genre}>{genre}</span>
             ))}
           </div>
-          <p className="overview">{details.overview}</p>
+          <p className="overview">{details.description}</p>
 
           <div className="buttons">
             <button>▶ Watch Trailer</button>
