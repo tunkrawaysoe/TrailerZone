@@ -1,0 +1,49 @@
+.actor-details-container {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 40px;
+  padding: 20px 150px;
+}
+
+.image-card {
+  width: 100%;
+  height: 150px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.image-card img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.actor-name {
+  font-size: 25px;
+}
+
+.actor-dob {
+  font-size: 15px;
+  margin-top: 10px;
+}
+.actor-biography {
+  font-size: 15px;
+  margin-top: 7px;
+}
+
+@media (max-width: 900px) {
+  .actor-details-container {
+    grid-template-columns: 1fr;
+  }
+
+  .movie-main-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .movie-main-container {
+    grid-template-columns: 1fr;
+  }
+}

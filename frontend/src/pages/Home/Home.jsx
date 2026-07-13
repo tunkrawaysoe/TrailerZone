@@ -36,7 +36,7 @@ export default function Home() {
       <Hero />
       <MovieSection movies={popularMovies} title="Popular Movies" />
       <MovieSection movies={topRatedMovies} title="Top Rated Movies" />
-      <MainCard movies={allMovies} />
+      <MainCard movies={allMovies} showBrowse={true} />
     </>
   );
 }
