@@ -65,9 +65,7 @@ export const getWatchlist = async (req, res) => {
             return { ...movie, createdAt }
         })
 
-        return res.status(200).json({
-            watchlist: formattedWatchlist
-        });
+        return res.status(200).json(formattedWatchlist);
 
     } catch (error) {
         return res.status(500).json({
