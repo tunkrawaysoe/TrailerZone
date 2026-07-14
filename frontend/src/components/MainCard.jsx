@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export const MainCard = ({ movies, showBrowse }) => {
+export const MainCard = ({ movies, showBrowse, title }) => {
   return (
     <div className="movie-main-section">
       <div className="header">
-        <h3 className="title">Movies</h3>
+        <h3 className="title">{title}</h3>
         {showBrowse && <Link to={`/movies`}>Browse All</Link>}
       </div>
 

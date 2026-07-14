@@ -5,22 +5,12 @@ export default function Navbar() {
   return (
     <header>
       <nav className="navbar">
-        <h1 className="logo">MovieHub</h1>
+        <Link to={"/"} className="logo">
+          <h1>MovieHub</h1>
+        </Link>
         <ul className="nav-links">
           <li>
-            <Link to={"/"}>Home</Link>
-          </li>
-          <li>
-            <a href="http://127.0.0.1:5500/sample%20html/movie.html">Movies</a>
-          </li>
-          <li>
-            <a href="#">Popular Movies</a>
-          </li>
-          <li>
-            <a href="#">Top Rated</a>
-          </li>
-          <li>
-            <a href="#">Watchlist</a>
+            <Link to={"/watchLists"}>WatchList</Link>
           </li>
         </ul>
       </nav>

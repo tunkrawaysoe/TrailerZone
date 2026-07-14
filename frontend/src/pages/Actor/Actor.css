@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: 150px 1fr;
   gap: 40px;
-  padding: 20px 150px;
+  padding: 50px 150px;
 }
 
 .image-card {

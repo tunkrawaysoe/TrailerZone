@@ -16,19 +16,17 @@ const Movies = () => {
   async function fetchAllData() {
     const response = await fetch(`http://localhost:3000/movies?page=${page}`);
     const data = await response.json();
-
     setAllMovies(data.movies);
-    // setTotalPages(data.totalPages);
+    setTotalPages(data.totalPages);
   }
 
   useEffect(() => {
     fetchAllData();
-  }, [page]); 
+  }, [page]);
 
   return (
     <>
-      <MainCard movies={allMovies} />
-
+      <MainCard movies={allMovies} title={"Movies"} />
       <PaginationButton
         totalPagesArray={totalPagesArray}
         page={page}

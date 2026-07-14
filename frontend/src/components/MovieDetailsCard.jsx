@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import ActorCard from "./ActorCard";
 
-const MovieDetailsCard = ({ movieDetails, watchlisted, getWatchList }) => {
+const MovieDetailsCard = ({ movieDetails, addedToWatchList, getWatchList }) => {
   const casts = movieDetails.actors || [];
 
   async function handleWatchList() {
-    if (!watchlisted) {
+    if (!addedToWatchList) {
       const response = await fetch(
         `http://localhost:3000/watchlist/${movieDetails.id}`,
         {
@@ -70,7 +70,7 @@ const MovieDetailsCard = ({ movieDetails, watchlisted, getWatchList }) => {
           <div className="buttons">
             <button>▶ Watch Trailer</button>
             <button className="watchlist" onClick={handleWatchList}>
-              {watchlisted ? "✓ Added" : "+ Add Watchlist"}
+              {addedToWatchList ? "✓ Added" : "+ Add Watchlist"}
             </button>
           </div>
         </div>
