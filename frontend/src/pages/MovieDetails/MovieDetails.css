@@ -126,11 +126,9 @@ body {
   border-radius: 8px;
 }
 
-.actor-name {
+.name {
   margin-top: 10px;
-
   font-size: 14px;
-
   font-weight: bold;
 }
 

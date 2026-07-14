@@ -10,7 +10,7 @@ export const MainCard = ({ movies, showBrowse }) => {
       </div>
 
       <div className="movie-main-container">
-        {movies.map((movie) => (
+        {movies?.map((movie) => (
           <Link to={`/movies/${movie.id}`} className="link" key={movie.id}>
             <div className="movie-main-card">
               <div className="image-container">

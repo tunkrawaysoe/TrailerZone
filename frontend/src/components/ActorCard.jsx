@@ -12,7 +12,7 @@ const ActorCard = ({ casts }) => {
           <Link to={`/actors/${cast.id}`} key={cast.id} className="link">
             <div className="actor-card">
               <img src={cast.profileImage} />
-              <p className="actor-name">{cast.name}</p>
+              <p className="name">{cast.name}</p>
               <p className="character">{cast.characterName}</p>
             </div>
           </Link>
