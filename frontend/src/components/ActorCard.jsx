@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const ActorCard = ({ casts }) => {
   return (
-    <section className="section">
+    <>
       <div className="header">
         <h3 className="title">Cast</h3>
       </div>
@@ -18,7 +18,7 @@ const ActorCard = ({ casts }) => {
           </Link>
         ))}
       </div>
-    </section>
+    </>
   );
 };
 

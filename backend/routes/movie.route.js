@@ -19,7 +19,7 @@ router.patch("/:id", updateMovie);
 
 router.delete("/:id", deleteMovie);
 
-router.post('/:movieId/reviews', authenticate, reviewMovie);
+router.post('/:movieId/reviews', reviewMovie);
 
 router.get('/:movieId/reviews', getMovieReviews);
 

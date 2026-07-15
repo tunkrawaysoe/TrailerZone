@@ -13,12 +13,13 @@ datasource db {
 }
 
 model User {
-  id          Int    @id @default(autoincrement())
-  name        String
-  username    String @unique
-  email       String @unique
-  phoneNumber String @unique
-  password    String
+  id             Int     @id @default(autoincrement())
+  name           String
+  username       String  @unique
+  email          String  @unique
+  phoneNumber    String  @unique
+  profilePicture String?
+  password       String
 
   refreshTokens RefreshToken[]
 

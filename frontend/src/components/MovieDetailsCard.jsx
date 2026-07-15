@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import ActorCard from "./ActorCard";
 
 const MovieDetailsCard = ({ movieDetails, addedToWatchList, getWatchList }) => {
-  const casts = movieDetails.actors || [];
-
   async function handleWatchList() {
     if (!addedToWatchList) {
       const response = await fetch(
@@ -75,7 +73,6 @@ const MovieDetailsCard = ({ movieDetails, addedToWatchList, getWatchList }) => {
           </div>
         </div>
       </section>
-      <ActorCard casts={casts} />
     </>
   );
 };

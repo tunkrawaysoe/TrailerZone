@@ -34,9 +34,11 @@ export default function Home() {
     <>
       <Navbar />
       <Hero />
-      <MovieSection movies={popularMovies} title="Popular Movies" />
-      <MovieSection movies={topRatedMovies} title="Top Rated Movies" />
-      <MainCard movies={allMovies} title={"Moives"} showBrowse={true} />
+      <div className="section">
+        <MovieSection movies={popularMovies} title="Popular Movies" />
+        <MovieSection movies={topRatedMovies} title="Top Rated Movies" />
+        <MainCard movies={allMovies} title={"Moives"} showBrowse={true} />
+      </div>
     </>
   );
 }

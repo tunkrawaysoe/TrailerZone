@@ -342,7 +342,7 @@ export const deleteMovie = async (req, res) => {
 
 export const reviewMovie = async (req, res) => {
     const movieId = Number(req.params.movieId);
-    const userId = req.user.id;
+    const userId = Number(req.query.userId);
     const { rating, comment } = req.body;
     if (isNaN(movieId)) {
         return res.status(400).json({
@@ -464,36 +464,28 @@ export const getMovieReviews = async (req, res) => {
     }
 
     try {
-        const movie = await prisma.movie.findUnique({
+        const reviews = await prisma.review.findMany({
             where: {
-                id: movieId
+                movieId
             },
             include: {
-                reviews: {
-                    include: {
-                        user: {
-                            select: {
-                                id: true,
-                                name: true
-                            }
-                        }
+                user: {
+                    select: {
+                        id: true,
+                        name: true,
+                        profilePicture: true
                     }
                 }
+            },
+            orderBy: {
+                createdAt: "desc"
             }
         });
 
-        if (!movie) {
-            return res.status(404).json({
-                message: "Movie not found"
-            });
-        }
-
-        return res.status(200).json({
-            message: "Movie reviews",
-            reviews: movie.reviews
-        });
+        return res.status(200).json(reviews);
 
     } catch (error) {
+        console.log(error)
         return res.status(500).json({
             message: "Something went wrong"
         });

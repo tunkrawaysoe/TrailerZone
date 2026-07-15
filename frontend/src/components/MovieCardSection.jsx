@@ -3,7 +3,7 @@ import { MovieCard } from "./MovieCard";
 
 const MovieSection = ({ movies, title }) => {
   return (
-    <section className="section">
+    <>
       <div className="header">
         <h3 className="title">{title}</h3>
       </div>
@@ -13,7 +13,7 @@ const MovieSection = ({ movies, title }) => {
           <MovieCard movie={movie} key={movie.id} />
         ))}
       </div>
-    </section>
+    </>
   );
 };
 

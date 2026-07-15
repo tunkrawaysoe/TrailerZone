@@ -4,24 +4,32 @@ import MovieSection from "../../components/MovieCardSection";
 import MovieDetailsCard from "../../components/MovieDetailsCard";
 import "./MovieDetails.css";
 import { useParams } from "react-router-dom";
+import ActorCard from "../../components/ActorCard";
+import ReviewSection from "../../components/ReviewSection";
 
 const MovieDetails = ({ watchlist, getWatchList }) => {
   const [movieDetails, setMovieDetails] = useState({});
   const [similarMovies, setSimilarMovies] = useState([]);
+  const [reviews, setReviews] = useState([]);
   const { id } = useParams();
   const addedToWatchList = watchlist?.some((list) => list.id === Number(id));
+  const casts = movieDetails.actors || [];
 
   useEffect(() => {
     async function fetchMovieDetails() {
-      const [detailsResponse, similarMoviesResponse] = await Promise.all([
-        fetch(`http://localhost:3000/movies/${id}`),
-        fetch(`http://localhost:3000/movies/${id}/similar`),
-      ]);
+      const [detailsResponse, similarMoviesResponse, reviewsResponse] =
+        await Promise.all([
+          fetch(`http://localhost:3000/movies/${id}`),
+          fetch(`http://localhost:3000/movies/${id}/similar`),
+          fetch(`http://localhost:3000/movies/${id}/reviews`),
+        ]);
 
       const movieDetails = await detailsResponse.json();
       const similarMovies = await similarMoviesResponse.json();
+      const reviews = await reviewsResponse.json();
       setMovieDetails(movieDetails);
       setSimilarMovies(similarMovies);
+      setReviews(reviews);
     }
     fetchMovieDetails();
   }, [id]);
@@ -34,7 +42,11 @@ const MovieDetails = ({ watchlist, getWatchList }) => {
         addedToWatchList={addedToWatchList}
         getWatchList={getWatchList}
       />
-      <MovieSection movies={similarMovies} title="Similar Movies" />
+      <div className="section">
+        <MovieSection movies={similarMovies} title="Similar Movies" />
+        <ActorCard casts={casts} />
+        <ReviewSection reviews={reviews} />
+      </div>
     </>
   );
 };

@@ -11,3 +11,6 @@ body {
   overflow-x: hidden;
   padding-top: 70px;
 }
+.section {
+    padding: 30px 20px;
+  }
