@@ -11,27 +11,32 @@ const MovieDetails = ({ watchlist, getWatchList }) => {
   const [movieDetails, setMovieDetails] = useState({});
   const [similarMovies, setSimilarMovies] = useState([]);
   const [reviews, setReviews] = useState([]);
+  const [userReviewed, setUserReviewed] = useState(false);
   const { id } = useParams();
+  console.log(id);
   const addedToWatchList = watchlist?.some((list) => list.id === Number(id));
   const casts = movieDetails.actors || [];
 
+  async function getReviews() {
+    const response = await fetch(`http://localhost:3000/movies/${id}/reviews`);
+    const data = await response.json();
+    setReviews(data.reviews);
+    setUserReviewed(data.userReviewed);
+  }
+
   useEffect(() => {
     async function fetchMovieDetails() {
-      const [detailsResponse, similarMoviesResponse, reviewsResponse] =
-        await Promise.all([
-          fetch(`http://localhost:3000/movies/${id}`),
-          fetch(`http://localhost:3000/movies/${id}/similar`),
-          fetch(`http://localhost:3000/movies/${id}/reviews`),
-        ]);
-
+      const [detailsResponse, similarMoviesResponse] = await Promise.all([
+        fetch(`http://localhost:3000/movies/${id}`),
+        fetch(`http://localhost:3000/movies/${id}/similar`),
+      ]);
       const movieDetails = await detailsResponse.json();
       const similarMovies = await similarMoviesResponse.json();
-      const reviews = await reviewsResponse.json();
       setMovieDetails(movieDetails);
       setSimilarMovies(similarMovies);
-      setReviews(reviews);
     }
     fetchMovieDetails();
+    getReviews();
   }, [id]);
 
   return (
@@ -45,7 +50,12 @@ const MovieDetails = ({ watchlist, getWatchList }) => {
       <div className="section">
         <ActorCard casts={casts} />
         <MovieSection movies={similarMovies} title="Similar Movies" />
-        <ReviewSection reviews={reviews} />
+        <ReviewSection
+          reviews={reviews}
+          userReviewed={userReviewed}
+          movieId={id}
+          getReviews={getReviews}
+        />
       </div>
     </>
   );

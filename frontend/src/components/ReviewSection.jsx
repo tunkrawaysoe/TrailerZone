@@ -1,14 +1,71 @@
-import React from "react";
+import React, { useState } from "react";
 
-const ReviewSection = ({ reviews }) => {
+const ReviewSection = ({ reviews, movieId, getReviews, userReviewed }) => {
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const response = await fetch(
+      `http://localhost:3000/movies/${movieId}/reviews?userId=2`,
+      {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          rating,
+          comment,
+        }),
+      },
+    );
+    const data = await response.json();
+    if (response.ok) {
+      await getReviews();
+      setRating(0);
+      setComment("");
+    } else {
+      console.log(data.message);
+    }
+  }
+
   return (
-    reviews.length > 0 && (
-      <div className="review-container">
-        <div className="header">
-          <h3 className="title">Reviews</h3>
-        </div>
+    <div className="review-container">
+      <div className="header">
+        <h3 className="title">Reviews</h3>
+      </div>
+      {!userReviewed && (
+        <form className="review-form" onSubmit={handleSubmit}>
+          <label>Your Rating</label>
+          <div className="stars">
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((star) => (
+              <span
+                key={star}
+                className={star <= rating ? "star active" : "star"}
+                onClick={() => setRating(star)}
+              >
+                ★
+              </span>
+            ))}
+          </div>
 
-        {reviews.map((review) => (
+          <label>Your Review</label>
+
+          <textarea
+            rows={5}
+            placeholder="Write your review..."
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+          />
+
+          <button type="submit">Submit</button>
+        </form>
+      )}
+
+      {reviews.length === 0 ? (
+        <p>No reviews yet.</p>
+      ) : (
+        reviews.map((review) => (
           <div className="review-card" key={review.id}>
             <div className="review-header">
               <img
@@ -21,18 +78,26 @@ const ReviewSection = ({ reviews }) => {
                 alt={review.user?.name}
                 className="review-avatar"
               />
-              <div>
+
+              <div className="review-info">
                 <h4 className="review-name">{review.user?.name}</h4>
+
+                <small className="review-date">
+                  {new Date(review.createdAt).toLocaleDateString()}
+                </small>
               </div>
+
+              <span className="review-rating">
+                {"★".repeat(review.rating)}
+                {"☆".repeat(10 - review.rating)}
+              </span>
             </div>
+
             <p className="review-comment">{review.comment}</p>
-            <span className="review-date">
-              {new Date(review.createdAt).toLocaleDateString()}
-            </span>
           </div>
-        ))}
-      </div>
-    )
+        ))
+      )}
+    </div>
   );
 };
 

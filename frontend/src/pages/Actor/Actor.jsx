@@ -28,7 +28,9 @@ const Actor = () => {
           <p className="actor-biography">{actor.biography}</p>
         </div>
       </section>
-      <MainCard movies={actor.movies} showBrowse={false} title={"Movies"} />
+      <div className="section">
+        <MainCard movies={actor.movies} showBrowse={false} title={"Movies"} />
+      </div>
     </>
   );
 };

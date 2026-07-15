@@ -481,8 +481,19 @@ export const getMovieReviews = async (req, res) => {
                 createdAt: "desc"
             }
         });
+        const userReviewed = await prisma.review.findUnique({
+            where: {
+                userId_movieId: {
+                    userId: 2,
+                    movieId
+                }
+            }
+        })
 
-        return res.status(200).json(reviews);
+        return res.status(200).json({
+            reviews,
+            userReviewed: Boolean(userReviewed)
+        });
 
     } catch (error) {
         console.log(error)

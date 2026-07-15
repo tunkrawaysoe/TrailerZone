@@ -59,21 +59,15 @@ body {
 
 .buttons {
   margin-top: 30px;
-
   display: flex;
-
   gap: 15px;
 }
 
 .buttons button {
   padding: 12px 25px;
-
   border: none;
-
   border-radius: 30px;
-
   cursor: pointer;
-
   font-weight: bold;
 }
 
@@ -129,12 +123,88 @@ body {
 }
 
 .review-container {
-  border: 1px solid rgb(28, 28, 28);
-  padding: 0px 20px;
-  border-radius: 7px;
+  max-width: 1000px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #1f1f1f;
+  border-radius: 10px;
+  background: #111;
 }
-.review-card {
+
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
   margin-bottom: 40px;
+}
+
+.review-form label {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.stars {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 10px;
+}
+
+.star {
+  font-size: 20px;
+  color: #555;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+  user-select: none;
+}
+
+.star:hover {
+  color: #f5c518;
+  transform: scale(1.1);
+}
+
+.star.active {
+  color: #f5c518;
+}
+
+.review-form textarea {
+  min-height: 100px;
+  resize: vertical;
+  padding: 12px;
+  border: 1px solid #333;
+  border-radius: 8px;
+  background: #1a1a1a;
+  color: white;
+  font-size: 15px;
+  outline: none;
+}
+
+.review-form textarea:focus {
+  border-color: #f5c518;
+}
+
+.review-form button {
+  width: fit-content;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  background: #c2c1be;
+  color: #111;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.review-form button:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.review-card {
+  padding: 20px 0;
+  border-top: 1px solid #222;
 }
 
 .review-header {
@@ -144,30 +214,36 @@ body {
 }
 
 .review-avatar {
-  width: 50px;
-  height: 50px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   object-fit: cover;
 }
 
+.review-info {
+  flex: 1;
+}
+
 .review-name {
-  color: white;
   margin: 0;
   font-size: 18px;
-}
-
-.review-rating {
-  margin-top: 5px;
-  color: #f5c518;
-}
-
-.review-comment {
-  margin: 10px 0;
-  color: #cfcfcf;
-  line-height: 1.7;
+  color: white;
 }
 
 .review-date {
   color: #888;
   font-size: 14px;
+}
+
+.review-rating {
+  color: #f5c518;
+  font-size: 18px;
+  display: flex;
+  font-weight: bold;
+}
+
+.review-comment {
+  margin-top: 15px;
+  color: #d0d0d0;
+  line-height: 1.8;
 }
