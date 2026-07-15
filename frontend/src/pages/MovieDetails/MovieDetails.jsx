@@ -43,8 +43,8 @@ const MovieDetails = ({ watchlist, getWatchList }) => {
         getWatchList={getWatchList}
       />
       <div className="section">
-        <MovieSection movies={similarMovies} title="Similar Movies" />
         <ActorCard casts={casts} />
+        <MovieSection movies={similarMovies} title="Similar Movies" />
         <ReviewSection reviews={reviews} />
       </div>
     </>
