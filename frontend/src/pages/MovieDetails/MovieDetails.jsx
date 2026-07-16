@@ -6,14 +6,15 @@ import "./MovieDetails.css";
 import { useParams } from "react-router-dom";
 import ActorCard from "../../components/ActorCard";
 import ReviewSection from "../../components/ReviewSection";
+import TrailerSection from "./TrailerSection";
 
 const MovieDetails = ({ watchlist, getWatchList }) => {
   const [movieDetails, setMovieDetails] = useState({});
   const [similarMovies, setSimilarMovies] = useState([]);
   const [reviews, setReviews] = useState([]);
+  const [trailers, setTrailers] = useState([]);
   const [userReviewed, setUserReviewed] = useState(false);
   const { id } = useParams();
-  console.log(id);
   const addedToWatchList = watchlist?.some((list) => list.id === Number(id));
   const casts = movieDetails.actors || [];
 
@@ -26,14 +27,18 @@ const MovieDetails = ({ watchlist, getWatchList }) => {
 
   useEffect(() => {
     async function fetchMovieDetails() {
-      const [detailsResponse, similarMoviesResponse] = await Promise.all([
-        fetch(`http://localhost:3000/movies/${id}`),
-        fetch(`http://localhost:3000/movies/${id}/similar`),
-      ]);
+      const [detailsResponse, similarMoviesResponse, trailerResponse] =
+        await Promise.all([
+          fetch(`http://localhost:3000/movies/${id}`),
+          fetch(`http://localhost:3000/movies/${id}/similar`),
+          fetch(`http://localhost:3000/movies/${id}/trailer`),
+        ]);
       const movieDetails = await detailsResponse.json();
       const similarMovies = await similarMoviesResponse.json();
+      const movieTrailers = await trailerResponse.json();
       setMovieDetails(movieDetails);
       setSimilarMovies(similarMovies);
+      setTrailers(movieTrailers);
     }
     fetchMovieDetails();
     getReviews();
@@ -49,13 +54,14 @@ const MovieDetails = ({ watchlist, getWatchList }) => {
       />
       <div className="section">
         <ActorCard casts={casts} />
-        <MovieSection movies={similarMovies} title="Similar Movies" />
+        <TrailerSection trailers={trailers} />
         <ReviewSection
           reviews={reviews}
           userReviewed={userReviewed}
           movieId={id}
           getReviews={getReviews}
         />
+        <MovieSection movies={similarMovies} title="Similar Movies" />
       </div>
     </>
   );

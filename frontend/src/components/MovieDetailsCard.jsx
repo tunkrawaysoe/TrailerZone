@@ -1,6 +1,3 @@
-import React, { useEffect, useState } from "react";
-import ActorCard from "./ActorCard";
-
 const MovieDetailsCard = ({ movieDetails, addedToWatchList, getWatchList }) => {
   async function handleWatchList() {
     if (!addedToWatchList) {
@@ -66,7 +63,16 @@ const MovieDetailsCard = ({ movieDetails, addedToWatchList, getWatchList }) => {
           <p className="overview">{movieDetails.description}</p>
 
           <div className="buttons">
-            <button>▶ Watch Trailer</button>
+            <button
+              onClick={() => {
+                console.log("You click the button");
+                document.getElementById("trailers").scrollIntoView({
+                  behavior: "smooth",
+                });
+              }}
+            >
+              ▶ Watch Trailer
+            </button>
             <button className="watchlist" onClick={handleWatchList}>
               {addedToWatchList ? "✓ Added" : "+ Add Watchlist"}
             </button>

@@ -554,9 +554,7 @@ export const getMovieTrailers = async (req, res) => {
             },
         });
 
-        return res.status(200).json({
-            trailers,
-        });
+        return res.status(200).json(trailers);
 
     } catch (error) {
         console.error(error);
