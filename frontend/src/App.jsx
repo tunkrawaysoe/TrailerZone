@@ -5,6 +5,8 @@ import MovieDetails from "./pages/MovieDetails/MovieDetails";
 import Movies from "./pages/Movies/Movies";
 import Actor from "./pages/Actor/Actor";
 import WatchListPage from "./pages/WatchLists/WatchListPage";
+import Login from "./pages/Auth/Login";
+import RegisterPage from "./pages/Auth/RegisterPage";
 
 function App() {
   const [watchlist, setWatchList] = useState([]);
@@ -13,7 +15,6 @@ function App() {
     const watchlist = await response.json();
     setWatchList(watchlist);
   }
-  console.log(watchlist);
   useEffect(() => {
     getWatchList();
   }, []);
@@ -29,7 +30,12 @@ function App() {
         }
       />
       <Route path="/actors/:id" element={<Actor />} />
-      <Route path="/watchLists" element={<WatchListPage movies={watchlist} />} />
+      <Route
+        path="/watchLists"
+        element={<WatchListPage movies={watchlist} />}
+      />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<RegisterPage />} />
     </Routes>
   );
 }
