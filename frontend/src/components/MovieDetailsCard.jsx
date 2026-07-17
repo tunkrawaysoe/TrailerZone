@@ -1,4 +1,7 @@
+import { useSelector } from "react-redux";
+
 const MovieDetailsCard = ({ movieDetails, addedToWatchList, getWatchList }) => {
+  const accessToken = useSelector((state) => state.auth.accessToken);
   async function handleWatchList() {
     if (!addedToWatchList) {
       const response = await fetch(
@@ -7,10 +10,8 @@ const MovieDetailsCard = ({ movieDetails, addedToWatchList, getWatchList }) => {
           method: "POST",
           headers: {
             "Content-type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
           },
-          body: JSON.stringify({
-            userId: 2,
-          }),
         },
       );
 
@@ -31,10 +32,8 @@ const MovieDetailsCard = ({ movieDetails, addedToWatchList, getWatchList }) => {
         method: "DELETE",
         headers: {
           "Content-type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
         },
-        body: JSON.stringify({
-          userId: 2,
-        }),
       },
     );
 

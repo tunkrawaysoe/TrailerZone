@@ -64,7 +64,7 @@ export const logIn = async (req, res) => {
         id: foundUser.id,
         email: foundUser.email
     }, JWT_SECRET, {
-        expiresIn: '60s'
+        expiresIn: '10m'
     });
 
     const refreshToken = jwt.sign({

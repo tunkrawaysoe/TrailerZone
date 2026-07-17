@@ -2,7 +2,7 @@ import prisma from "../lib/prisma.js";
 
 export const addToWatchlist = async (req, res) => {
     const movieId = Number(req.params.movieId);
-    const userId = Number(req.body.userId);
+    const userId = req.user.id;
 
     if (isNaN(movieId) || isNaN(userId)) {
         return res.status(400).json({
@@ -37,7 +37,7 @@ export const addToWatchlist = async (req, res) => {
 };
 
 export const getWatchlist = async (req, res) => {
-    const userId = Number(req.query.userId);
+    const userId = req.user.id;
 
     if (isNaN(userId)) {
         return res.status(400).json({
@@ -76,7 +76,7 @@ export const getWatchlist = async (req, res) => {
 
 export const removeFromWatchlist = async (req, res) => {
     const movieId = Number(req.params.movieId);
-    const userId = Number(req.body.userId);
+    const userId = req.user.id;
 
     if (isNaN(movieId) || isNaN(userId)) {
         return res.status(400).json({

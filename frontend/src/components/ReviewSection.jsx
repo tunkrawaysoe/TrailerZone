@@ -1,17 +1,19 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 
 const ReviewSection = ({ reviews, movieId, getReviews, userReviewed }) => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
-
+  const accessToken = useSelector((state) => state.auth.accessToken);
   async function handleSubmit(e) {
     e.preventDefault();
     const response = await fetch(
-      `http://localhost:3000/movies/${movieId}/reviews?userId=2`,
+      `http://localhost:3000/movies/${movieId}/reviews`,
       {
         method: "POST",
         headers: {
           "Content-type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({
           rating,

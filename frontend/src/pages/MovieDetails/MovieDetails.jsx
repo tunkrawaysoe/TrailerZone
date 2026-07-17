@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import ActorCard from "../../components/ActorCard";
 import ReviewSection from "../../components/ReviewSection";
 import TrailerSection from "./TrailerSection";
+import { useSelector } from "react-redux";
 
 const MovieDetails = ({ watchlist, getWatchList }) => {
   const [movieDetails, setMovieDetails] = useState({});
@@ -17,9 +18,14 @@ const MovieDetails = ({ watchlist, getWatchList }) => {
   const { id } = useParams();
   const addedToWatchList = watchlist?.some((list) => list.id === Number(id));
   const casts = movieDetails.actors || [];
+  const accessToken = useSelector((state) => state.auth.accessToken);
 
   async function getReviews() {
-    const response = await fetch(`http://localhost:3000/movies/${id}/reviews`);
+    const response = await fetch(`http://localhost:3000/movies/${id}/reviews`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
     const data = await response.json();
     setReviews(data.reviews);
     setUserReviewed(data.userReviewed);

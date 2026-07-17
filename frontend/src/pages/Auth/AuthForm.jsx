@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import "./Auth.css";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../../redux/authSlice";
 
 const AuthForm = ({ type }) => {
   const isRegister = type === "register";
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [form, setForm] = useState({
     name: "",
     username: "",
@@ -24,9 +27,7 @@ const AuthForm = ({ type }) => {
 
   async function handleSubmit(e) {
     e.preventDefault();
-
     setError("");
-
     const response = await fetch(
       isRegister
         ? "http://localhost:3000/auth/register"
@@ -41,8 +42,13 @@ const AuthForm = ({ type }) => {
     );
 
     const data = await response.json();
-
     if (response.ok) {
+      dispatch(
+        loginSuccess({
+          accessToken: data.accesstoken,
+          user: data.user,
+        }),
+      );
       navigate("/");
       return;
     }

@@ -342,7 +342,7 @@ export const deleteMovie = async (req, res) => {
 
 export const reviewMovie = async (req, res) => {
     const movieId = Number(req.params.movieId);
-    const userId = Number(req.query.userId);
+    const userId = req.user.id;
     const { rating, comment } = req.body;
     if (isNaN(movieId)) {
         return res.status(400).json({
@@ -456,7 +456,7 @@ export const deleteReview = async (req, res) => {
 
 export const getMovieReviews = async (req, res) => {
     const movieId = Number(req.params.movieId);
-
+    const userId = req.user?.id;
     if (isNaN(movieId)) {
         return res.status(400).json({
             message: "Invalid movie id"
@@ -484,7 +484,7 @@ export const getMovieReviews = async (req, res) => {
         const userReviewed = await prisma.review.findUnique({
             where: {
                 userId_movieId: {
-                    userId: 2,
+                    userId,
                     movieId
                 }
             }

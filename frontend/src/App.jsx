@@ -7,17 +7,23 @@ import Actor from "./pages/Actor/Actor";
 import WatchListPage from "./pages/WatchLists/WatchListPage";
 import Login from "./pages/Auth/Login";
 import RegisterPage from "./pages/Auth/RegisterPage";
+import { useSelector } from "react-redux";
 
 function App() {
   const [watchlist, setWatchList] = useState([]);
+  const accessToken = useSelector((state) => state.auth.accessToken);
   async function getWatchList() {
-    const response = await fetch(`http://localhost:3000/watchlist?userId=2`);
+    const response = await fetch(`http://localhost:3000/watchlist`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
     const watchlist = await response.json();
     setWatchList(watchlist);
   }
   useEffect(() => {
     getWatchList();
-  }, []);
+  }, [accessToken]);
 
   return (
     <Routes>
