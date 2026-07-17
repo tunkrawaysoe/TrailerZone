@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Home from "./pages/Home/Home";
 import { Route, Routes } from "react-router-dom";
 import MovieDetails from "./pages/MovieDetails/MovieDetails";
@@ -7,19 +7,21 @@ import Actor from "./pages/Actor/Actor";
 import WatchListPage from "./pages/WatchLists/WatchListPage";
 import Login from "./pages/Auth/Login";
 import RegisterPage from "./pages/Auth/RegisterPage";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setWatchList } from "./redux/watchListSlice";
 
 function App() {
-  const [watchlist, setWatchList] = useState([]);
+  const watchList = useSelector((state) => state.watchList.movies);
   const accessToken = useSelector((state) => state.auth.accessToken);
+  const dispatch = useDispatch();
   async function getWatchList() {
     const response = await fetch(`http://localhost:3000/watchlist`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    const watchlist = await response.json();
-    setWatchList(watchlist);
+    const data = await response.json();
+    dispatch(setWatchList(data));
   }
   useEffect(() => {
     getWatchList();
@@ -31,15 +33,10 @@ function App() {
       <Route path="/movies" element={<Movies />} />
       <Route
         path="/movies/:id"
-        element={
-          <MovieDetails watchlist={watchlist} getWatchList={getWatchList} />
-        }
+        element={<MovieDetails getWatchList={getWatchList} />}
       />
       <Route path="/actors/:id" element={<Actor />} />
-      <Route
-        path="/watchLists"
-        element={<WatchListPage movies={watchlist} />}
-      />
+      <Route path="/watchLists" element={<WatchListPage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<RegisterPage />} />
     </Routes>

@@ -9,16 +9,17 @@ import ReviewSection from "../../components/ReviewSection";
 import TrailerSection from "./TrailerSection";
 import { useSelector } from "react-redux";
 
-const MovieDetails = ({ watchlist, getWatchList }) => {
+const MovieDetails = ({ getWatchList }) => {
   const [movieDetails, setMovieDetails] = useState({});
   const [similarMovies, setSimilarMovies] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [trailers, setTrailers] = useState([]);
   const [userReviewed, setUserReviewed] = useState(false);
   const { id } = useParams();
-  const addedToWatchList = watchlist?.some((list) => list.id === Number(id));
   const casts = movieDetails.actors || [];
   const accessToken = useSelector((state) => state.auth.accessToken);
+  const watchlist = useSelector((state) => state.watchList.movies);
+  const addedToWatchList = watchlist?.some((list) => list.id === Number(id));
 
   async function getReviews() {
     const response = await fetch(`http://localhost:3000/movies/${id}/reviews`, {
