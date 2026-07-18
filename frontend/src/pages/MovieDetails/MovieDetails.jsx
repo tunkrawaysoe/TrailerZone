@@ -9,7 +9,7 @@ import ReviewSection from "../../components/ReviewSection";
 import TrailerSection from "./TrailerSection";
 import { useSelector } from "react-redux";
 
-const MovieDetails = ({ getWatchList }) => {
+const MovieDetails = () => {
   const [movieDetails, setMovieDetails] = useState({});
   const [similarMovies, setSimilarMovies] = useState([]);
   const [reviews, setReviews] = useState([]);
@@ -57,7 +57,6 @@ const MovieDetails = ({ getWatchList }) => {
       <MovieDetailsCard
         movieDetails={movieDetails}
         addedToWatchList={addedToWatchList}
-        getWatchList={getWatchList}
       />
       <div className="section">
         <ActorCard casts={casts} />

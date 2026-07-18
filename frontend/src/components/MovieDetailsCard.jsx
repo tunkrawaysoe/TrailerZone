@@ -1,6 +1,8 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchWatchList } from "../redux/watchListSlice";
 
-const MovieDetailsCard = ({ movieDetails, addedToWatchList, getWatchList }) => {
+const MovieDetailsCard = ({ movieDetails, addedToWatchList }) => {
+  const dispatch = useDispatch();
   const accessToken = useSelector((state) => state.auth.accessToken);
   async function handleWatchList() {
     if (!addedToWatchList) {
@@ -18,7 +20,7 @@ const MovieDetailsCard = ({ movieDetails, addedToWatchList, getWatchList }) => {
       const data = await response.json();
 
       if (response.ok) {
-        getWatchList();
+        dispatch(fetchWatchList(accessToken));
       } else {
         console.log(data.message);
       }
@@ -40,7 +42,7 @@ const MovieDetailsCard = ({ movieDetails, addedToWatchList, getWatchList }) => {
     const data = await response.json();
 
     if (response.ok) {
-      getWatchList();
+      dispatch(fetchWatchList(accessToken));
     } else {
       console.log(data.message);
     }
