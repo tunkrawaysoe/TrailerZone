@@ -9,13 +9,25 @@ import Login from "./pages/Auth/Login";
 import RegisterPage from "./pages/Auth/RegisterPage";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchWatchList } from "./redux/watchListSlice";
+import { fetchRefreshToken } from "./redux/authSlice";
 
 function App() {
   const accessToken = useSelector((state) => state.auth.accessToken);
+  const loading = useSelector((state) => state.auth.loading);
   const dispatch = useDispatch();
+
   useEffect(() => {
+    dispatch(fetchRefreshToken());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (!accessToken) return;
     dispatch(fetchWatchList(accessToken));
   }, [accessToken, dispatch]);
+
+  if (loading) {
+    return <h1>Loading...</h1>;
+  }
 
   return (
     <Routes>

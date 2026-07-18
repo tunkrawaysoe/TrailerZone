@@ -18,8 +18,6 @@ const MovieDetails = () => {
   const { id } = useParams();
   const casts = movieDetails.actors || [];
   const accessToken = useSelector((state) => state.auth.accessToken);
-  const watchlist = useSelector((state) => state.watchList.movies);
-  const addedToWatchList = watchlist?.some((list) => list.id === Number(id));
 
   async function getReviews() {
     const response = await fetch(`http://localhost:3000/movies/${id}/reviews`, {
@@ -54,10 +52,7 @@ const MovieDetails = () => {
   return (
     <>
       <Navbar />
-      <MovieDetailsCard
-        movieDetails={movieDetails}
-        addedToWatchList={addedToWatchList}
-      />
+      <MovieDetailsCard movieDetails={movieDetails} movieId={id} />
       <div className="section">
         <ActorCard casts={casts} />
         <TrailerSection trailers={trailers} />

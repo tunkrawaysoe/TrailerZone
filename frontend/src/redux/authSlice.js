@@ -1,9 +1,26 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     accessToken: null,
-    user: null
+    user: null,
+    loading: true
 };
+
+export const fetchRefreshToken = createAsyncThunk("auth/refresh",
+    async () => {
+        const response = await fetch("http://localhost:3000/auth/refresh",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+            }
+
+        );
+        return await response.json();
+    }
+)
 
 const authSlice = createSlice({
     name: "auth",
@@ -17,6 +34,13 @@ const authSlice = createSlice({
             state.accessToken = null;
             state.user = null;
         }
+    },
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchRefreshToken.fulfilled, (state, action) => {
+                state.accessToken = action.payload.accessToken,
+                state.loading = false;
+            })
     }
 })
 

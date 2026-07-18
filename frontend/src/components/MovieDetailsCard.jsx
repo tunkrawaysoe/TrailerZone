@@ -1,9 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
 import { fetchWatchList } from "../redux/watchListSlice";
 
-const MovieDetailsCard = ({ movieDetails, addedToWatchList }) => {
-  const dispatch = useDispatch();
+const MovieDetailsCard = ({ movieDetails, movieId }) => {
   const accessToken = useSelector((state) => state.auth.accessToken);
+  const watchlist = useSelector((state) => state.watchList.movies);
+  const addedToWatchList = watchlist?.some(
+    (list) => list.id === Number(movieId),
+  );
+  const dispatch = useDispatch();
+
   async function handleWatchList() {
     if (!addedToWatchList) {
       const response = await fetch(

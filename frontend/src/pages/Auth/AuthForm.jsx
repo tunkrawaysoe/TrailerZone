@@ -37,6 +37,7 @@ const AuthForm = ({ type }) => {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify(form),
       },
     );
@@ -71,6 +72,7 @@ const AuthForm = ({ type }) => {
             <input
               name="name"
               placeholder="Full Name"
+              autoComplete="name"
               value={name}
               onChange={handleChange}
             />
@@ -78,6 +80,7 @@ const AuthForm = ({ type }) => {
             <input
               name="username"
               placeholder="Username"
+              autoComplete="username"
               value={username}
               onChange={handleChange}
             />
@@ -85,6 +88,7 @@ const AuthForm = ({ type }) => {
             <input
               name="phoneNumber"
               placeholder="Phone Number"
+              autoComplete="tel"
               value={phoneNumber}
               onChange={handleChange}
             />
@@ -95,6 +99,7 @@ const AuthForm = ({ type }) => {
           name="email"
           type="email"
           placeholder="Email"
+          autoComplete="email"
           value={email}
           onChange={handleChange}
         />
@@ -103,9 +108,11 @@ const AuthForm = ({ type }) => {
           name="password"
           type="password"
           placeholder="Password"
+          autoComplete={isRegister ? "new-password" : "current-password"}
           value={password}
           onChange={handleChange}
         />
+
         {error && <p className="auth-error">{error}</p>}
         <button type="submit">{isRegister ? "Register" : "Login"}</button>
         <p>

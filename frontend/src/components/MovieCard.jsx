@@ -5,7 +5,10 @@ export const MovieCard = ({ movie }) => {
   return (
     <Link to={`/movies/${movie.id}`} className="link">
       <div className="movie-card">
-        <img src={movie.posterUrl} />
+        <img
+          src={movie.posterUrl || "/images/no-poster.png"}
+          alt={movie.title}
+        />
         <p className="movie-title">{movie.title}</p>
         <p className="movie-date">
           {new Date(movie.releaseDate).getFullYear()}

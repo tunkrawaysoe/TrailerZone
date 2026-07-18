@@ -127,17 +127,17 @@ export const refresh = async (req, res) => {
     if (!storedToken) return res.status(401).json({ message: "Refresh token not recognized" });
     jwt.verify(refreshToken, REFRESH_SECRET, (err, decoded) => {
         if (err) {
-            return res.status(403).json({
+            return res.status(401).json({
                 message: 'Invalid refresh token'
             });
         }
-        const accesstoken = jwt.sign({
+        const accessToken = jwt.sign({
             id: storedToken.user.id,
             email: storedToken.user.email
         }, JWT_SECRET, {
             expiresIn: '30s',
         })
 
-        return res.status(200).json({ accesstoken });
+        return res.status(200).json({ accessToken });
     })
 }
