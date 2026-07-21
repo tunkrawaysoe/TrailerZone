@@ -52,50 +52,67 @@ export const logIn = async (req, res) => {
     if (!email || !password) {
         return res.status(400).json({ message: "All fields are requird" });
     }
-    const foundUser = await prisma.user.findUnique({
-        where: { email }
-    })
-    if (!foundUser) return res.status(404).json({ message: "You have to register first" });
-    const isMatch = foundUser.password === password;
-    if (!isMatch) return res.status(401).json({ message: "Password don't match" });
-    const { refreshToken: hidden, password: _, ...rest } = foundUser;
+    try {
+        const foundUser = await prisma.user.findUnique({
+            where: {
+                email,
+            },
+            select: {
+                id: true,
+                name: true,
+                username: true,
+                email: true,
+                phoneNumber: true,
+                profilePicture: true,
+                createdAt: true,
+                password: true,
+            },
+        });
+        if (!foundUser) return res.status(404).json({ message: "You have to register first" });
+        const isMatch = foundUser.password === password;
+        if (!isMatch) return res.status(401).json({ message: "Password don't match" });
+        const { password: _, ...rest } = foundUser;
 
-    const accesstoken = jwt.sign({
-        id: foundUser.id,
-        email: foundUser.email
-    }, JWT_SECRET, {
-        expiresIn: '10m'
-    });
+        const accesstoken = jwt.sign({
+            id: foundUser.id,
+            email: foundUser.email
+        }, JWT_SECRET, {
+            expiresIn: '10m'
+        });
 
-    const refreshToken = jwt.sign({
-        id: foundUser.id,
-        email: foundUser.email
-    },
-        REFRESH_SECRET,
-        {
-            expiresIn: '7d'
+        const refreshToken = jwt.sign({
+            id: foundUser.id,
+            email: foundUser.email
+        },
+            REFRESH_SECRET,
+            {
+                expiresIn: '7d'
+            })
+
+        await prisma.refreshToken.create({
+            data: {
+                token: refreshToken,
+                userId: foundUser.id,
+                expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+
+            }
+        })
+        res.cookie('refreshToken', refreshToken, {
+            httpOnly: true,
+            secure: false,
+            sameSite: 'strict',
+            maxAge: 7 * 24 * 60 * 60 * 1000
         })
 
-    await prisma.refreshToken.create({
-        data: {
-            token: refreshToken,
-            userId: foundUser.id,
-            expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
-
-        }
-    })
-    res.cookie('refreshToken', refreshToken, {
-        httpOnly: true,
-        secure: false,
-        sameSite: 'strict',
-        maxAge: 7 * 24 * 60 * 60 * 1000
-    })
-
-    return res.status(200).json({
-        message: "Login Sucessful",
-        user: rest,
-        accesstoken
-    })
+        return res.status(200).json({
+            message: "Login Sucessful",
+            user: rest,
+            accesstoken
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Internal Server Error" })
+    }
 }
 
 export const logOut = async (req, res) => {

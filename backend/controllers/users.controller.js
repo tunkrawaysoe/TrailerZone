@@ -37,3 +37,47 @@ export const getAllUsers = async (req, res) => {
         });
     }
 };
+
+export const getProfile = async (req, res) => {
+    const userId = req.user?.id || 2;
+
+    if (!userId) {
+        return res.status(401).json({
+            message: "Unauthorized"
+        });
+    }
+    try {
+        const user = await prisma.user.findUnique({
+            where: {
+                id: userId
+            },
+            select: {
+                id: true,
+                name: true,
+                username: true,
+                email: true,
+                phoneNumber: true,
+                profilePicture: true,
+                createdAt: true,
+                _count: {
+                    select: {
+                        reviews: true,
+                        watchlists: true
+                    }
+                }
+            }
+        });
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            });
+        }
+        return res.status(200).json(user);
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: "Something went wrong"
+        });
+    }
+};
