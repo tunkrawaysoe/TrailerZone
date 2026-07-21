@@ -10,6 +10,7 @@ import RegisterPage from "./pages/Auth/RegisterPage";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchWatchList } from "./redux/watchListSlice";
 import { fetchRefreshToken } from "./redux/authSlice";
+import ProfilePage from "./pages/Profile/ProfilePage";
 
 function App() {
   const accessToken = useSelector((state) => state.auth.accessToken);
@@ -38,6 +39,7 @@ function App() {
       <Route path="/watchLists" element={<WatchListPage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<RegisterPage />} />
+      <Route path="/profile" element={<ProfilePage />} />
     </Routes>
   );
 }

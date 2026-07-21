@@ -137,8 +137,17 @@ export const refresh = async (req, res) => {
         where: {
             token: refreshToken
         },
-        include: {
-            user: true
+        select: {
+            user: {
+                select: {
+                    id: true,
+                    name: true,
+                    username: true,
+                    email: true,
+                    phoneNumber: true,
+                    profilePicture: true
+                }
+            }
         }
     })
     if (!storedToken) return res.status(401).json({ message: "Refresh token not recognized" });
@@ -155,6 +164,6 @@ export const refresh = async (req, res) => {
             expiresIn: '30s',
         })
 
-        return res.status(200).json({ accessToken });
+        return res.status(200).json({ accessToken, user: storedToken.user });
     })
 }

@@ -1,39 +1,48 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { logOut } from "../redux/authSlice";
-import { useDispatch, useSelector } from "react-redux";
 
 export default function Navbar() {
   const accessToken = useSelector((state) => state.auth.accessToken);
-  const dispatch = useDispatch();
-  async function handleLogout() {
-    try {
-      await fetch("http://localhost:3000/auth/logout", {
-        credentials: "include",
-      });
-      dispatch(logOut());
-    } catch (error) {
-      console.error("Logout failed:", error);
-    }
-  }
-
+  const user = useSelector((state) => state.auth.user);
   return (
     <header>
       <nav className="navbar">
-        <Link to={"/"} className="logo">
+        <Link to="/" className="logo">
           <h1>MovieHub</h1>
         </Link>
+
         <ul className="nav-links">
           <li>
-            <Link to={"/watchLists"}>WatchList</Link>
+            <Link to="/">Home</Link>
           </li>
           {accessToken && (
             <li>
-              <button className="logout-btn" onClick={handleLogout}>
-                Logout
-              </button>
+              <Link to="/watchLists">Watchlist</Link>
             </li>
           )}
+
+          <li>
+            {accessToken ? (
+              <Link to="/profile" className="profile-link">
+                {user?.profilePicture ? (
+                  <img
+                    src={user.profilePicture}
+                    alt={user.name}
+                    className="navbar-avatar"
+                  />
+                ) : (
+                  <div className="navbar-avatar">
+                    {user?.name.charAt(0).toUpperCase()}
+                  </div>
+                )}
+              </Link>
+            ) : (
+              <Link to="/login" className="login-btn">
+                Login
+              </Link>
+            )}
+          </li>
         </ul>
       </nav>
     </header>
