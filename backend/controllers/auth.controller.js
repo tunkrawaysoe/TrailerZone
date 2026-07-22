@@ -161,7 +161,7 @@ export const refresh = async (req, res) => {
             id: storedToken.user.id,
             email: storedToken.user.email
         }, JWT_SECRET, {
-            expiresIn: '30s',
+            expiresIn: '10m',
         })
 
         return res.status(200).json({ accessToken, user: storedToken.user });

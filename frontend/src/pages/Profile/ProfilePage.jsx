@@ -85,7 +85,9 @@ const ProfilePage = () => {
         </div>
 
         <div className="profile-actions">
-          <button>Edit Profile</button>
+          <button onClick={() => navigate("/profile/edit")}>
+            Edit Profile
+          </button>
           <button className="logout-btn" onClick={handleLogout}>
             Logout
           </button>

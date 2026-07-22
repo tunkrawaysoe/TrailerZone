@@ -71,7 +71,6 @@ const MovieDetailsCard = ({ movieDetails, movieId }) => {
           <div className="buttons">
             <button
               onClick={() => {
-                console.log("You click the button");
                 document.getElementById("trailers").scrollIntoView({
                   behavior: "smooth",
                 });
@@ -79,6 +78,7 @@ const MovieDetailsCard = ({ movieDetails, movieId }) => {
             >
               ▶ Watch Trailer
             </button>
+
             <button className="watchlist" onClick={handleWatchList}>
               {addedToWatchList ? "✓ Added" : "+ Add Watchlist"}
             </button>
