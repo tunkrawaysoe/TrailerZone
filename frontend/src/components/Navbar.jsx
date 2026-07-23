@@ -5,20 +5,36 @@ import { Link } from "react-router-dom";
 export default function Navbar() {
   const accessToken = useSelector((state) => state.auth.accessToken);
   const user = useSelector((state) => state.auth.user);
+
   return (
     <header>
       <nav className="navbar">
+
         <Link to="/" className="logo">
           <h1>MovieHub</h1>
         </Link>
+
+        <form className="search-box">
+          <input
+            type="text"
+            placeholder="Search movies..."
+            className="input-search"
+          />
+          <button type="submit">
+            Search
+          </button>
+        </form>
 
         <ul className="nav-links">
           <li>
             <Link to="/">Home</Link>
           </li>
+
           {accessToken && (
             <li>
-              <Link to="/watchLists">Watchlist</Link>
+              <Link to="/watchLists">
+                Watchlist
+              </Link>
             </li>
           )}
 
@@ -32,8 +48,8 @@ export default function Navbar() {
                     className="navbar-avatar"
                   />
                 ) : (
-                  <div className="navbar-avatar">
-                    {user?.name.charAt(0).toUpperCase()}
+                  <div className="navbar-avatar avatar-text">
+                    {user?.name?.charAt(0).toUpperCase()}
                   </div>
                 )}
               </Link>
@@ -44,6 +60,7 @@ export default function Navbar() {
             )}
           </li>
         </ul>
+
       </nav>
     </header>
   );
