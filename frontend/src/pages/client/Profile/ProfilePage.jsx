@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearProfile, fetchUser } from "../../redux/userSlice";
+import { clearProfile, fetchUser } from "../../../redux/userSlice";
 import "./ProfilePage.css";
-import { logOut } from "../../redux/authSlice";
+import { logOut } from "../../../redux/authSlice";
 import { useNavigate } from "react-router-dom";
 
 const ProfilePage = () => {

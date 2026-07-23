@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { MainCard } from "../../components/MainCard";
-import PaginationButton from "../../components/PaginationButton";
+import { MainCard } from "../../../components/MainCard";
+import PaginationButton from "../../../components/PaginationButton";
 import "./Movies.css";
 
 const Movies = () => {

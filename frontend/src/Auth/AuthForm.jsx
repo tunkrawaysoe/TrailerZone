@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./Auth.css";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { loginSuccess } from "../../redux/authSlice";
+import { loginSuccess } from "../redux/authSlice";
 
 const AuthForm = ({ type }) => {
   const isRegister = type === "register";

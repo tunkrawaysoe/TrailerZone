@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUser } from "../../redux/userSlice";
+import { fetchUser } from "../../../redux/userSlice";
 import { useNavigate } from "react-router-dom";
 
 const ProfileEditPage = () => {
@@ -45,7 +45,7 @@ const ProfileEditPage = () => {
       profilePicture: user.profilePicture || "",
     });
   }, [user]);
-  
+
   return (
     <div className="edit-profile-container">
       <form className="edit-profile-card" onSubmit={handleSubmit}>

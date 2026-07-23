@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./Actor.css";
-import { MainCard } from "../../components/MainCard";
+import { MainCard } from "../../../components/MainCard";
 const Actor = () => {
   const { id } = useParams();
   const [actor, setActor] = useState({});

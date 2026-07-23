@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { MainCard } from "../../components/MainCard";
+import { MainCard } from "../../../components/MainCard";
 import "./WatchListPage.css";
 const WatchListPage = () => {
   const movies = useSelector((state) => state.watchList.movies);

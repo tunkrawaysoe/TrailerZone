@@ -1,17 +1,19 @@
 import { useEffect } from "react";
-import Home from "./pages/Home/Home";
+import Home from "./pages/client/Home/Home";
 import { Route, Routes } from "react-router-dom";
-import MovieDetails from "./pages/MovieDetails/MovieDetails";
-import Movies from "./pages/Movies/Movies";
-import Actor from "./pages/Actor/Actor";
-import WatchListPage from "./pages/WatchLists/WatchListPage";
-import Login from "./pages/Auth/Login";
-import RegisterPage from "./pages/Auth/RegisterPage";
+import MovieDetails from "./pages/client/MovieDetails/MovieDetails";
+import Movies from "./pages/client/Movies/Movies";
+import Actor from "./pages/client/Actor/Actor";
+import WatchListPage from "./pages/client/WatchLists/WatchListPage";
+import Login from "./Auth/Login";
+import RegisterPage from "./Auth/RegisterPage";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchWatchList } from "./redux/watchListSlice";
 import { fetchRefreshToken } from "./redux/authSlice";
-import ProfilePage from "./pages/Profile/ProfilePage";
-import ProfileEditPage from "./pages/Profile/ProfileEditPage";
+import ProfilePage from "./pages/client/Profile/ProfilePage";
+import ProfileEditPage from "./pages/client/Profile/ProfileEditPage";
+import DashboardPage from "./pages/admin/Dashboard/DashboardPage";
+import AdminLayout from "./pages/admin/AdminLayout";
 
 function App() {
   const accessToken = useSelector((state) => state.auth.accessToken);
@@ -42,6 +44,11 @@ function App() {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/profile" element={<ProfilePage />} />
       <Route path="/profile/edit" element={<ProfileEditPage />} />
+
+      {/* Admin */}
+      <Route path="/admin" element={<AdminLayout />}>
+        <Route index element={<DashboardPage />} />
+      </Route>
     </Routes>
   );
 }

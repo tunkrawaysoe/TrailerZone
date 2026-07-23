@@ -7,7 +7,7 @@ import ROLES from "../lib/userRoles.js";
 const router = express.Router();
 
 router.get('/', getAllUsers);
-router.get('/me', authenticate, authorize(ROLES.ADMIN), getProfile);
+router.get('/me', authenticate, authorize(ROLES.USER), getProfile);
 router.patch('/me', authenticate, updateProfile)
 
 export default router;

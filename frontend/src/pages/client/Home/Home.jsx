@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { MainCard } from "../../components/MainCard";
-import MovieSection from "../../components/MovieCardSection";
-import Navbar from "../../components/Navbar";
+import { MainCard } from "../../../components/MainCard";
+import MovieSection from "../../../components/MovieCardSection";
+import Navbar from "../../../components/Navbar";
 import Hero from "./Hero";
 import "./Home.css";
 

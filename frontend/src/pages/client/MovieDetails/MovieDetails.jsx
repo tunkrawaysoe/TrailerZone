@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "../../components/Navbar";
-import MovieSection from "../../components/MovieCardSection";
-import MovieDetailsCard from "../../components/MovieDetailsCard";
+import Navbar from "../../../components/Navbar";
+import MovieSection from "../../../components/MovieCardSection";
+import MovieDetailsCard from "../../../components/MovieDetailsCard";
 import "./MovieDetails.css";
 import { useParams } from "react-router-dom";
-import ActorCard from "../../components/ActorCard";
-import ReviewSection from "../../components/ReviewSection";
+import ActorCard from "../../../components/ActorCard";
+import ReviewSection from "../../../components/ReviewSection";
 import TrailerSection from "./TrailerSection";
 import { useSelector } from "react-redux";
 

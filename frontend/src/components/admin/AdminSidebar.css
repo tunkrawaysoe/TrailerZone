@@ -1,0 +1,42 @@
+.admin-sidebar {
+  width: 250px;
+  height: 100vh;
+  background: #111;
+  border-right: 1px solid #222;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 30px 20px;
+  box-sizing: border-box;
+}
+
+.sidebar-logo {
+  color: white;
+  font-size: 28px;
+  margin-bottom: 40px;
+}
+
+.admin-sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.admin-sidebar a {
+  color: #888;
+  text-decoration: none;
+  padding: 14px 16px;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: 0.2s;
+}
+
+.admin-sidebar a:hover {
+  background: #181818;
+  color: white;
+}
+
+.admin-sidebar a.active {
+  background: #2563eb;
+  color: white;
+}
