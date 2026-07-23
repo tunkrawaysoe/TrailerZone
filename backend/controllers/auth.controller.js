@@ -1,5 +1,6 @@
 import prisma from "../lib/prisma.js";
 import jwt from "jsonwebtoken";
+import ROLES from "../lib/userRoles.js";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 const REFRESH_SECRET = process.env.JWT_REFRESH_SECRET;
@@ -21,13 +22,23 @@ export const register = async (req, res) => {
                 messsage: "Email already exists"
             })
         }
+        const defaultRole = await prisma.role.findUnique({
+            where: {
+                code: ROLES.USER
+            }
+        })
         const newUser = await prisma.user.create({
             data: {
                 name,
                 username,
                 email,
                 phoneNumber,
-                password
+                password,
+                userRoles: {
+                    create: {
+                        roleId: defaultRole.id
+                    }
+                }
             }
         })
         const { password: hidden, ...safe } = newUser;
@@ -66,23 +77,39 @@ export const logIn = async (req, res) => {
                 profilePicture: true,
                 createdAt: true,
                 password: true,
+                userRoles: {
+                    select: {
+                        role: {
+                            select: {
+                                name: true,
+                                code: true
+                            }
+                        }
+                    }
+                }
             },
         });
         if (!foundUser) return res.status(404).json({ message: "You have to register first" });
         const isMatch = foundUser.password === password;
         if (!isMatch) return res.status(401).json({ message: "Password don't match" });
-        const { password: _, ...rest } = foundUser;
 
+        const roles = foundUser.userRoles.map(
+            userRole => userRole.role.code
+        );
+
+        const { password: _, userRoles, ...rest } = foundUser;
         const accesstoken = jwt.sign({
             id: foundUser.id,
-            email: foundUser.email
+            email: foundUser.email,
+            roles
         }, JWT_SECRET, {
             expiresIn: '10m'
         });
 
         const refreshToken = jwt.sign({
             id: foundUser.id,
-            email: foundUser.email
+            email: foundUser.email,
+            roles
         },
             REFRESH_SECRET,
             {
@@ -106,7 +133,12 @@ export const logIn = async (req, res) => {
 
         return res.status(200).json({
             message: "Login Sucessful",
-            user: rest,
+            user: {
+                ...rest,
+                roles: foundUser.userRoles.map(
+                    userRole => userRole.role
+                )
+            },
             accesstoken
         })
     } catch (error) {
@@ -132,38 +164,90 @@ export const logOut = async (req, res) => {
 
 export const refresh = async (req, res) => {
     const refreshToken = req.cookies.refreshToken;
-    if (!refreshToken) return res.status(401).json({ message: "No refresh token" });
-    const storedToken = await prisma.refreshToken.findUnique({
-        where: {
-            token: refreshToken
-        },
-        select: {
-            user: {
-                select: {
-                    id: true,
-                    name: true,
-                    username: true,
-                    email: true,
-                    phoneNumber: true,
-                    profilePicture: true
+
+    if (!refreshToken) {
+        return res.status(401).json({
+            message: "No refresh token"
+        });
+    }
+
+    try {
+        const storedToken = await prisma.refreshToken.findUnique({
+            where: {
+                token: refreshToken
+            },
+            select: {
+                user: {
+                    select: {
+                        id: true,
+                        name: true,
+                        username: true,
+                        email: true,
+                        phoneNumber: true,
+                        profilePicture: true,
+
+                        userRoles: {
+                            select: {
+                                role: {
+                                    select: {
+                                        name: true,
+                                        code: true
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
-        }
-    })
-    if (!storedToken) return res.status(401).json({ message: "Refresh token not recognized" });
-    jwt.verify(refreshToken, REFRESH_SECRET, (err, decoded) => {
-        if (err) {
+        });
+
+        if (!storedToken) {
             return res.status(401).json({
-                message: 'Invalid refresh token'
+                message: "Refresh token not recognized"
             });
         }
-        const accessToken = jwt.sign({
-            id: storedToken.user.id,
-            email: storedToken.user.email
-        }, JWT_SECRET, {
-            expiresIn: '10m',
-        })
 
-        return res.status(200).json({ accessToken, user: storedToken.user });
-    })
-}
+        jwt.verify(refreshToken, REFRESH_SECRET, (err) => {
+            if (err) {
+                return res.status(401).json({
+                    message: "Invalid refresh token"
+                });
+            }
+
+            const roles = storedToken.user.userRoles.map(
+                userRole => userRole.role.code
+            );
+
+            const { userRoles, ...user } = storedToken.user;
+
+            const accessToken = jwt.sign(
+                {
+                    id: storedToken.user.id,
+                    email: storedToken.user.email,
+                    roles
+                },
+                JWT_SECRET,
+                {
+                    expiresIn: "10m"
+                }
+            );
+
+            return res.status(200).json({
+                accessToken,
+                user: {
+                    ...user,
+                    roles: userRoles.map(
+                        userRole => userRole.role
+                    )
+                }
+            });
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        return res.status(500).json({
+            message: "Internal Server Error"
+        });
+    }
+};

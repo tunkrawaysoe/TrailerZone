@@ -677,12 +677,32 @@ async function seedMovies() {
 
 }
 
-
+async function seedRoles() {
+    await prisma.role.createMany({
+        data: [
+            {
+                name: "USER",
+                code: 2001
+            },
+            {
+                name: "ADMIN",
+                code: 2002
+            },
+            {
+                name: "MODERATOR",
+                code: 2003
+            }
+        ],
+        skipDuplicates: true
+    });
+    console.log("seeding roles done")
+}
 async function main() {
     await seedGenres();
     await seedActors();
     await seedDirectors();
     await seedMovies();
+    await seedRoles();
 }
 
 

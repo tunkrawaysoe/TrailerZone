@@ -22,12 +22,29 @@ model User {
   password       String
 
   refreshTokens RefreshToken[]
-
-  reviews    Review[]
-  watchlists Watchlist[]
+  reviews       Review[]
+  watchlists    Watchlist[]
+  userRoles     UserRole[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Role {
+  id       Int        @id @default(autoincrement())
+  name     String     @unique
+  code     Int        @unique
+  useRoles UserRole[]
+}
+
+model UserRole {
+  id     Int  @id @default(autoincrement())
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+  role   Role @relation(fields: [roleId], references: [id])
+  roleId Int
+
+  @@unique([userId, roleId])
 }
 
 model RefreshToken {
