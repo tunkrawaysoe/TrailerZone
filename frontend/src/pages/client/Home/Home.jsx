@@ -1,28 +1,24 @@
 import { useEffect, useState } from "react";
 import { MainCard } from "../../../components/MainCard";
 import MovieSection from "../../../components/MovieCardSection";
+import MainCardSection from "../../../components/MainCardSection";
 import Hero from "./Hero";
 import "./Home.css";
 
 export default function Home() {
   const [popularMovies, setPopularMovies] = useState([]);
   const [topRatedMovies, setTopRatedMovies] = useState([]);
-  const [allMovies, setAllMovies] = useState([]);
 
   async function fetchMovies() {
-    const [popularResponse, topRatedResponse, allMoviesResponse] =
-      await Promise.all([
-        fetch("http://localhost:3000/movies/popular"),
-        fetch("http://localhost:3000/movies/top-rated"),
-        fetch("http://localhost:3000/movies"),
-      ]);
+    const [popularResponse, topRatedResponse] = await Promise.all([
+      fetch("http://localhost:3000/movies/popular"),
+      fetch("http://localhost:3000/movies/top-rated"),
+    ]);
     const popularMovies = await popularResponse.json();
     const topMovies = await topRatedResponse.json();
-    const allMovies = await allMoviesResponse.json();
 
     setPopularMovies(popularMovies);
     setTopRatedMovies(topMovies);
-    setAllMovies(allMovies.movies);
   }
 
   useEffect(() => {
@@ -35,7 +31,7 @@ export default function Home() {
       <div className="section">
         <MovieSection movies={popularMovies} title="Popular Movies" />
         <MovieSection movies={topRatedMovies} title="Top Rated Movies" />
-        <MainCard movies={allMovies} title={"Moives"} showBrowse={true} />
+        <MainCardSection />
       </div>
     </>
   );

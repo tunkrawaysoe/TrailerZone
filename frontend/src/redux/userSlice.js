@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     profile: null,
-    loading: true,
+    loading: false,
 }
 
 export const fetchUser = createAsyncThunk(

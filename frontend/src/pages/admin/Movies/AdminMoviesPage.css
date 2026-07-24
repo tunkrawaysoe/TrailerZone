@@ -1,0 +1,118 @@
+.admin-movies {
+  color: white;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+.page-title h1 {
+  font-size: 34px;
+  margin-bottom: 9px;
+}
+
+.page-title p {
+  color: #888;
+  font-size: 14px;
+}
+
+.page-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.movie-search {
+  width: 280px;
+  padding: 11px 16px;
+  border-radius: 8px;
+  border: 1px solid #333;
+  background: #111;
+  color: white;
+  outline: none;
+  font-size: 14px;
+}
+
+.movie-search:focus {
+  border-color: #2563eb;
+}
+
+.movie-search::placeholder {
+  color: #777;
+}
+
+.add-btn {
+  padding: 11px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  transition: .2s;
+}
+
+.add-btn:hover {
+  background: #1d4ed8;
+}
+
+.table-container {
+  background: #111;
+  border: 1px solid #222;
+  overflow: hidden;
+}
+
+.movie-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.movie-table th {
+  background: #181818;
+  color: #888;
+  text-align: left;
+  padding: 18px;
+}
+
+.movie-table td {
+  padding: 18px;
+  border-top: 1px solid #222;
+}
+
+.movie-poster {
+  width: 55px;
+  height: 80px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.edit-btn,
+.delete-btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.edit-btn {
+  background: #2563eb;
+  margin-right: 8px;
+}
+
+.edit-btn:hover {
+  background: #1d4ed8;
+}
+
+.delete-btn {
+  background: #dc2626;
+}
+
+.delete-btn:hover {
+  background: #b91c1c;
+}

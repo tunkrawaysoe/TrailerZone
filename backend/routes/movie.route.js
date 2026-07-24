@@ -1,5 +1,5 @@
 import express from "express";
-import { createMovie, getAllMovies, getMovie, updateMovie, deleteMovie, reviewMovie, updateReview, deleteReview, getMovieReviews, createTrailer, getMovieTrailers, addActorToMovie, addDirectorToMovie, getTopRatedMovies, getSimilarMovies, getPopularMovies, getMovieStatus, } from "../controllers/movies.controller.js";
+import { getAllMovies, getMovie, reviewMovie, updateReview, deleteReview, getMovieReviews, createTrailer, getMovieTrailers, addActorToMovie, addDirectorToMovie, getTopRatedMovies, getSimilarMovies, getPopularMovies, getMovieStatus, } from "../controllers/movies.controller.js";
 import { authenticate } from "../middlewares/auth.middleware.js";
 import { ownsReview } from "../middlewares/ownsReview.middleware.js";
 import { optionalAuthenticate } from "../middlewares/optional.auth.middleware.js";
@@ -8,17 +8,11 @@ const router = express.Router();
 
 router.get("/", getAllMovies);
 
-router.post("/", createMovie);
-
 router.get("/top-rated", getTopRatedMovies);
 
 router.get("/popular", getPopularMovies);
 
 router.get("/:id", getMovie);
-
-router.patch("/:id", updateMovie);
-
-router.delete("/:id", deleteMovie);
 
 router.post('/:movieId/reviews', authenticate, reviewMovie);
 

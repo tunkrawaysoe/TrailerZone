@@ -15,6 +15,7 @@ import ProfileEditPage from "./pages/client/Profile/ProfileEditPage";
 import DashboardPage from "./pages/admin/Dashboard/DashboardPage";
 import AdminLayout from "./pages/admin/AdminLayout";
 import ClientLayout from "./pages/client/ClientLayout";
+import AdminMoviesPage from "./pages/admin/Movies/AdminMoviesPage";
 
 function App() {
   const accessToken = useSelector((state) => state.auth.accessToken);
@@ -51,6 +52,7 @@ function App() {
       {/* Admin */}
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<DashboardPage />} />
+        <Route path="/admin/movies" element={<AdminMoviesPage />} />
       </Route>
     </Routes>
   );

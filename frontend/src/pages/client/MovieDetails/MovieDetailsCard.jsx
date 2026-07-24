@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { fetchWatchList } from "../redux/watchListSlice";
+import { fetchWatchList } from "../../../redux/watchListSlice";
 
 const MovieDetailsCard = ({ movieDetails, movieId }) => {
   const accessToken = useSelector((state) => state.auth.accessToken);

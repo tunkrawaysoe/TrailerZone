@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 const initialState = {
     accessToken: null,
     user: null,
-    loading: true
+    loading: false
 };
 
 export const fetchRefreshToken = createAsyncThunk("auth/refresh",
@@ -37,6 +37,9 @@ const authSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            .addCase(fetchRefreshToken.pending, (state) => {
+                state.loading = true;
+            })
             .addCase(fetchRefreshToken.fulfilled, (state, action) => {
                 state.accessToken = action.payload.accessToken,
                     state.user = action.payload.user,

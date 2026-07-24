@@ -3,8 +3,8 @@
   display: grid;
   grid-template-columns: 300px 400px;
   gap: 50px;
-  padding: 0px 150px;
-  margin-top: 80px;
+  padding: 0px 40px;
+  margin-top: 80px;  
 }
 
 .details-image-card {
@@ -16,7 +16,6 @@
 
 .details-image-card img {
   width: 100%;
-
   object-fit: cover;
 }
 
@@ -27,9 +26,7 @@
 
 .movie-meta {
   display: flex;
-
   gap: 15px;
-
   margin-bottom: 20px;
 }
 
@@ -42,11 +39,8 @@
 
 .overview {
   max-width: 700px;
-
   color: #ccc;
-
   line-height: 1.7;
-
   font-size: 16px;
 }
 
@@ -66,7 +60,6 @@
 
 .watchlist {
   background: #333;
-
   color: white;
 }
 
@@ -76,9 +69,7 @@
 
 .actor-card {
   width: 140px;
-
   flex-shrink: 0;
-
   cursor: pointer;
 }
 
@@ -100,9 +91,7 @@
 
 .character {
   color: #aaa;
-
   font-size: 12px;
-
   margin-top: 5px;
 }
 
@@ -116,8 +105,7 @@
 }
 
 .review-container {
-  padding: 20px;
-
+  padding: 20px 0px;
   border-radius: 10px;
 }
 
