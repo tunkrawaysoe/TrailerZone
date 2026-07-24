@@ -1,0 +1,151 @@
+.create-movie-container {
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.create-movie-card {
+  width: 100%;
+  max-width: 600px;
+  border-radius: 16px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.create-movie-card h1 {
+  color: white;
+  text-align: center;
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.create-movie-card input,
+.create-movie-card textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 13px 15px;
+  background: #181818;
+  color: white;
+  border: 1px solid #333;
+  border-radius: 8px;
+  outline: none;
+  font-size: 15px;
+}
+
+.create-movie-card textarea {
+  height: 120px;
+  resize: none;
+}
+
+.create-movie-card input:focus,
+.create-movie-card textarea:focus {
+  border-color: #2563eb;
+}
+
+.create-movie-card input::placeholder,
+.create-movie-card textarea::placeholder {
+  color: #777;
+}
+
+.genres-container {
+  background: #181818;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.genres-container h3 {
+  color: white;
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+.genre-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.genre-list label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ddd;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.genre-list input {
+  width: 16px;
+
+  height: 16px;
+
+  accent-color: #2563eb;
+}
+
+/* Buttons */
+
+.form-actions {
+  display: flex;
+
+  gap: 15px;
+
+  margin-top: 10px;
+}
+
+.form-actions button {
+  flex: 1;
+
+  padding: 13px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  font-size: 15px;
+
+  font-weight: 600;
+
+  transition: 0.2s;
+}
+
+.form-actions button[type="submit"] {
+  background: #2563eb;
+
+  color: white;
+}
+
+.form-actions button[type="submit"]:hover {
+  background: #1d4ed8;
+}
+
+.cancel-btn {
+  background: #333;
+
+  color: white;
+}
+
+.cancel-btn:hover {
+  background: #444;
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+  .create-movie-container {
+    padding: 20px;
+  }
+
+  .create-movie-card {
+    padding: 20px;
+  }
+
+  .genre-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

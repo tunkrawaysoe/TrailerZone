@@ -11,6 +11,7 @@ import trailerRoutes from './routes/trailer.route.js'
 import actorRoutes from './routes/actors.route.js'
 import directorRoutes from './routes/directors.route.js'
 import adminRoutes from './routes/admin.route.js'
+import genreRoutes from './routes/genre.route.js'
 const app = express();
 
 app.use(cookieParser());
@@ -37,7 +38,7 @@ app.use('/watchlist', watchlistRoutes);
 app.use('/trailer', trailerRoutes);
 app.use('/actors', actorRoutes);
 app.use('/directors', directorRoutes);
-
+app.use('/genres', genreRoutes)
 app.use('/admin', adminRoutes)
 
 app.listen(PORT, () => {

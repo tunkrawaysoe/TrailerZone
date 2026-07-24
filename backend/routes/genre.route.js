@@ -1,5 +1,5 @@
 import express from "express";
-import prisma from "../lib/prisma";
+import prisma from "../lib/prisma.js";
 
 const router = express.Router();
 
@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
                 name: "asc"
             }
         });
-        return res.status(200).json({ genres })
+        return res.status(200).json(genres)
     } catch (error) {
         console.log(error);
         res.status(500).json({
@@ -19,4 +19,4 @@ router.get('/', async (req, res) => {
     }
 })
 
-   
+export default router;

@@ -151,9 +151,11 @@ export const createMovie = async (req, res) => {
                 }))
             });
         }
-        const key = await redis.keys("movies:*")
-        await redis.del(key);
+        const keys = await redis.keys("movies:*");
 
+        if (keys.length > 0) {
+            await redis.del(keys);
+        }
         return res.status(201).json({
             message: "Movie created successfully",
             movie,
@@ -493,7 +495,7 @@ export const getMovieReviews = async (req, res) => {
                     }
                 }
             })
-            
+
             userReviewed = Boolean(review)
         }
 

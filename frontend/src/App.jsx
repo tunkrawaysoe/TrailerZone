@@ -16,6 +16,7 @@ import DashboardPage from "./pages/admin/Dashboard/DashboardPage";
 import AdminLayout from "./pages/admin/AdminLayout";
 import ClientLayout from "./pages/client/ClientLayout";
 import AdminMoviesPage from "./pages/admin/Movies/AdminMoviesPage";
+import CreateMoviePage from "./pages/admin/CreateMovie/CreateMoviePage";
 
 function App() {
   const accessToken = useSelector((state) => state.auth.accessToken);
@@ -53,6 +54,7 @@ function App() {
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<DashboardPage />} />
         <Route path="/admin/movies" element={<AdminMoviesPage />} />
+        <Route path="/admin/movie/create" element={<CreateMoviePage />} />
       </Route>
     </Routes>
   );

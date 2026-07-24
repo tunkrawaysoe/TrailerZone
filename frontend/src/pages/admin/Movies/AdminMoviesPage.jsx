@@ -2,11 +2,13 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMovies } from "../../../redux/movieSlice";
 import "./AdminMoviesPage.css";
+import { useNavigate } from "react-router-dom";
 
 export default function AdminMoviesPage() {
   const movies = useSelector((state) => state.movie.items);
   const loading = useSelector((state) => state.movie.loading);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchMovies());
@@ -16,6 +18,9 @@ export default function AdminMoviesPage() {
     return <h2>Loading...</h2>;
   }
 
+  function addMovie() {
+    navigate("/admin/movie/create");
+  }
   return (
     <div className="admin-movies">
       <div className="page-header">
@@ -31,7 +36,9 @@ export default function AdminMoviesPage() {
             className="movie-search"
           />
 
-          <button className="add-btn">Add Movie</button>
+          <button className="add-btn" onClick={addMovie}>
+            Add Movie
+          </button>
         </div>
       </div>
 
