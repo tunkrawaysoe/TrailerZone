@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { MainCard } from "../../../components/MainCard";
 import MovieSection from "../../../components/MovieCardSection";
-import Navbar from "../../../components/Navbar";
 import Hero from "./Hero";
 import "./Home.css";
 
@@ -32,7 +31,6 @@ export default function Home() {
 
   return (
     <>
-      <Navbar />
       <Hero />
       <div className="section">
         <MovieSection movies={popularMovies} title="Popular Movies" />

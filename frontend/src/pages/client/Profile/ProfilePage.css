@@ -1,6 +1,5 @@
 .profile-container {
   min-height: calc(100vh - 70px);
-  margin-top: -70px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -142,7 +141,6 @@
 
 .edit-profile-container {
   min-height: calc(100vh - 70px);
-  margin-top: -70px;
   display: flex;
   justify-content: center;
   align-items: center;

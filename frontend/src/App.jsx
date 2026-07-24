@@ -14,6 +14,7 @@ import ProfilePage from "./pages/client/Profile/ProfilePage";
 import ProfileEditPage from "./pages/client/Profile/ProfileEditPage";
 import DashboardPage from "./pages/admin/Dashboard/DashboardPage";
 import AdminLayout from "./pages/admin/AdminLayout";
+import ClientLayout from "./pages/client/ClientLayout";
 
 function App() {
   const accessToken = useSelector((state) => state.auth.accessToken);
@@ -35,15 +36,17 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/movies" element={<Movies />} />
-      <Route path="/movies/:id" element={<MovieDetails />} />
-      <Route path="/actors/:id" element={<Actor />} />
-      <Route path="/watchLists" element={<WatchListPage />} />
+      <Route path="/" element={<ClientLayout />}>
+        <Route index element={<Home />} />
+        <Route path="/movies" element={<Movies />} />
+        <Route path="/movies/:id" element={<MovieDetails />} />
+        <Route path="/actors/:id" element={<Actor />} />
+        <Route path="/watchLists" element={<WatchListPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/profile/edit" element={<ProfileEditPage />} />
+      </Route>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<RegisterPage />} />
-      <Route path="/profile" element={<ProfilePage />} />
-      <Route path="/profile/edit" element={<ProfileEditPage />} />
 
       {/* Admin */}
       <Route path="/admin" element={<AdminLayout />}>

@@ -61,7 +61,6 @@ const MovieDetailsCard = ({ movieDetails, movieId }) => {
         <div className="movie-details">
           <h1>{movieDetails.title}</h1>
           <div className="movie-meta">
-            <span>{movieDetails.title}</span>
             {movieDetails.genres?.map((genre) => (
               <span key={genre}>{genre}</span>
             ))}
