@@ -3,7 +3,7 @@ import prisma from "../lib/prisma.js";
 export const getActors = async (req, res) => {
     try {
         const actors = await prisma.actor.findMany();
-        return res.status(200).json({ actors });
+        return res.status(200).json(actors);
     } catch (error) {
         console.log(error);
         return res.status(500).json({ message: "Something went wrong" });

@@ -29,111 +29,269 @@ async function seedGenres() {
     console.log("Genres seeded");
 }
 
-
-
 const actors = [
     {
-        name: "Christian Bale",
-        biography: "Known for The Dark Knight trilogy.",
-        birthDate: new Date("1974-01-30")
-    },
-    {
         name: "Heath Ledger",
-        biography: "Australian actor famous for Joker.",
+        biography: "Australian actor known for his performances in The Dark Knight, Brokeback Mountain, A Knight's Tale, and 10 Things I Hate About You. He won a posthumous Academy Award for his portrayal of the Joker in The Dark Knight.",
         birthDate: new Date("1979-04-04")
     },
     {
         name: "Michael Caine",
-        biography: "English actor known for Batman movies.",
+        biography: "English actor known for his roles in The Dark Knight trilogy, The Italian Job, Inception, The Cider House Rules, and numerous acclaimed films throughout his career. He is a two-time Academy Award winner.",
         birthDate: new Date("1933-03-14")
     },
     {
-        name: "Leonardo DiCaprio",
-        biography: "Oscar winning actor.",
-        birthDate: new Date("1974-11-11")
-    },
-    {
         name: "Joseph Gordon-Levitt",
-        biography: "Actor from Inception.",
+        biography: "American actor known for his roles in Inception, The Dark Knight Rises, Looper, 500 Days of Summer, and 10 Things I Hate About You. He is also a filmmaker and founder of the creative platform HitRecord.",
         birthDate: new Date("1981-02-17")
     },
     {
+        name: "Leonardo DiCaprio",
+        biography: "American actor and producer known for his roles in Titanic, Inception, The Revenant, and Once Upon a Time in Hollywood.",
+        birthDate: new Date("1974-11-11")
+    },
+    {
+        name: "Robert Downey Jr.",
+        biography: "American actor best known for portraying Tony Stark in the Marvel Cinematic Universe and for films such as Oppenheimer and Sherlock Holmes.",
+        birthDate: new Date("1965-04-04")
+    },
+    {
+        name: "Tom Hanks",
+        biography: "American actor and filmmaker known for acclaimed performances in Forrest Gump, Cast Away, Saving Private Ryan, and Toy Story.",
+        birthDate: new Date("1956-07-09")
+    },
+    {
         name: "Tom Hardy",
-        biography: "English actor known for Venom and Inception.",
+        biography: "English actor known for his roles in Inception, The Dark Knight Rises, Mad Max: Fury Road, Venom, and The Revenant. He is recognized for his intense performances and versatile character portrayals.",
         birthDate: new Date("1977-09-15")
     },
     {
         name: "Matthew McConaughey",
-        biography: "Actor from Interstellar.",
+        biography: "American actor known for his roles in Interstellar, Dallas Buyers Club, True Detective, The Lincoln Lawyer, and The Wolf of Wall Street. He won an Academy Award for Best Actor for his performance in Dallas Buyers Club.",
         birthDate: new Date("1969-11-04")
     },
     {
-        name: "Anne Hathaway",
-        biography: "Actress known for Interstellar.",
-        birthDate: new Date("1982-11-12")
-    },
-    {
         name: "Jessica Chastain",
-        biography: "Academy award actress.",
+        biography: "American actress and producer known for her roles in Interstellar, The Help, Zero Dark Thirty, The Martian, and It Chapter Two. She won an Academy Award for Best Actress for her performance in The Eyes of Tammy Faye.",
         birthDate: new Date("1977-03-24")
     },
     {
-        name: "Cillian Murphy",
-        biography: "Actor from Oppenheimer.",
-        birthDate: new Date("1976-05-25")
-    },
-    {
-        name: "Robert Downey Jr.",
-        biography: "Iron Man actor.",
-        birthDate: new Date("1965-04-04")
-    },
-    {
         name: "Emily Blunt",
-        biography: "British actress.",
+        biography: "British actress known for her roles in The Devil Wears Prada, A Quiet Place, Edge of Tomorrow, Sicario, and Oppenheimer. She is recognized for her versatility across drama, action, and comedy films.",
         birthDate: new Date("1983-02-23")
     },
     {
-        name: "Keanu Reeves",
-        biography: "John Wick actor.",
-        birthDate: new Date("1964-09-02")
-    },
-    {
         name: "Ian McShane",
-        biography: "Actor from John Wick.",
+        biography: "English actor known for his roles in Deadwood, John Wick, Pirates of the Caribbean: On Stranger Tides, and The Golden Compass. He is recognized for his commanding screen presence and extensive work in film and television.",
         birthDate: new Date("1942-09-29")
     },
     {
         name: "Kate Winslet",
-        biography: "Titanic actress.",
+        biography: "English actress known for her roles in Titanic, The Reader, Eternal Sunshine of the Spotless Mind, Revolutionary Road, and Mare of Easttown. She won an Academy Award for Best Actress for her performance in The Reader.",
         birthDate: new Date("1975-10-05")
     },
     {
         name: "Sam Worthington",
-        biography: "Avatar actor.",
+        biography: "Australian actor known for Avatar, Terminator Salvation, and Clash of the Titans.",
         birthDate: new Date("1976-08-02")
     },
     {
         name: "Zoe Saldana",
-        biography: "Avatar actress.",
+        biography: "American actress known for Avatar, Guardians of the Galaxy, and Star Trek films.",
         birthDate: new Date("1978-06-19")
     },
     {
         name: "Russell Crowe",
-        biography: "Gladiator actor.",
+        biography: "New Zealand actor known for Gladiator, A Beautiful Mind, and The Insider. He won an Academy Award for Gladiator.",
         birthDate: new Date("1964-04-07")
     },
     {
+        name: "Brad Pitt",
+        biography: "American actor and film producer known for Fight Club, Se7en, Once Upon a Time in Hollywood, and Moneyball.",
+        birthDate: new Date("1963-12-18")
+    },
+    {
+        name: "Christian Bale",
+        biography: "English actor known for his transformation-focused performances in films including The Dark Knight trilogy, American Psycho, and The Fighter.",
+        birthDate: new Date("1974-01-30")
+    },
+    {
+        name: "Cillian Murphy",
+        biography: "Irish actor known for Peaky Blinders, Inception, Dunkirk, and his Academy Award-winning performance in Oppenheimer.",
+        birthDate: new Date("1976-05-25")
+    },
+    {
+        name: "Matt Damon",
+        biography: "American actor, producer, and screenwriter known for the Bourne series, Good Will Hunting, and The Martian.",
+        birthDate: new Date("1970-10-08")
+    },
+    {
+        name: "Ryan Gosling",
+        biography: "Canadian actor known for La La Land, Drive, Blade Runner 2049, and The Notebook.",
+        birthDate: new Date("1980-11-12")
+    },
+    {
+        name: "Chris Evans",
+        biography: "American actor best known for playing Captain America in the Marvel Cinematic Universe and roles in Knives Out and Snowpiercer.",
+        birthDate: new Date("1981-06-13")
+    },
+    {
+        name: "Chris Hemsworth",
+        biography: "Australian actor known for portraying Thor in the Marvel Cinematic Universe and starring in Extraction.",
+        birthDate: new Date("1983-08-11")
+    },
+    {
+        name: "Scarlett Johansson",
+        biography: "American actress known for her roles in Lost in Translation, Marriage Story, and as Black Widow in the Marvel Cinematic Universe.",
+        birthDate: new Date("1984-11-22")
+    },
+    {
+        name: "Margot Robbie",
+        biography: "Australian actress and producer known for The Wolf of Wall Street, I, Tonya, Barbie, and Birds of Prey.",
+        birthDate: new Date("1990-07-02")
+    },
+    {
+        name: "Emma Stone",
+        biography: "American actress known for La La Land, Easy A, The Favourite, and Poor Things.",
+        birthDate: new Date("1988-11-06")
+    },
+    {
+        name: "Anne Hathaway",
+        biography: "American actress known for The Devil Wears Prada, Interstellar, Les Misérables, and The Dark Knight Rises.",
+        birthDate: new Date("1982-11-12")
+    },
+    {
+        name: "Natalie Portman",
+        biography: "Israeli-American actress known for Black Swan, V for Vendetta, Léon: The Professional, and Thor films.",
+        birthDate: new Date("1981-06-09")
+    },
+    {
+        name: "Jennifer Lawrence",
+        biography: "American actress known for The Hunger Games series, Silver Linings Playbook, and X-Men films.",
+        birthDate: new Date("1990-08-15")
+    },
+    {
+        name: "Tom Holland",
+        biography: "English actor known for playing Spider-Man in the Marvel Cinematic Universe and starring in Uncharted.",
+        birthDate: new Date("1996-06-01")
+    },
+    {
+        name: "Zendaya",
+        biography: "American actress and singer known for Euphoria, Spider-Man films, Dune, and Challengers.",
+        birthDate: new Date("1996-09-01")
+    },
+    {
+        name: "Keanu Reeves",
+        biography: "Canadian actor known for The Matrix series, John Wick franchise, and Speed.",
+        birthDate: new Date("1964-09-02")
+    },
+    {
+        name: "Denzel Washington",
+        biography: "American actor and filmmaker known for Training Day, Glory, Malcolm X, and The Equalizer series.",
+        birthDate: new Date("1954-12-28")
+    },
+    {
+        name: "Morgan Freeman",
+        biography: "American actor known for his distinctive voice and roles in The Shawshank Redemption, Se7en, Million Dollar Baby, and The Dark Knight trilogy.",
+        birthDate: new Date("1937-06-01")
+    },
+    {
+        name: "Samuel L. Jackson",
+        biography: "American actor known for Pulp Fiction, Django Unchained, and his role as Nick Fury in the Marvel Cinematic Universe.",
+        birthDate: new Date("1948-12-21")
+    },
+    {
         name: "Joaquin Phoenix",
-        biography: "Oscar winning actor.",
+        biography: "American actor known for Joker, Gladiator, Walk the Line, and The Master.",
         birthDate: new Date("1974-10-28")
     },
     {
-        name: "Tom Hanks",
-        biography: "Forrest Gump actor.",
-        birthDate: new Date("1956-07-09")
+        name: "Johnny Depp",
+        biography: "American actor known for Pirates of the Caribbean, Edward Scissorhands, Sweeney Todd, and Charlie and the Chocolate Factory.",
+        birthDate: new Date("1963-06-09")
+    },
+    {
+        name: "Hugh Jackman",
+        biography: "Australian actor known for playing Wolverine in the X-Men series and starring in The Greatest Showman and Les Misérables.",
+        birthDate: new Date("1968-10-12")
+    },
+    {
+        name: "Jake Gyllenhaal",
+        biography: "American actor known for Nightcrawler, Prisoners, Brokeback Mountain, and Spider-Man: Far From Home.",
+        birthDate: new Date("1980-12-19")
+    },
+    {
+        name: "Oscar Isaac",
+        biography: "Guatemalan-American actor known for Dune, Ex Machina, Star Wars sequel trilogy, and Inside Llewyn Davis.",
+        birthDate: new Date("1979-03-09")
+    },
+    {
+        name: "Pedro Pascal",
+        biography: "Chilean-American actor known for The Last of Us, The Mandalorian, Narcos, and Gladiator II.",
+        birthDate: new Date("1975-04-02")
+    },
+    {
+        name: "Adam Driver",
+        biography: "American actor known for Star Wars sequel trilogy, Marriage Story, Paterson, and Ferrari.",
+        birthDate: new Date("1983-11-19")
+    },
+    {
+        name: "Benedict Cumberbatch",
+        biography: "English actor known for Sherlock, Doctor Strange, The Imitation Game, and The Power of the Dog.",
+        birthDate: new Date("1976-07-19")
+    },
+    {
+        name: "Daniel Craig",
+        biography: "English actor best known for portraying James Bond in Casino Royale, Skyfall, and other films in the franchise.",
+        birthDate: new Date("1968-03-02")
+    },
+    {
+        name: "Harrison Ford",
+        biography: "American actor known for iconic roles as Han Solo in Star Wars and Indiana Jones in the Indiana Jones series.",
+        birthDate: new Date("1942-07-13")
+    },
+    {
+        name: "Al Pacino",
+        biography: "American actor known for The Godfather trilogy, Scarface, Heat, and Scent of a Woman.",
+        birthDate: new Date("1940-04-25")
+    },
+    {
+        name: "Robert De Niro",
+        biography: "American actor known for Taxi Driver, Raging Bull, Goodfellas, and The Irishman.",
+        birthDate: new Date("1943-08-17")
+    },
+    {
+        name: "Christian Slater",
+        biography: "American actor known for Heathers, True Romance, Mr. Robot, and Interview with the Vampire.",
+        birthDate: new Date("1969-08-18")
+    },
+    {
+        name: "Will Smith",
+        biography: "American actor and rapper known for Men in Black, The Pursuit of Happyness, Ali, and Bad Boys.",
+        birthDate: new Date("1968-09-25")
+    },
+    {
+        name: "Mark Ruffalo",
+        biography: "American actor known for Spotlight, Zodiac, and portraying Bruce Banner in the Marvel Cinematic Universe.",
+        birthDate: new Date("1967-11-22")
+    },
+    {
+        name: "Jeremy Renner",
+        biography: "American actor known for The Hurt Locker, Arrival, Mission: Impossible films, and Hawkeye in the Marvel Cinematic Universe.",
+        birthDate: new Date("1971-01-07")
+    },
+    {
+        name: "Michael Fassbender",
+        biography: "Irish-German actor known for X-Men films, Steve Jobs, 12 Years a Slave, and Shame.",
+        birthDate: new Date("1977-04-02")
+    },
+    {
+        name: "Rami Malek",
+        biography: "American actor known for Mr. Robot, Bohemian Rhapsody, and No Time to Die.",
+        birthDate: new Date("1981-05-12")
     }
-];
 
+]
 
 async function seedActors() {
 
@@ -149,56 +307,111 @@ async function seedActors() {
 
 const directors = [
     {
-        name: "Christopher Nolan",
-        biography: "Director of Inception, Interstellar and Oppenheimer.",
-        birthDate: new Date("1970-07-30")
-    },
-    {
         name: "Chad Stahelski",
-        biography: "Director of John Wick.",
+        biography: "American filmmaker and stunt coordinator best known for directing the John Wick film series. He previously worked as a stunt performer and stunt coordinator in Hollywood.",
         birthDate: new Date("1968-09-20")
     },
     {
-        name: "James Cameron",
-        biography: "Director of Titanic and Avatar.",
-        birthDate: new Date("1954-08-16")
-    },
-    {
-        name: "Ridley Scott",
-        biography: "Director of Gladiator.",
-        birthDate: new Date("1937-11-30")
-    },
-    {
-        name: "Francis Ford Coppola",
-        biography: "Director of The Godfather.",
-        birthDate: new Date("1939-04-07")
-    },
-    {
-        name: "Quentin Tarantino",
-        biography: "Director of Pulp Fiction.",
-        birthDate: new Date("1963-03-27")
-    },
-    {
-        name: "David Fincher",
-        biography: "Director of Fight Club.",
-        birthDate: new Date("1962-08-28")
+        name: "Christopher Nolan",
+        biography: "Director known for Inception, Interstellar, The Dark Knight trilogy, Dunkirk, and Oppenheimer.",
+        birthDate: new Date("1970-07-30")
     },
     {
         name: "Steven Spielberg",
-        biography: "Director of Saving Private Ryan.",
+        biography: "American director known for Jurassic Park, Jaws, E.T., Saving Private Ryan, and Schindler's List.",
         birthDate: new Date("1946-12-18")
     },
     {
         name: "Martin Scorsese",
-        biography: "Director of The Departed.",
+        biography: "American director known for Taxi Driver, Goodfellas, The Departed, and Killers of the Flower Moon.",
         birthDate: new Date("1942-11-17")
     },
     {
-        name: "Damien Chazelle",
-        biography: "Director of Whiplash.",
-        birthDate: new Date("1985-01-19")
+        name: "Quentin Tarantino",
+        biography: "American director known for Pulp Fiction, Kill Bill, Inglourious Basterds, and Once Upon a Time in Hollywood.",
+        birthDate: new Date("1963-03-27")
+    },
+    {
+        name: "James Cameron",
+        biography: "Canadian director known for Titanic, Avatar, Terminator, and Aliens.",
+        birthDate: new Date("1954-08-16")
+    },
+    {
+        name: "Denis Villeneuve",
+        biography: "Canadian director known for Dune, Blade Runner 2049, Arrival, and Sicario.",
+        birthDate: new Date("1967-10-03")
+    },
+    {
+        name: "David Fincher",
+        biography: "American director known for Fight Club, Se7en, Gone Girl, and The Social Network.",
+        birthDate: new Date("1962-08-28")
+    },
+    {
+        name: "Ridley Scott",
+        biography: "English director known for Alien, Gladiator, Blade Runner, and The Martian.",
+        birthDate: new Date("1937-11-30")
+    },
+    {
+        name: "Peter Jackson",
+        biography: "New Zealand director known for The Lord of the Rings trilogy, The Hobbit trilogy, and King Kong.",
+        birthDate: new Date("1961-10-31")
+    },
+    {
+        name: "Greta Gerwig",
+        biography: "American director known for Lady Bird, Little Women, and Barbie.",
+        birthDate: new Date("1983-08-04")
+    },
+    {
+        name: "Bong Joon-ho",
+        biography: "South Korean director known for Parasite, Snowpiercer, Memories of Murder, and The Host.",
+        birthDate: new Date("1969-09-14")
+    },
+    {
+        name: "Alfonso Cuarón",
+        biography: "Mexican director known for Gravity, Roma, Children of Men, and Harry Potter and the Prisoner of Azkaban.",
+        birthDate: new Date("1961-11-28")
+    },
+    {
+        name: "Guillermo del Toro",
+        biography: "Mexican director known for Pan's Labyrinth, The Shape of Water, Hellboy, and Pacific Rim.",
+        birthDate: new Date("1964-10-09")
+    },
+    {
+        name: "Tim Burton",
+        biography: "American director known for Edward Scissorhands, Batman, Beetlejuice, and The Nightmare Before Christmas.",
+        birthDate: new Date("1958-08-25")
+    },
+    {
+        name: "Francis Ford Coppola",
+        biography: "American director known for The Godfather trilogy, Apocalypse Now, and The Conversation.",
+        birthDate: new Date("1939-04-07")
+    },
+    {
+        name: "Wes Anderson",
+        biography: "American director known for The Grand Budapest Hotel, Moonrise Kingdom, and The French Dispatch.",
+        birthDate: new Date("1969-05-01")
+    },
+    {
+        name: "James Gunn",
+        biography: "American director known for Guardians of the Galaxy, The Suicide Squad, and Superman.",
+        birthDate: new Date("1970-08-05")
+    },
+    {
+        name: "Taika Waititi",
+        biography: "New Zealand director known for Jojo Rabbit, Thor: Ragnarok, and What We Do in the Shadows.",
+        birthDate: new Date("1975-08-16")
+    },
+    {
+        name: "Zack Snyder",
+        biography: "American director known for 300, Watchmen, Man of Steel, and Justice League.",
+        birthDate: new Date("1966-03-01")
+    },
+    {
+        name: "Robert Zemeckis",
+        biography: "American director known for Back to the Future trilogy, Forrest Gump, and Cast Away.",
+        birthDate: new Date("1952-05-14")
     }
-];
+]
 
 
 async function seedDirectors() {
@@ -698,8 +911,8 @@ async function seedRoles() {
     console.log("seeding roles done")
 }
 async function main() {
-    await seedGenres();
-    await seedActors();
+    // await seedGenres();
+    // await seedActors();
     await seedDirectors();
     await seedMovies();
     await seedRoles();

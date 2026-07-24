@@ -36,7 +36,7 @@ export const getDirectors = async (req, res) => {
     try {
         const directors = await prisma.director.findMany();
 
-        return res.status(200).json({ directors });
+        return res.status(200).json(directors);
 
     } catch (error) {
         return res.status(500).json({
