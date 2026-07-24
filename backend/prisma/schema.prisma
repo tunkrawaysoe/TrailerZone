@@ -159,9 +159,7 @@ model Actor {
 model MovieActor {
   movieId Int
   actorId Int
-
   characterName String?
-
   movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
   actor Actor @relation(fields: [actorId], references: [id], onDelete: Cascade)
 

@@ -4,13 +4,9 @@ import { createDirector, deleteDirector, getDirector, getDirectors, updateDirect
 const router = express.Router();
 
 router.get('/', getDirectors);
-
 router.get('/:id', getDirector);
-
 router.post('/', createDirector);
-
 router.patch('/:id', updateDirector);
-
 router.delete('/:id', deleteDirector);
 
 export default router;

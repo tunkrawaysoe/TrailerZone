@@ -4,7 +4,6 @@ import { deleteTrailer, updateTrailer } from '../controllers/trailer.controller.
 const router = express.Router();
 
 router.delete('/:id', deleteTrailer);
-
 router.patch('/:id', updateTrailer);
 
 export default router;

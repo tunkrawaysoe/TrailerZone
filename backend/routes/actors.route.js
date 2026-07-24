@@ -4,13 +4,9 @@ import { createActor, deleteActor, getActor, getActors, updateActor } from "../c
 const router = express.Router();
 
 router.get('/', getActors);
-
 router.post('/', createActor);
-
 router.get('/:id', getActor)
-
 router.patch('/:id', updateActor)
-
 router.delete('/:id', deleteActor)
 
 export default router;
