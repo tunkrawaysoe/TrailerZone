@@ -1,129 +1,103 @@
 .create-movie-container {
   min-height: 100vh;
-  background: #050505;
-  padding: 40px;
   display: flex;
   justify-content: center;
 }
 
 .create-movie-card {
-  width: 700px;
-  background: #111;
-  padding: 35px;
+  width: 100%;
   border-radius: 12px;
+  padding: 32px;
   color: white;
   display: flex;
   flex-direction: column;
   gap: 18px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 .create-movie-card h1 {
   margin-bottom: 10px;
-  font-size: 32px;
+}
+
+.create-movie-card h3 {
+  margin-bottom: 10px;
 }
 
 .create-movie-card input,
 .create-movie-card textarea,
 .create-movie-card select {
   width: 100%;
-  padding: 12px 14px;
-  background: #1c1c1c;
-  border: 1px solid #333;
+  padding: 12px;
   border-radius: 8px;
+  border: 1px solid #374151;
+  background: #141414;
   color: white;
   font-size: 15px;
-  outline: none;
-}
-
-.create-movie-card input:focus,
-.create-movie-card textarea:focus,
-.create-movie-card select:focus {
-  border-color: #2563eb;
+  box-sizing: border-box;
 }
 
 .create-movie-card textarea {
-  min-height: 120px;
   resize: vertical;
-}
-
-/* Genres */
-
-.genres-container,
-.actors-container,
-.director-container {
-  margin-top: 10px;
-  padding: 20px;
-  background: #181818;
-  border-radius: 10px;
-}
-
-.genres-container h3,
-.actors-container h3,
-.director-container h3 {
-  margin-bottom: 15px;
+  min-height: 120px;
 }
 
 .genre-list {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 12px;
 }
-
 .genre-list label {
   display: flex;
+  gap: 10px;
+  border: 1px solid rgb(45, 45, 45);
   align-items: center;
-  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+.genre-list input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
   cursor: pointer;
-  color: #ddd;
+}
+.genre-list label:hover {
+  background: #3b3b31;
 }
 
-.genre-list input {
-  width: auto;
-}
-
-/* Actors */
-
-.actor-item {
+.actor-item,
+.director-item {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: space-between;
+  gap: 12px;
   margin-top: 12px;
-  background: #222;
   padding: 12px;
   border-radius: 8px;
 }
 
-.actor-item span {
-  width: 150px;
-  color: #ddd;
+.actor-item span,
+.director-item span {
+  min-width: 180px;
+  font-weight: 600;
 }
 
 .actor-item input {
   flex: 1;
 }
 
-.actor-item button {
+.actor-item button,
+.director-item button {
   background: #dc2626;
-  border: none;
   color: white;
-  padding: 10px 14px;
+  border: none;
+  padding: 9px 16px;
   border-radius: 6px;
   cursor: pointer;
 }
 
-.actor-item button:hover {
+.actor-item button:hover,
+.director-item button:hover {
   background: #b91c1c;
 }
-
-/* Select */
-
-.actors-container select,
-.director-container select {
-  margin-bottom: 15px;
-}
-
-/* Buttons */
 
 .form-actions {
   display: flex;
@@ -133,7 +107,7 @@
 }
 
 .form-actions button {
-  padding: 12px 25px;
+  padding: 12px 22px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -150,35 +124,10 @@
 }
 
 .cancel-btn {
-  background: #333;
+  background: #6b7280;
   color: white;
 }
 
 .cancel-btn:hover {
-  background: #444;
-}
-
-/* Responsive */
-
-@media (max-width: 768px) {
-  .create-movie-container {
-    padding: 20px;
-  }
-
-  .create-movie-card {
-    width: 100%;
-  }
-
-  .genre-list {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .actor-item {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .actor-item span {
-    width: auto;
-  }
+  background: #4b5563;
 }

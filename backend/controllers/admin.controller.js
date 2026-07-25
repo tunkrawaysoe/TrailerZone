@@ -1,5 +1,5 @@
 import prisma from "../lib/prisma.js";
-
+import redis from "../lib/redis.js"
 export const getDashBoard = async (req, res) => {
     try {
         const [
@@ -122,7 +122,6 @@ export const createMovie = async (req, res) => {
             return createdMovie
         })
         const keys = await redis.keys("movies:*");
-
         if (keys.length > 0) {
             await redis.del(keys);
         }
@@ -197,7 +196,6 @@ export const updateMovie = async (req, res) => {
 
 export const deleteMovie = async (req, res) => {
     const movieId = Number(req.params.id);
-
     if (isNaN(movieId)) {
         return res.status(400).json({
             message: "Invalid movie id",
@@ -208,6 +206,12 @@ export const deleteMovie = async (req, res) => {
         await prisma.movie.delete({
             where: { id: movieId },
         });
+
+        const keys = await redis.keys("movies:*");
+
+        if (keys.length > 0) {
+            await redis.del(keys);
+        }
 
         return res.status(200).json({
             message: "Movie deleted successfully",

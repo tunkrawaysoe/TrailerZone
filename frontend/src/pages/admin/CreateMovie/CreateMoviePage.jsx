@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./CreateMoviePage.css";
-
+import { useNavigate } from "react-router-dom";
 const CreateMoviePage = () => {
   const [genres, setGenres] = useState([]);
   const [actors, setActors] = useState([]);
   const [directors, setDirectors] = useState([]);
+  const navigate = useNavigate();
 
   const [form, setForm] = useState({
     title: "",
@@ -19,15 +20,24 @@ const CreateMoviePage = () => {
     directorIds: [],
   });
 
-  function handleSubmit(e) {
+  async function createMovie(e) {
     e.preventDefault();
-    console.log(form);
+    const response = await fetch("http://localhost:3000/admin/movies", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(form),
+    });
+    if (!response.ok) return;
+    navigate("/admin/movies");
   }
 
   function handleChange(e) {
+    const { name, value } = e.target;
     setForm({
       ...form,
-      [e.target.name]: e.target.value,
+      [name]: name === "duration" ? Number(value) : value,
     });
   }
 
@@ -74,12 +84,23 @@ const CreateMoviePage = () => {
     });
   }
 
-  function handleDirectorChange(e) {
-    const directorId = Number(e.target.value);
-
+  function addDirector(directorId) {
+    if (!directorId) return;
+    const existingDirectorId = [...form.directorIds].some(
+      (id) => id === directorId,
+    );
+    if (existingDirectorId) return;
     setForm({
       ...form,
-      directorIds: directorId ? [directorId] : [],
+      directorIds: [...form.directorIds, directorId],
+    });
+  }
+
+  function removeDirector(directorId) {
+    if (!directorId) return;
+    setForm({
+      ...form,
+      directorIds: form.directorIds.filter((id) => id !== directorId),
     });
   }
 
@@ -101,7 +122,7 @@ const CreateMoviePage = () => {
 
   return (
     <div className="create-movie-container">
-      <form className="create-movie-card" onSubmit={handleSubmit}>
+      <form className="create-movie-card" onSubmit={createMovie}>
         <h1>Create Movie</h1>
 
         <input
@@ -171,7 +192,6 @@ const CreateMoviePage = () => {
                   checked={form.genreIds.includes(genre.id)}
                   onChange={() => handleGenreChange(genre.id)}
                 />
-
                 {genre.name}
               </label>
             ))}
@@ -181,7 +201,13 @@ const CreateMoviePage = () => {
         <div className="actors-container">
           <h3>Actors</h3>
 
-          <select onChange={(e) => addActor(Number(e.target.value))}>
+          <select
+            defaultValue=""
+            onChange={(e) => {
+              addActor(Number(e.target.value));
+              e.target.value = "";
+            }}
+          >
             <option value="">Select Actor</option>
 
             {actors.map((actor) => (
@@ -192,11 +218,12 @@ const CreateMoviePage = () => {
           </select>
 
           {form.actors.map((actor, index) => (
-            <div key={index} className="actor-item">
+            <div key={actor.actorId} className="actor-item">
               <span>{actors.find((a) => a.id === actor.actorId)?.name}</span>
 
               <input
-                placeholder="Character name"
+                type="text"
+                placeholder="Character Name"
                 value={actor.characterName}
                 onChange={(e) => updateCharacter(index, e.target.value)}
               />
@@ -209,9 +236,15 @@ const CreateMoviePage = () => {
         </div>
 
         <div className="director-container">
-          <h3>Director</h3>
+          <h3>Directors</h3>
 
-          <select onChange={handleDirectorChange}>
+          <select
+            defaultValue=""
+            onChange={(e) => {
+              addDirector(Number(e.target.value));
+              e.target.value = "";
+            }}
+          >
             <option value="">Select Director</option>
 
             {directors.map((director) => (
@@ -220,12 +253,28 @@ const CreateMoviePage = () => {
               </option>
             ))}
           </select>
+
+          {form.directorIds.map((directorId) => (
+            <div key={directorId} className="director-item">
+              <span>
+                {directors.find((director) => director.id === directorId)?.name}
+              </span>
+
+              <button type="button" onClick={() => removeDirector(directorId)}>
+                Remove
+              </button>
+            </div>
+          ))}
         </div>
 
         <div className="form-actions">
           <button type="submit">Create Movie</button>
 
-          <button type="button" className="cancel-btn">
+          <button
+            type="button"
+            className="cancel-btn"
+            onClick={()=>navigate("/admin/movies")}
+          >
             Cancel
           </button>
         </div>

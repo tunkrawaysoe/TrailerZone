@@ -10,6 +10,22 @@ export default function AdminMoviesPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  async function deleteMovie(movieId) {
+    console.log(movieId);
+    if (!movieId) return;
+    const response = await fetch(
+      `http://localhost:3000/admin/movies/${movieId}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-type": "application/json",
+        },
+      },
+    );
+    if (!response.ok) return;
+    dispatch(fetchMovies());
+  }
+
   useEffect(() => {
     dispatch(fetchMovies());
   }, [dispatch]);
@@ -68,7 +84,12 @@ export default function AdminMoviesPage() {
                 <td>{movie.movieGenres.join(", ")}</td>
                 <td>
                   <button className="edit-btn">Edit</button>
-                  <button className="delete-btn">Delete</button>
+                  <button
+                    className="delete-btn"
+                    onClick={() => deleteMovie(movie.id)}
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
