@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../../components/Navbar";
 import MovieSection from "../../../components/MovieCardSection";
-import "./MovieDetails.css";
 import { useParams } from "react-router-dom";
 import ActorCard from "../../../components/ActorCard";
 import ReviewSection from "../../../components/ReviewSection";
 import TrailerSection from "./TrailerSection";
 import { useSelector } from "react-redux";
 import MovieDetailsCard from "./MovieDetailsCard";
+import "./MovieDetails.css";
 
 const MovieDetails = () => {
   const [movieDetails, setMovieDetails] = useState({});

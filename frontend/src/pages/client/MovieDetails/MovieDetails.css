@@ -1,9 +1,9 @@
 
 .movie-details-container {
   display: grid;
-  grid-template-columns: 300px 400px;
-  gap: 50px;
-  padding: 0px 40px;
+  grid-template-columns: 300px 800px;
+  gap: 30px;
+  padding: 0px 20px;
   margin-top: 80px;  
 }
 
@@ -20,7 +20,7 @@
 }
 
 .movie-details h1 {
-  font-size: 45px;
+  font-size: 30px;
   margin-bottom: 20px;
 }
 
@@ -42,6 +42,7 @@
   color: #ccc;
   line-height: 1.7;
   font-size: 16px;
+  text-align: justify;
 }
 
 .buttons {

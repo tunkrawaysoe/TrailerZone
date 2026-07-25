@@ -11,7 +11,6 @@ export default function AdminMoviesPage() {
   const navigate = useNavigate();
 
   async function deleteMovie(movieId) {
-    console.log(movieId);
     if (!movieId) return;
     const response = await fetch(
       `http://localhost:3000/admin/movies/${movieId}`,
@@ -24,6 +23,10 @@ export default function AdminMoviesPage() {
     );
     if (!response.ok) return;
     dispatch(fetchMovies());
+  }
+
+  async function editMovie(movieId) {
+    navigate(`/admin/movie/edit/${movieId}`);
   }
 
   useEffect(() => {
@@ -83,7 +86,12 @@ export default function AdminMoviesPage() {
                 <td>{new Date(movie.releaseDate).toLocaleDateString()}</td>
                 <td>{movie.movieGenres.join(", ")}</td>
                 <td>
-                  <button className="edit-btn">Edit</button>
+                  <button
+                    className="edit-btn"
+                    onClick={() => editMovie(movie.id)}
+                  >
+                    Edit
+                  </button>
                   <button
                     className="delete-btn"
                     onClick={() => deleteMovie(movie.id)}

@@ -140,6 +140,7 @@ export const createMovie = async (req, res) => {
 export const updateMovie = async (req, res) => {
     try {
         const movieId = Number(req.params.id);
+
         if (isNaN(movieId)) {
             return res.status(400).json({
                 message: "Invalid movie id",
@@ -147,7 +148,9 @@ export const updateMovie = async (req, res) => {
         }
 
         const existingMovie = await prisma.movie.findUnique({
-            where: { id: movieId },
+            where: {
+                id: movieId,
+            },
         });
 
         if (!existingMovie) {
@@ -164,30 +167,97 @@ export const updateMovie = async (req, res) => {
             posterUrl,
             backdropUrl,
             language,
+            genreIds,
+            actors,
+            directorIds,
         } = req.body;
 
-        const updatedMovie = await prisma.movie.update({
-            where: { id: movieId },
-            data: {
-                ...(title !== undefined && { title }),
-                ...(description !== undefined && { description }),
-                ...(releaseDate !== undefined && {
-                    releaseDate: releaseDate ? new Date(releaseDate) : null,
-                }),
-                ...(duration !== undefined && { duration }),
-                ...(posterUrl !== undefined && { posterUrl }),
-                ...(backdropUrl !== undefined && { backdropUrl }),
-                ...(language !== undefined && { language }),
-            },
+        const movie = await prisma.$transaction(async (tx) => {
+            const updatedMovie = await tx.movie.update({
+                where: {
+                    id: movieId,
+                },
+                data: {
+                    ...(title !== undefined && { title }),
+                    ...(description !== undefined && { description }),
+                    ...(releaseDate !== undefined && {
+                        releaseDate: releaseDate
+                            ? new Date(releaseDate)
+                            : null,
+                    }),
+                    ...(duration !== undefined && { duration }),
+                    ...(posterUrl !== undefined && { posterUrl }),
+                    ...(backdropUrl !== undefined && { backdropUrl }),
+                    ...(language !== undefined && { language }),
+                },
+            });
+
+            if (genreIds) {
+                await tx.movieGenre.deleteMany({
+                    where: {
+                        movieId,
+                    },
+                });
+
+                if (genreIds.length > 0) {
+                    await tx.movieGenre.createMany({
+                        data: genreIds.map((genreId) => ({
+                            movieId,
+                            genreId,
+                        })),
+                        skipDuplicates: true,
+                    });
+                }
+            }
+
+            if (actors) {
+                await tx.movieActor.deleteMany({
+                    where: {
+                        movieId,
+                    },
+                });
+
+                if (actors.length > 0) {
+                    await tx.movieActor.createMany({
+                        data: actors.map((actor) => ({
+                            movieId,
+                            actorId: actor.actorId,
+                            characterName: actor.characterName,
+                        })),
+                        skipDuplicates: true,
+                    });
+                }
+            }
+
+            if (directorIds) {
+                await tx.movieDirector.deleteMany({
+                    where: {
+                        movieId,
+                    },
+                });
+
+                if (directorIds.length > 0) {
+                    await tx.movieDirector.createMany({
+                        data: directorIds.map((directorId) => ({
+                            movieId,
+                            directorId,
+                        })),
+                        skipDuplicates: true,
+                    });
+                }
+            }
+
+            return updatedMovie;
         });
 
         return res.status(200).json({
             message: "Movie updated successfully",
-            movie: updatedMovie,
+            movie,
         });
 
     } catch (error) {
         console.error(error);
+
         return res.status(500).json({
             message: "Internal server error",
         });
