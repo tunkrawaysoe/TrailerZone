@@ -165,8 +165,11 @@ export const getMovie = async (req, res) => {
         }
         const { movieActors, movieGenres, movieDirectors, ...movieData } = movie;
 
-        const formattedGenres = movie.movieGenres.map(mg => mg.genre.name);
-        const formattedActor = movie.movieActors.map(ma => {
+        const formattedGenres = movieGenres.map(mg => ({
+            id: mg.genre.id,
+            name: mg.genre.name
+        }));
+        const formattedActor = movieActors.map(ma => {
             return {
                 id: ma.actor.id,
                 name: ma.actor.name,
@@ -174,7 +177,7 @@ export const getMovie = async (req, res) => {
                 characterName: ma.characterName,
             }
         })
-        const formattedDirector = movie.movieDirectors.map(md => {
+        const formattedDirector = movieDirectors.map(md => {
             return {
                 id: md.director.id,
                 name: md.director.name

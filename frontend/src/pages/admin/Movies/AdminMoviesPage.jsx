@@ -25,10 +25,6 @@ export default function AdminMoviesPage() {
     dispatch(fetchMovies());
   }
 
-  async function editMovie(movieId) {
-    navigate(`/admin/movie/edit/${movieId}`);
-  }
-
   useEffect(() => {
     dispatch(fetchMovies());
   }, [dispatch]);
@@ -77,7 +73,7 @@ export default function AdminMoviesPage() {
               <tr key={movie.id}>
                 <td>
                   <img
-                    src={movie.posterUrl}
+                    src={movie.posterUrl || null}
                     alt={movie.title}
                     className="movie-poster"
                   />
@@ -88,7 +84,7 @@ export default function AdminMoviesPage() {
                 <td>
                   <button
                     className="edit-btn"
-                    onClick={() => editMovie(movie.id)}
+                    onClick={() => navigate(`/admin/movie/edit/${movie.id}`)}
                   >
                     Edit
                   </button>

@@ -1,7 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import { fetchWatchList } from "../../../redux/watchListSlice";
 
-const MovieDetailsCard = ({ movieDetails, movieId }) => {
+const MovieDetailsCard = ({ movieId }) => {
+  const movieDetails = useSelector((state) => state.movie.item);
   const accessToken = useSelector((state) => state.auth.accessToken);
   const watchlist = useSelector((state) => state.watchList.movies);
   const addedToWatchList = watchlist?.some(
@@ -62,7 +63,7 @@ const MovieDetailsCard = ({ movieDetails, movieId }) => {
           <h1>{movieDetails.title}</h1>
           <div className="movie-meta">
             {movieDetails.genres?.map((genre) => (
-              <span key={genre}>{genre}</span>
+              <span key={genre.id}>{genre.name}</span>
             ))}
           </div>
           <p className="overview">{movieDetails.description}</p>

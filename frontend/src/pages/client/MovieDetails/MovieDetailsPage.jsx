@@ -2,22 +2,22 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../../../components/Navbar";
 import MovieSection from "../../../components/MovieCardSection";
 import { useParams } from "react-router-dom";
-import ActorCard from "../../../components/ActorCard";
-import ReviewSection from "../../../components/ReviewSection";
+import ActorCard from "./ActorCard";
+import ReviewSection from "./ReviewSection";
 import TrailerSection from "./TrailerSection";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import MovieDetailsCard from "./MovieDetailsCard";
 import "./MovieDetails.css";
+import { fetchMovie } from "../../../redux/movieSlice";
 
 const MovieDetails = () => {
-  const [movieDetails, setMovieDetails] = useState({});
+  const accessToken = useSelector((state) => state.auth.accessToken);
   const [similarMovies, setSimilarMovies] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [trailers, setTrailers] = useState([]);
   const [userReviewed, setUserReviewed] = useState(false);
+  const dispatch = useDispatch();
   const { id } = useParams();
-  const casts = movieDetails.actors || [];
-  const accessToken = useSelector((state) => state.auth.accessToken);
 
   async function getReviews() {
     const response = await fetch(`http://localhost:3000/movies/${id}/reviews`, {
@@ -32,19 +32,16 @@ const MovieDetails = () => {
 
   useEffect(() => {
     async function fetchMovieDetails() {
-      const [detailsResponse, similarMoviesResponse, trailerResponse] =
-        await Promise.all([
-          fetch(`http://localhost:3000/movies/${id}`),
-          fetch(`http://localhost:3000/movies/${id}/similar`),
-          fetch(`http://localhost:3000/movies/${id}/trailer`),
-        ]);
-      const movieDetails = await detailsResponse.json();
+      const [similarMoviesResponse, trailerResponse] = await Promise.all([
+        fetch(`http://localhost:3000/movies/${id}/similar`),
+        fetch(`http://localhost:3000/movies/${id}/trailer`),
+      ]);
       const similarMovies = await similarMoviesResponse.json();
       const movieTrailers = await trailerResponse.json();
-      setMovieDetails(movieDetails);
       setSimilarMovies(similarMovies);
       setTrailers(movieTrailers);
     }
+    dispatch(fetchMovie(id));
     fetchMovieDetails();
     getReviews();
   }, [id]);
@@ -52,9 +49,9 @@ const MovieDetails = () => {
   return (
     <>
       <Navbar />
-      <MovieDetailsCard movieDetails={movieDetails} movieId={id} />
+      <MovieDetailsCard movieId={id} />
       <div className="section">
-        <ActorCard casts={casts} />
+        <ActorCard />
         <TrailerSection trailers={trailers} />
         <ReviewSection
           reviews={reviews}

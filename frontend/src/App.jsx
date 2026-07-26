@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import Home from "./pages/client/Home/Home";
 import { Route, Routes } from "react-router-dom";
-import MovieDetails from "./pages/client/MovieDetails/MovieDetails";
+import MovieDetails from "./pages/client/MovieDetails/MovieDetailsPage";
 import Movies from "./pages/client/Movies/Movies";
 import Actor from "./pages/client/Actor/Actor";
 import WatchListPage from "./pages/client/WatchLists/WatchListPage";
@@ -17,6 +17,7 @@ import AdminLayout from "./pages/admin/AdminLayout";
 import ClientLayout from "./pages/client/ClientLayout";
 import AdminMoviesPage from "./pages/admin/Movies/AdminMoviesPage";
 import CreateMoviePage from "./pages/admin/CreateMovie/CreateMoviePage";
+import EditMoviePage from "./pages/admin/EditMovie/EditMoviePage";
 
 function App() {
   const accessToken = useSelector((state) => state.auth.accessToken);
@@ -55,6 +56,7 @@ function App() {
         <Route index element={<DashboardPage />} />
         <Route path="/admin/movies" element={<AdminMoviesPage />} />
         <Route path="/admin/movie/create" element={<CreateMoviePage />} />
+        <Route path="/admin/movie/edit/:id" element={<EditMoviePage />} />
       </Route>
     </Routes>
   );
