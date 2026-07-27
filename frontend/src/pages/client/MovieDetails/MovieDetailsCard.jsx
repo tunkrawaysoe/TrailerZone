@@ -5,10 +5,11 @@ const MovieDetailsCard = ({ movieId }) => {
   const movieDetails = useSelector((state) => state.movie.item);
   const accessToken = useSelector((state) => state.auth.accessToken);
   const watchlist = useSelector((state) => state.watchList.movies);
+  const dispatch = useDispatch();
+  
   const addedToWatchList = watchlist?.some(
     (list) => list.id === Number(movieId),
   );
-  const dispatch = useDispatch();
 
   async function handleWatchList() {
     if (!addedToWatchList) {

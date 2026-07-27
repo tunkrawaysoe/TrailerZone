@@ -124,11 +124,10 @@
   height: 500px;
   display: flex;
   align-items: center;
-  padding: 60px;
+  padding: 40px;
   background:
     linear-gradient(to right, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.3)),
     url("https://image.tmdb.org/t/p/original/8rpDcsfLJypbO6vREc0547VKqEv.jpg");
-
   background-size: cover;
   background-position: center;
 }
@@ -289,8 +288,8 @@
 
   .hero {
     height: 350px;
-
     padding: 30px;
+
   }
 
   .hero h2 {

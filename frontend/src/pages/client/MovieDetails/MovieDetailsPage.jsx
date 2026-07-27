@@ -47,21 +47,18 @@ const MovieDetails = () => {
   }, [id]);
 
   return (
-    <>
-      <Navbar />
-      <div className="section">
-        <MovieDetailsCard movieId={id} />
-        <ActorCard />
-        <TrailerSection trailers={trailers} />
-        <ReviewSection
-          reviews={reviews}
-          userReviewed={userReviewed}
-          movieId={id}
-          getReviews={getReviews}
-        />
-        <MovieSection movies={similarMovies} title="Similar Movies" />
-      </div>
-    </>
+    <div className="section">
+      <MovieDetailsCard movieId={id} />
+      <ActorCard />
+      <TrailerSection trailers={trailers} />
+      <ReviewSection
+        reviews={reviews}
+        userReviewed={userReviewed}
+        movieId={id}
+        getReviews={getReviews}
+      />
+      <MovieSection movies={similarMovies} title="Similar Movies" />
+    </div>
   );
 };
 

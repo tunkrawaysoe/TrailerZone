@@ -50,7 +50,7 @@ const AuthForm = ({ type }) => {
           user: data.user,
         }),
       );
-      navigate("/");
+      isRegister ? navigate("/login") : navigate("/");
       return;
     }
 
@@ -118,7 +118,13 @@ const AuthForm = ({ type }) => {
         <p>
           {isRegister ? "Already have an account?" : "Don't have an account?"}
 
-          <span>{isRegister ? " Login" : " Register"}</span>
+          <span
+            onClick={() => {
+              isRegister ? navigate("/login") : navigate("/register");
+            }}
+          >
+            {isRegister ? " Login" : " Register"}
+          </span>
         </p>
       </form>
     </div>

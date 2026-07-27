@@ -1,15 +1,10 @@
-import { useEffect } from "react";
 import Home from "./pages/client/Home/Home";
-import { Route, Routes } from "react-router-dom";
 import MovieDetails from "./pages/client/MovieDetails/MovieDetailsPage";
 import Movies from "./pages/client/Movies/Movies";
 import Actor from "./pages/client/Actor/Actor";
 import WatchListPage from "./pages/client/WatchLists/WatchListPage";
 import Login from "./Auth/Login";
 import RegisterPage from "./Auth/RegisterPage";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchWatchList } from "./redux/watchListSlice";
-import { fetchRefreshToken } from "./redux/authSlice";
 import ProfilePage from "./pages/client/Profile/ProfilePage";
 import ProfileEditPage from "./pages/client/Profile/ProfileEditPage";
 import DashboardPage from "./pages/admin/Dashboard/DashboardPage";
@@ -18,6 +13,11 @@ import ClientLayout from "./pages/client/ClientLayout";
 import AdminMoviesPage from "./pages/admin/Movies/AdminMoviesPage";
 import CreateMoviePage from "./pages/admin/CreateMovie/CreateMoviePage";
 import EditMoviePage from "./pages/admin/EditMovie/EditMoviePage";
+import { useEffect } from "react";
+import { Route, Routes } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchWatchList } from "./redux/watchListSlice";
+import { fetchRefreshToken } from "./redux/authSlice";
 
 function App() {
   const accessToken = useSelector((state) => state.auth.accessToken);

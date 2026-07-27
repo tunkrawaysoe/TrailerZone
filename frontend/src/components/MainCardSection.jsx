@@ -5,11 +5,11 @@ import { MainCard } from "./MainCard";
 
 const MainCardSection = () => {
   const dispatch = useDispatch();
-  const allMovies = useSelector((state) => state.movie.items);
+  const movies = useSelector((state) => state.movie.items);
   useEffect(() => {
     dispatch(fetchMovies());
-  }, []);
-  return <MainCard movies={allMovies} title={"Moives"} showBrowse={true} />;
+  }, [dispatch]);
+  return <MainCard movies={movies} title={"Moives"} showBrowse={true} />;
 };
 
 export default MainCardSection;
