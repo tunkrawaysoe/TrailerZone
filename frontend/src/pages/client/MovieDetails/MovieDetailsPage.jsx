@@ -49,8 +49,8 @@ const MovieDetails = () => {
   return (
     <>
       <Navbar />
-      <MovieDetailsCard movieId={id} />
       <div className="section">
+        <MovieDetailsCard movieId={id} />
         <ActorCard />
         <TrailerSection trailers={trailers} />
         <ReviewSection
