@@ -1,5 +1,10 @@
 import prisma from "../lib/prisma.js";
 import redis from "../lib/redis.js"
+
+
+const userKey = "user:all";
+const user_ttl = 60;
+
 export const getDashBoard = async (req, res) => {
     try {
         const [
@@ -431,3 +436,93 @@ export const addDirectorToMovie = async (req, res) => {
 
 
 }
+
+export const getAllUsers = async (req, res) => {
+    try {
+        const cacheUsers = await redis.get(userKey);
+
+        if (cacheUsers) {
+            console.log("Cache Hit");
+
+            return res.status(200).json({
+                message: "This is all users (cache)",
+                users: JSON.parse(cacheUsers),
+            });
+        }
+
+        console.log("Cache Miss");
+
+        const users = await prisma.user.findMany({
+            include: {
+                userRoles: {
+                    select: {
+                        role: true
+                    }
+                }
+            }
+        });
+
+        const formattedUsers = users.map(user => {
+            const { password, userRoles, ...userData } = user;
+            const formattedRoles = userRoles.map(userRole => {
+                return userRole.role.name;
+            })
+            return {
+                ...userData,
+                roles: formattedRoles
+            }
+        })
+
+        await redis.set(userKey, JSON.stringify(formattedUsers), {
+            EX: user_ttl,
+        });
+
+        return res.status(200).json({
+            message: "This is all users (db)",
+            users: formattedUsers
+        });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            message: "Server error",
+        });
+    }
+};
+
+export const deleteUser = async (req, res) => {
+    const userId = Number(req.params.id);
+
+    if (isNaN(userId)) {
+        return res.status(400).json({
+            message: "Invalid user id",
+        });
+    }
+
+    try {
+        const deletedUser = await prisma.$transaction(async (tx) => {
+            await tx.userRole.deleteMany({
+                where: {
+                    userId,
+                },
+            });
+
+            return await tx.user.delete({
+                where: {
+                    id: userId,
+                },
+            });
+        });
+
+        return res.status(200).json({
+            message: "User deleted successfully",
+            user: deletedUser,
+        });
+    } catch (error) {
+        console.error(error);
+
+        return res.status(500).json({
+            message: "Something went wrong.",
+        });
+    }
+};

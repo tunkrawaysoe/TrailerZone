@@ -48,7 +48,7 @@ export default function AdminMoviesPage() {
           <input
             type="text"
             placeholder="Search movies..."
-            className="movie-search"
+            className="movie-user-search"
           />
 
           <button className="add-btn" onClick={addMovie}>

@@ -1,0 +1,65 @@
+
+.page-title h1 {
+  margin: 0;
+  font-size: 30px;
+}
+
+.page-title p {
+  color: #9ca3af;
+  margin-top: 6px;
+}
+
+.user-search {
+  width: 260px;
+  padding: 10px 14px;
+  border: 1px solid #3b3b3b;
+  border-radius: 8px;
+  background: #1f2937;
+  color: white;
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+
+.user-table th,
+.user-table td {
+  padding: 16px;
+  text-align: left;
+}
+
+.user-table tbody tr {
+  border-top: 1px solid #374151;
+}
+
+.user-table tbody tr:hover {
+  background: #1f2937;
+}
+
+.edit-btn,
+.delete-btn {
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+}
+
+.edit-btn {
+  background: #2563eb;
+  margin-right: 10px;
+}
+
+.edit-btn:hover {
+  background: #1d4ed8;
+}
+
+.delete-btn {
+  background: #dc2626;
+}
+
+.delete-btn:hover {
+  background: #b91c1c;
+}
