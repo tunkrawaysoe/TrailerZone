@@ -1,8 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./authSlice";
 import watchListReducer from "./watchListSlice";
-import userReducer from "./userSlice"
-import movieReducer from "./movieSlice"
+import userReducer from "./userSlice";
+import movieReducer from "./movieSlice";
+import actorReducer from "./actorSlice";
 
 export const store = configureStore({
     reducer: {
@@ -10,5 +11,6 @@ export const store = configureStore({
         watchList: watchListReducer,
         user: userReducer,
         movie: movieReducer,
+        actor: actorReducer,
     }
 })

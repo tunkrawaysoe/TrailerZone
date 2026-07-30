@@ -12,6 +12,7 @@ export default function AdminSidebar() {
         <NavLink to="/admin/movies">Movies</NavLink>
         <NavLink to="/admin/users">Users</NavLink>
         <NavLink to="/admin/reviews">Reviews</NavLink>
+        <NavLink to="/admin/actors">Actors</NavLink>
       </nav>
     </aside>
   );

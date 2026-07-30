@@ -94,7 +94,7 @@ export const updateActor = async (req, res) => {
                 ...(profileImage !== undefined && { profileImage }),
                 ...(biography !== undefined && { biography }),
                 ...(birthDate !== undefined && {
-                    birthDate: new Date(birthDate),
+                    birthDate: birthDate ? new Date(birthDate) : null,
                 }),
             },
         });

@@ -33,7 +33,7 @@ const AdminUsersPage = () => {
         </div>
 
         <input
-          className="movie-user-search"
+          className="search-input"
           type="text"
           placeholder="Search users..."
         />

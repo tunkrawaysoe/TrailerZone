@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchWatchList } from "./redux/watchListSlice";
 import { fetchRefreshToken } from "./redux/authSlice";
 import AdminUsersPage from "./pages/admin/Users/AdminUsersPage";
+import AdminActorsPage from "./pages/admin/Actor/AdminActorsPage";
 
 function App() {
   const accessToken = useSelector((state) => state.auth.accessToken);
@@ -59,6 +60,7 @@ function App() {
         <Route path="/admin/movie/create" element={<CreateMoviePage />} />
         <Route path="/admin/movie/edit/:id" element={<EditMoviePage />} />
         <Route path="/admin/users" element={<AdminUsersPage />} />
+        <Route path="/admin/actors" element={<AdminActorsPage />} />
       </Route>
     </Routes>
   );
