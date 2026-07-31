@@ -1,10 +1,13 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchActors, removeActor } from "../../../redux/actorSlice";
+import { useNavigate } from "react-router-dom";
+
 const AdminActorsPage = () => {
   const actors = useSelector((state) => state.actor.items);
   const loading = useSelector((state) => state.actor.loading);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   useEffect(() => {
     dispatch(fetchActors());
   }, [dispatch]);

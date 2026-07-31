@@ -1,7 +1,6 @@
 import prisma from "../lib/prisma.js";
 import redis from "../lib/redis.js"
 
-
 const userKey = "user:all";
 const user_ttl = 60;
 

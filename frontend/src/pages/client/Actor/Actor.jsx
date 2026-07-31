@@ -1,18 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { act, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import "./Actor.css";
 import { MainCard } from "../../../components/MainCard";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchActor } from "../../../redux/actorSlice";
+import "./Actor.css";
+
 const Actor = () => {
+  const actor = useSelector((state) => state.actor.item);
+  const loading = useSelector((state) => state.actor.loading);
+  const dispatch = useDispatch();
   const { id } = useParams();
-  const [actor, setActor] = useState({});
   useEffect(() => {
-    async function fetchActor() {
-      const actorResponse = await fetch(`http://localhost:3000/actors/${id}`);
-      const actorDetails = await actorResponse.json();
-      setActor(actorDetails);
-    }
-    fetchActor();
-  }, []);
+    dispatch(fetchActor(id));
+  }, [dispatch]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
   return (
     <>
       <section className="actor-details-container">

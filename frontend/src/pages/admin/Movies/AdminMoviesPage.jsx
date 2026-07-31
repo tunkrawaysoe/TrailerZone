@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMovies } from "../../../redux/movieSlice";
-import "./AdminMoviesPage.css";
 import { useNavigate } from "react-router-dom";
+import "./AdminMoviesPage.css";
 
 export default function AdminMoviesPage() {
   const movies = useSelector((state) => state.movie.items);
