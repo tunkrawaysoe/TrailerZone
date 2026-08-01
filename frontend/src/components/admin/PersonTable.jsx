@@ -1,6 +1,6 @@
 import React from "react";
 
-const PersonTable = ({ mode, people, loading }) => {
+const PersonTable = ({ mode, people, loading, onDelete }) => {
   return (
     <div className="admin-actors">
       <div className="page-header">
@@ -68,7 +68,7 @@ const PersonTable = ({ mode, people, loading }) => {
 
                     <button
                       className="delete-btn"
-                      onClick={() => deleteActor(person.id)}
+                      onClick={() => onDelete(person.id)}
                     >
                       Delete
                     </button>

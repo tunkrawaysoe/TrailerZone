@@ -15,7 +15,11 @@ export const fetchDirectors = createAsyncThunk("director/fetch",
 const directorSlice = createSlice({
     name: "director",
     initialState,
-    reducers: {},
+    reducers: {
+        removeDirector(state, action) {
+            state.items = state.items.filter(director => director.id !== action.payload)
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(fetchDirectors.pending, (state) => {
@@ -30,5 +34,5 @@ const directorSlice = createSlice({
             })
     }
 })
-
+export const { removeDirector } = directorSlice.actions;
 export default directorSlice.reducer;
