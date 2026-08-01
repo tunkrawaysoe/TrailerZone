@@ -10,6 +10,7 @@ const Actor = () => {
   const loading = useSelector((state) => state.actor.loading);
   const dispatch = useDispatch();
   const { id } = useParams();
+  
   useEffect(() => {
     dispatch(fetchActor(id));
   }, [dispatch]);

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchActor } from "../../../redux/actorSlice";
+import CreateAndEditActor from "../../../components/admin/CreateAndEditActor";
 
 const EditActorPage = () => {
   const { id } = useParams();
@@ -33,15 +34,6 @@ const EditActorPage = () => {
     });
   }, [actor]);
 
-  function handleChange(e) {
-    const { name, value } = e.target;
-
-    setForm((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  }
-
   async function updateActor(e) {
     e.preventDefault();
 
@@ -70,55 +62,12 @@ const EditActorPage = () => {
   }
 
   return (
-    <div className="create-movie-container">
-      <form className="create-movie-card" onSubmit={updateActor}>
-        <h1>Edit Actor</h1>
-
-        <input
-          type="text"
-          name="name"
-          placeholder="Actor Name"
-          value={form.name}
-          onChange={handleChange}
-          required
-        />
-
-        <input
-          type="text"
-          name="profileImage"
-          placeholder="Profile Image URL"
-          value={form.profileImage}
-          onChange={handleChange}
-        />
-
-        <textarea
-          name="biography"
-          placeholder="Biography"
-          value={form.biography}
-          onChange={handleChange}
-          rows={6}
-        />
-
-        <input
-          type="date"
-          name="birthDate"
-          value={form.birthDate}
-          onChange={handleChange}
-        />
-
-        <div className="form-actions">
-          <button type="submit">Update Actor</button>
-
-          <button
-            type="button"
-            className="cancel-btn"
-            onClick={() => navigate("/admin/actors")}
-          >
-            Cancel
-          </button>
-        </div>
-      </form>
-    </div>
+    <CreateAndEditActor
+      form={form}
+      setForm={setForm}
+      submitFunction={updateActor}
+      mode={"Edit"}
+    />
   );
 };
 
