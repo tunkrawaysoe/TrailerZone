@@ -25,6 +25,7 @@ import { fetchWatchList } from "./redux/watchListSlice";
 import { fetchRefreshToken } from "./redux/authSlice";
 import DirectorCreatePage from "./pages/admin/Director/DirectorCreatePage";
 import DirectorEditPage from "./pages/admin/Director/DirectorEditPage";
+import GenrePage from "./pages/admin/Genres/GenrePage";
 
 function App() {
   const accessToken = useSelector((state) => state.auth.accessToken);
@@ -77,6 +78,7 @@ function App() {
           path="/admin/directors/:id/edit"
           element={<DirectorEditPage />}
         />
+        <Route path="/admin/genres" element={<GenrePage />} />
       </Route>
     </Routes>
   );

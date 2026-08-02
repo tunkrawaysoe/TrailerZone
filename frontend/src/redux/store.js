@@ -5,6 +5,7 @@ import userReducer from "./userSlice";
 import movieReducer from "./movieSlice";
 import actorReducer from "./actorSlice";
 import directorReducer from "./directorSlice"
+import genreReducer from "./GenreSlice"
 
 export const store = configureStore({
     reducer: {
@@ -14,5 +15,6 @@ export const store = configureStore({
         movie: movieReducer,
         actor: actorReducer,
         director: directorReducer,
+        genre: genreReducer
     }
 })
