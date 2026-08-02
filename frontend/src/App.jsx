@@ -16,13 +16,15 @@ import EditMoviePage from "./pages/admin/Movies/EditMoviePage";
 import AdminUsersPage from "./pages/admin/Users/AdminUsersPage";
 import AdminActorsPage from "./pages/admin/Actor/AdminActorsPage";
 import EditActorPage from "./pages/admin/Actor/EditActorPage";
+import ActorCreatePage from "./pages/admin/Actor/ActorCreatePage";
+import DirectorPage from "./pages/admin/Director/DirectorPage";
 import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchWatchList } from "./redux/watchListSlice";
 import { fetchRefreshToken } from "./redux/authSlice";
-import ActorCreatePage from "./pages/admin/Actor/ActorCreatePage";
-import DirectorPage from "./pages/admin/Director/DirectorPage";
+import DirectorCreatePage from "./pages/admin/Director/DirectorCreatePage";
+import DirectorEditPage from "./pages/admin/Director/DirectorEditPage";
 
 function App() {
   const accessToken = useSelector((state) => state.auth.accessToken);
@@ -67,6 +69,14 @@ function App() {
         <Route path="/admin/actors/:id/edit" element={<EditActorPage />} />
         <Route path="/admin/actors/create" element={<ActorCreatePage />} />
         <Route path="/admin/directors" element={<DirectorPage />} />
+        <Route
+          path="/admin/directors/create"
+          element={<DirectorCreatePage />}
+        />
+        <Route
+          path="/admin/directors/:id/edit"
+          element={<DirectorEditPage />}
+        />
       </Route>
     </Routes>
   );

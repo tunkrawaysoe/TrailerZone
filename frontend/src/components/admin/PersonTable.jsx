@@ -1,6 +1,8 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const PersonTable = ({ mode, people, loading, onDelete }) => {
+  const navigate = useNavigate();
   return (
     <div className="admin-actors">
       <div className="page-header">
@@ -13,7 +15,7 @@ const PersonTable = ({ mode, people, loading, onDelete }) => {
           <input className="search-input" placeholder="Search actors..." />
           <button
             className="add-btn"
-            onClick={() => navigate("/admin/actors/create")}
+            onClick={() => navigate(`/admin/${mode.toLowerCase()}/create`)}
           >
             Add {mode}
           </button>
@@ -60,7 +62,9 @@ const PersonTable = ({ mode, people, loading, onDelete }) => {
                     <button
                       className="edit-btn"
                       onClick={() =>
-                        navigate(`/admin/actors/${person.id}/edit`)
+                        navigate(
+                          `/admin/${mode.toLowerCase()}/${person.id}/edit`,
+                        )
                       }
                     >
                       Edit

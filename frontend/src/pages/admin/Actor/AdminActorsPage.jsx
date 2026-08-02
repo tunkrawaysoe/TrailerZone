@@ -24,7 +24,14 @@ const AdminActorsPage = () => {
     dispatch(removeActor(actorId));
   }
 
-  return <PersonTable mode={"Actors"} loading={loading} people={actors} />;
+  return (
+    <PersonTable
+      mode={"Actors"}
+      loading={loading}
+      people={actors}
+      onDelete={deleteActor}
+    />
+  );
 };
 
 export default AdminActorsPage;

@@ -12,6 +12,12 @@ const DirectorPage = () => {
   async function deleteDirector(directorId) {
     const response = await fetch(
       `http://localhost:3000/directors/${directorId}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-type": "application/json",
+        },
+      },
     );
     if (!response.ok) {
       alert("Failed to delete");
