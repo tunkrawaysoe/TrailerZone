@@ -15,7 +15,11 @@ export const fetchGenres = createAsyncThunk("genre/fetchgenres",
 const genreSlice = createSlice({
     name: "Genre",
     initialState,
-    reducers: {},
+    reducers: {
+        removeGenre(state, action) {
+            state.items = state.items.filter(genre => genre.id !== action.payload)
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(fetchGenres.pending, (state) => {
@@ -30,5 +34,5 @@ const genreSlice = createSlice({
             })
     }
 })
-
+export const { removeGenre } = genreSlice.actions;
 export default genreSlice.reducer;

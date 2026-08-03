@@ -26,6 +26,7 @@ import { fetchRefreshToken } from "./redux/authSlice";
 import DirectorCreatePage from "./pages/admin/Director/DirectorCreatePage";
 import DirectorEditPage from "./pages/admin/Director/DirectorEditPage";
 import GenrePage from "./pages/admin/Genres/GenrePage";
+import GrenreCreatePage from "./pages/admin/Genres/GrenreCreatePage";
 
 function App() {
   const accessToken = useSelector((state) => state.auth.accessToken);
@@ -79,6 +80,7 @@ function App() {
           element={<DirectorEditPage />}
         />
         <Route path="/admin/genres" element={<GenrePage />} />
+        <Route path="/admin/genres/create" element={<GrenreCreatePage />} />
       </Route>
     </Routes>
   );

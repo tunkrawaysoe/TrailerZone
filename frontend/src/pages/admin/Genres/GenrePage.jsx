@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { fetchGenres } from "../../../redux/GenreSlice";
+import { fetchGenres, removeGenre } from "../../../redux/GenreSlice";
 import "./GenrePage.css";
 
 const GenrePage = () => {
@@ -10,6 +10,15 @@ const GenrePage = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  async function deleteGenre(genreId) {
+    if (!genreId) return;
+    const response = await fetch(`http://localhost:3000/genres/${genreId}`, {
+      method: "DELETE",
+    });
+    if (!response.ok) return;
+    dispatch(removeGenre(genreId));
+  }
 
   useEffect(() => {
     dispatch(fetchGenres());
@@ -63,7 +72,10 @@ const GenrePage = () => {
                 <td>
                   <button className="edit-btn">Edit</button>
 
-                  <button className="delete-btn">
+                  <button
+                    className="delete-btn"
+                    onClick={() => deleteGenre(genre.id)}
+                  >
                     Delete
                   </button>
                 </td>
