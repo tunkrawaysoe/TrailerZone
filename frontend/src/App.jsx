@@ -27,6 +27,7 @@ import DirectorCreatePage from "./pages/admin/Director/DirectorCreatePage";
 import DirectorEditPage from "./pages/admin/Director/DirectorEditPage";
 import GenrePage from "./pages/admin/Genres/GenrePage";
 import GrenreCreatePage from "./pages/admin/Genres/GrenreCreatePage";
+import GenreEditPage from "./pages/admin/Genres/GenreEditPage";
 
 function App() {
   const accessToken = useSelector((state) => state.auth.accessToken);
@@ -81,6 +82,7 @@ function App() {
         />
         <Route path="/admin/genres" element={<GenrePage />} />
         <Route path="/admin/genres/create" element={<GrenreCreatePage />} />
+        <Route path="/admin/genres/:id/edit" element={<GenreEditPage />} />
       </Route>
     </Routes>
   );

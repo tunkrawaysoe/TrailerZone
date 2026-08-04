@@ -72,4 +72,27 @@ router.delete('/:id', async (req, res) => {
     }
 })
 
+router.patch('/:id', async (req, res) => {
+    const { name } = req.body;
+    const id = Number(req.params.id);
+
+    if (isNaN(id)) return res.status(400).json({ messaege: "Invalid genre id" });
+
+    if (!name) return res.status(400).json({ message: "Genre name is required" })
+
+    try {
+        await prisma.genre.update({
+            where: {
+                id
+            },
+            data: {
+                name
+            }
+        })
+        return res.status(200).json({ messaege: "Genre is updated successfully" })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ messaege: "Something went wrong" });
+    }
+})
 export default router;

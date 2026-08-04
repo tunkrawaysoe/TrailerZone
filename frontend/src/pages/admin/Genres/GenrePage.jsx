@@ -66,11 +66,15 @@ const GenrePage = () => {
             {genres.map((genre) => (
               <tr key={genre.id}>
                 <td>{genre.id}</td>
-
                 <td>{genre.name}</td>
 
                 <td>
-                  <button className="edit-btn">Edit</button>
+                  <button
+                    className="edit-btn"
+                    onClick={() => navigate(`/admin/genres/${genre.id}/edit`)}
+                  >
+                    Edit
+                  </button>
 
                   <button
                     className="delete-btn"
