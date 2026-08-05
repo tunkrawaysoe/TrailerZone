@@ -5,6 +5,17 @@ const ReviewPage = () => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  async function deleteReview(reviewId) {
+    if (!reviewId) return;
+    const response = await fetch(`http://localhost:3000/reviews/${reviewId}`, {
+      method: "DELETE",
+    });
+    if (!response.ok) return;
+    setReviews((prevReviews) =>
+      prevReviews.filter((review) => review.id !== reviewId),
+    );
+  }
+
   useEffect(() => {
     async function getReviews() {
       try {
@@ -63,7 +74,10 @@ const ReviewPage = () => {
                 <td>{review.comment}</td>
 
                 <td>
-                  <button className="delete-btn">
+                  <button
+                    className="delete-btn"
+                    onClick={() => deleteReview(review.id)}
+                  >
                     Delete
                   </button>
                 </td>
