@@ -18,16 +18,17 @@ import AdminActorsPage from "./pages/admin/Actor/AdminActorsPage";
 import EditActorPage from "./pages/admin/Actor/EditActorPage";
 import ActorCreatePage from "./pages/admin/Actor/ActorCreatePage";
 import DirectorPage from "./pages/admin/Director/DirectorPage";
-import { useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchWatchList } from "./redux/watchListSlice";
-import { fetchRefreshToken } from "./redux/authSlice";
 import DirectorCreatePage from "./pages/admin/Director/DirectorCreatePage";
 import DirectorEditPage from "./pages/admin/Director/DirectorEditPage";
 import GenrePage from "./pages/admin/Genres/GenrePage";
 import GrenreCreatePage from "./pages/admin/Genres/GrenreCreatePage";
 import GenreEditPage from "./pages/admin/Genres/GenreEditPage";
+import ReviewPage from "./pages/admin/Review/ReviewPage";
+import { useEffect } from "react";
+import { Route, Routes } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchWatchList } from "./redux/watchListSlice";
+import { fetchRefreshToken } from "./redux/authSlice";
 
 function App() {
   const accessToken = useSelector((state) => state.auth.accessToken);
@@ -83,6 +84,7 @@ function App() {
         <Route path="/admin/genres" element={<GenrePage />} />
         <Route path="/admin/genres/create" element={<GrenreCreatePage />} />
         <Route path="/admin/genres/:id/edit" element={<GenreEditPage />} />
+        <Route path="/admin/reviews" element={<ReviewPage />} />
       </Route>
     </Routes>
   );
