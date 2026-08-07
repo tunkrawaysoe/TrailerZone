@@ -32,7 +32,6 @@ import { fetchRefreshToken } from "./redux/authSlice";
 
 function App() {
   const accessToken = useSelector((state) => state.auth.accessToken);
-  const loading = useSelector((state) => state.auth.loading);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -43,10 +42,6 @@ function App() {
     if (!accessToken) return;
     dispatch(fetchWatchList(accessToken));
   }, [accessToken, dispatch]);
-
-  if (loading) {
-    return <h1>Loading...</h1>;
-  }
 
   return (
     <Routes>

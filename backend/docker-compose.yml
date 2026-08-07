@@ -1,18 +1,30 @@
-version: "3.9"
-
 services:
   api:
-    build: .
-    container_name: backend-api
+    image: my-node-app:v1
+    container_name: movie-hub
+    command: sh -c "npx prisma migrate deploy && npm start"
     ports:
-      - "3000:3000"
+      - "5000:3000"
     depends_on:
       - redis
-    environment:
-      REDIS_URL: redis://redis:6379
+    env_file:
+      - .env.docker
 
   redis:
     image: redis:7
     container_name: redis
     ports:
       - "6379:6379"
+
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    env_file :
+      - .env.docker
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_db:/var/lib/postgresql/data
+
+volumes:
+  postgres_db:
