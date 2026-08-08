@@ -1,6 +1,6 @@
 services:
   api:
-    image: my-node-app:v1
+    build: .
     container_name: movie-hub
     command: sh -c "npx prisma migrate deploy && npm start"
     ports:
@@ -19,7 +19,7 @@ services:
   postgres:
     image: postgres:15
     container_name: postgres
-    env_file :
+    env_file:
       - .env.docker
     ports:
       - "5432:5432"

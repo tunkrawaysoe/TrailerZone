@@ -913,8 +913,8 @@ async function seedRoles() {
 async function main() {
     // await seedGenres();
     // await seedActors();
-    await seedDirectors();
-    await seedMovies();
+    // await seedDirectors();
+    // await seedMovies();
     await seedRoles();
 }
 

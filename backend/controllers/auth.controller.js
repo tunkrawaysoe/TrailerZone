@@ -47,6 +47,7 @@ export const register = async (req, res) => {
             user: safe
         })
     } catch (error) {
+        console.log(error)
         if (error.code === "P2002") {
             return res.status(409).json({
                 message: "Email Or Phone Number already exit"
