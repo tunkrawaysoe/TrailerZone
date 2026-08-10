@@ -11,7 +11,7 @@ export default function Hero() {
     if (!heroMovies.length) return;
     const timer = setInterval(() => {
       setIndex((prev) => (prev === heroMovies.length - 1 ? 0 : prev + 1));
-    }, 5000);
+    }, 7000);
 
     return () => clearInterval(timer);
   }, [heroMovies]);
