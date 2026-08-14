@@ -1,7 +1,7 @@
 import prisma from "../lib/prisma.js";
 import jwt from "jsonwebtoken";
 import ROLES from "../lib/userRoles.js";
-
+import bcrypt from "bcrypt";
 const JWT_SECRET = process.env.JWT_SECRET;
 const REFRESH_SECRET = process.env.JWT_REFRESH_SECRET;
 
@@ -9,7 +9,7 @@ export const register = async (req, res) => {
     const { name, username, email, phoneNumber, password } = req.body;
     if (!name || !username || !email || !phoneNumber || !password) {
         return res.status(400).json({
-            messsage: 'all field are required'
+            message: 'All field are required'
         });
 
     }
@@ -19,7 +19,7 @@ export const register = async (req, res) => {
         })
         if (foundUser) {
             return res.status(409).json({
-                messsage: "Email already exists"
+                message: "Email already exists"
             })
         }
         const defaultRole = await prisma.role.findUnique({
@@ -27,13 +27,14 @@ export const register = async (req, res) => {
                 code: ROLES.USER
             }
         })
+        const hashPassword = await bcrypt.hash(password, 12);
         const newUser = await prisma.user.create({
             data: {
                 name,
                 username,
                 email,
                 phoneNumber,
-                password,
+                password: hashPassword,
                 userRoles: {
                     create: {
                         roleId: defaultRole.id
@@ -43,7 +44,7 @@ export const register = async (req, res) => {
         })
         const { password: hidden, ...safe } = newUser;
         res.status(201).json({
-            messsage: "User created successfully",
+            message: "User created successfully",
             user: safe
         })
     } catch (error) {
@@ -90,9 +91,9 @@ export const logIn = async (req, res) => {
                 }
             },
         });
-        if (!foundUser) return res.status(404).json({ message: "You have to register first" });
-        const isMatch = foundUser.password === password;
-        if (!isMatch) return res.status(401).json({ message: "Password don't match" });
+        if (!foundUser) return res.status(401).json({ message: "Invalid email or password" });
+        const isMatch = await bcrypt.compare(password, foundUser.password);
+        if (!isMatch) return res.status(401).json({ message: "Invalid email or password" });
 
         const roles = foundUser.userRoles.map(
             userRole => userRole.role.code
