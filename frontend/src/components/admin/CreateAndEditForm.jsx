@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./CreateAndEditForm.css"
+import "./CreateAndEditForm.css";
 const CreateAndEditForm = ({ submitForm, form, setForm, title }) => {
   const [genres, setGenres] = useState([]);
   const [actors, setActors] = useState([]);
@@ -9,36 +9,41 @@ const CreateAndEditForm = ({ submitForm, form, setForm, title }) => {
 
   function handleChange(e) {
     const { name, value } = e.target;
-    setForm({
-      ...form,
+    setForm((prev) => ({
+      ...prev,
       [name]: name === "duration" ? Number(value) : value,
-    });
+    }));
   }
 
   function handleGenreChange(genreId) {
-    setForm({
-      ...form,
-      genreIds: form.genreIds.includes(genreId)
-        ? form.genreIds.filter((id) => id !== genreId)
-        : [...form.genreIds, genreId],
-    });
+    setForm((prev) => ({
+      ...prev,
+      genreIds: prev.genreIds.includes(genreId)
+        ? prev.genreIds.filter((id) => id !== genreId)
+        : [...prev.genreIds, genreId],
+    }));
   }
 
   function addActor(actorId) {
     if (!actorId) return;
-    const alreadyExist = form.actors.some((actor) => actor.actorId === actorId);
 
-    if (alreadyExist) return;
+    setForm((prev) => {
+      const alreadyExist = prev.actors.some(
+        (actor) => actor.actorId === actorId,
+      );
 
-    setForm({
-      ...form,
-      actors: [
-        ...form.actors,
-        {
-          actorId,
-          characterName: "",
-        },
-      ],
+      if (alreadyExist) return prev;
+
+      return {
+        ...prev,
+        actors: [
+          ...prev.actors,
+          {
+            actorId,
+            characterName: "",
+          },
+        ],
+      };
     });
   }
 
@@ -51,31 +56,36 @@ const CreateAndEditForm = ({ submitForm, form, setForm, title }) => {
     });
   }
 
-  function removeActor(index) {
-    setForm({
-      ...form,
-      actors: form.actors.filter((_, i) => i !== index),
-    });
+  function removeActor(actorId) {
+    if (!actorId) return;
+    setForm((prev) => ({
+      ...prev,
+      actors: prev.actors.filter((actor) => actor.actorId !== actorId),
+    }));
   }
 
   function addDirector(directorId) {
     if (!directorId) return;
-    const existingDirectorId = [...form.directorIds].some(
-      (id) => id === directorId,
-    );
-    if (existingDirectorId) return;
-    setForm({
-      ...form,
-      directorIds: [...form.directorIds, directorId],
+
+    setForm((prev) => {
+      if (prev.directorIds.includes(directorId)) {
+        return prev;
+      }
+
+      return {
+        ...prev,
+        directorIds: [...prev.directorIds, directorId],
+      };
     });
   }
 
   function removeDirector(directorId) {
     if (!directorId) return;
-    setForm({
-      ...form,
-      directorIds: form.directorIds.filter((id) => id !== directorId),
-    });
+
+    setForm((prev) => ({
+      ...prev,
+      directorIds: prev.directorIds.filter((id) => id !== directorId),
+    }));
   }
 
   useEffect(() => {
@@ -201,7 +211,7 @@ const CreateAndEditForm = ({ submitForm, form, setForm, title }) => {
                 onChange={(e) => updateCharacter(index, e.target.value)}
               />
 
-              <button type="button" onClick={() => removeActor(index)}>
+              <button type="button" onClick={() => removeActor(actor.actorId)}>
                 Remove
               </button>
             </div>
