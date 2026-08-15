@@ -8,9 +8,9 @@ const GenreEditPage = () => {
     name: "",
   });
   const { id } = useParams();
-  const genres = useSelector((state) => state.genre.items);
-  const editedGenres = genres.find((genre) => genre.id === Number(id));
   const navigate = useNavigate();
+  const genres = useSelector((state) => state.genre.items);
+  const genreToEdit = genres.find((genre) => genre.id === Number(id));
 
   async function editGenre(e) {
     e.preventDefault();
@@ -26,17 +26,18 @@ const GenreEditPage = () => {
   }
 
   useEffect(() => {
-    if (!Boolean(editedGenres)) return;
+    if (!genreToEdit) return;
     setForm({
-      name: editedGenres.name,
+      name: genreToEdit.name,
     });
-  }, [editedGenres]);
+  }, [genreToEdit]);
+
   return (
     <GenreForm
       form={form}
       setForm={setForm}
       submitFunction={editGenre}
-      mode={"Edit"}
+      mode="Edit"
     />
   );
 };

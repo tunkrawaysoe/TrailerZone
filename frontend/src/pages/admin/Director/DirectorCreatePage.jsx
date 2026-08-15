@@ -28,7 +28,7 @@ const DirectorCreatePage = () => {
 
   return (
     <DirectorForm
-      mode={"Create"}
+      mode="Create"
       submitFunction={createDirector}
       form={form}
       setForm={setForm}

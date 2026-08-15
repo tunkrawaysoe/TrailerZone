@@ -32,7 +32,7 @@ const DirectorPage = () => {
   if (loading) return <div>loading...</div>;
   return (
     <PersonTable
-      mode={"Directors"}
+      mode="Directors"
       people={directors}
       loading={loading}
       onDelete={deleteDirector}

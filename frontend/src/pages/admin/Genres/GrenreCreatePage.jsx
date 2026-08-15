@@ -20,7 +20,14 @@ const GrenreCreatePage = () => {
     navigate("/admin/genres");
   }
 
-  return <GenreForm mode={"Create"} submitFunction={createGenre} form={form}setForm={setForm} />;
+  return (
+    <GenreForm
+      mode="Create"
+      submitFunction={createGenre}
+      form={form}
+      setForm={setForm}
+    />
+  );
 };
 
 export default GrenreCreatePage;

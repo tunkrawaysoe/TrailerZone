@@ -360,7 +360,7 @@ export const getMovieReviews = async (req, res) => {
 
         return res.status(200).json({
             reviews,
-            userReviewed: Boolean(userReviewed)
+            userReviewed
         });
 
     } catch (error) {

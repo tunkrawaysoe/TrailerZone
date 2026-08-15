@@ -47,13 +47,13 @@ const CreateAndEditForm = ({ submitForm, form, setForm, title }) => {
     });
   }
 
-  function updateCharacter(index, value) {
-    const updatedActors = [...form.actors];
-    updatedActors[index].characterName = value;
-    setForm({
-      ...form,
-      actors: updatedActors,
-    });
+  function updateCharacter(actorId, value) {
+    setForm((prev) => ({
+      ...prev,
+      actors: prev.actors.map((actor) =>
+        actor.actorId === actorId ? { ...actor, characterName: value } : actor,
+      ),
+    }));
   }
 
   function removeActor(actorId) {
@@ -200,7 +200,7 @@ const CreateAndEditForm = ({ submitForm, form, setForm, title }) => {
             ))}
           </select>
 
-          {form.actors.map((actor, index) => (
+          {form.actors.map((actor) => (
             <div key={actor.actorId} className="actor-item">
               <span>{actors.find((a) => a.id === actor.actorId)?.name}</span>
 
@@ -208,7 +208,7 @@ const CreateAndEditForm = ({ submitForm, form, setForm, title }) => {
                 type="text"
                 placeholder="Character Name"
                 value={actor.characterName}
-                onChange={(e) => updateCharacter(index, e.target.value)}
+                onChange={(e) => updateCharacter(actor.actorId, e.target.value)}
               />
 
               <button type="button" onClick={() => removeActor(actor.actorId)}>

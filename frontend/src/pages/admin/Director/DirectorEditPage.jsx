@@ -49,7 +49,7 @@ const DirectorEditPage = () => {
 
   return (
     <DirectorForm
-      mode={"Edit"}
+      mode="Edit"
       submitFunction={editDirector}
       form={form}
       setForm={setForm}

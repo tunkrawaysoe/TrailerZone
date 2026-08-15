@@ -66,7 +66,7 @@ const EditActorPage = () => {
       form={form}
       setForm={setForm}
       submitFunction={updateActor}
-      mode={"Edit"}
+      mode="Edit"
     />
   );
 };

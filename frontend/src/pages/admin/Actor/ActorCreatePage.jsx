@@ -32,7 +32,7 @@ const ActorCreatePage = () => {
       form={form}
       setForm={setForm}
       submitFunction={createActor}
-      mode={"Create"}
+      mode="Create"
     />
   );
 };

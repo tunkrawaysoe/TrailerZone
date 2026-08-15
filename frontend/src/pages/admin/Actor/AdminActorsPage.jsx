@@ -26,7 +26,7 @@ const AdminActorsPage = () => {
 
   return (
     <PersonTable
-      mode={"Actors"}
+      mode="Actors"
       loading={loading}
       people={actors}
       onDelete={deleteActor}
