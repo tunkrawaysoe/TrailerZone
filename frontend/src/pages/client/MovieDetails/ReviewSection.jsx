@@ -36,6 +36,9 @@ const ReviewSection = ({ reviews, movieId, getReviews, userReviewed }) => {
   }
 
   useEffect(() => {
+    socket.auth = {
+      token: accessToken,
+    };
     socket.connect();
 
     socket.on("receive_notification", (noti) => {
