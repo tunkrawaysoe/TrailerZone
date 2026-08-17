@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { socket } from "../../../lib/socket.js";
+import { useEffect } from "react";
 
 const ReviewSection = ({ reviews, movieId, getReviews, userReviewed }) => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const accessToken = useSelector((state) => state.auth.accessToken);
-  async function handleSubmit(e) {
+
+  async function addReview(e) {
     e.preventDefault();
+    socket.emit("send_notification", "hello world");
     const response = await fetch(
       `http://localhost:3000/movies/${movieId}/reviews`,
       {
@@ -31,13 +35,24 @@ const ReviewSection = ({ reviews, movieId, getReviews, userReviewed }) => {
     }
   }
 
+  useEffect(() => {
+    socket.connect();
+
+    socket.on("receive_notification", (noti) => {
+      console.log(noti);
+    });
+    return () => {
+      socket.disconnect();
+    };
+  }, [movieId]);
+
   return (
     <div className="review-container">
       <div className="header">
         <h3 className="title">Reviews</h3>
       </div>
       {!userReviewed && (
-        <form className="review-form" onSubmit={handleSubmit}>
+        <form className="review-form" onSubmit={addReview}>
           <label>Your Rating</label>
           <div className="stars">
             {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((star) => (

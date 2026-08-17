@@ -1,7 +1,9 @@
 import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
-import cors from 'cors'
+import http from 'http';
+import cors from 'cors';
+import { Server } from "socket.io";
 import cookieParser from "cookie-parser";
 import authRoutes from './routes/auth.route.js'
 import userRoutes from './routes/user.route.js'
@@ -13,7 +15,15 @@ import directorRoutes from './routes/directors.route.js'
 import adminRoutes from './routes/admin.route.js'
 import genreRoutes from './routes/genre.route.js'
 import reviewRoutes from './routes/reviews.route.js'
+
 const app = express();
+const httpServer = http.createServer(app);
+export const io = new Server(httpServer, {
+    cors: {
+        origin: "http://localhost:5173",
+        credentials: true,
+    },
+});
 
 app.use(cookieParser());
 app.use(express.json());
@@ -43,6 +53,17 @@ app.use('/genres', genreRoutes)
 app.use('/admin', adminRoutes)
 app.use('/reviews', reviewRoutes)
 
-app.listen(PORT, () => {
+io.on("connection", (socket) => {
+    console.log("Socket connected:", socket.id);
+    socket.on("send_notification", (noti) => {
+        console.log(noti)
+        io.emit("receive_notification", noti);
+    })
+    socket.on("disconnect", () => {
+        console.log("Socket disconnected:", socket.id);
+    });
+});
+
+httpServer.listen(PORT, () => {
     console.log("Server is running at", PORT);
 })
