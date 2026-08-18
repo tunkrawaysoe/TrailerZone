@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { socket } from "../../../lib/socket.js";
+import { setSocketToken, socket } from "../../../lib/socket.js";
 import { useEffect } from "react";
 
 const ReviewSection = ({ reviews, movieId, getReviews, userReviewed }) => {
@@ -10,7 +10,6 @@ const ReviewSection = ({ reviews, movieId, getReviews, userReviewed }) => {
 
   async function addReview(e) {
     e.preventDefault();
-    socket.emit("send_notification", "hello world");
     const response = await fetch(
       `http://localhost:3000/movies/${movieId}/reviews`,
       {
@@ -36,13 +35,10 @@ const ReviewSection = ({ reviews, movieId, getReviews, userReviewed }) => {
   }
 
   useEffect(() => {
-    socket.auth = {
-      token: accessToken,
-    };
+    setSocketToken(accessToken);
     socket.connect();
-
-    socket.on("receive_notification", (noti) => {
-      console.log(noti);
+    socket.on("notification", (notification) => {
+      console.log(notification);
     });
     return () => {
       socket.disconnect();

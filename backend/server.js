@@ -14,8 +14,8 @@ import directorRoutes from './routes/directors.route.js'
 import adminRoutes from './routes/admin.route.js'
 import genreRoutes from './routes/genre.route.js'
 import reviewRoutes from './routes/reviews.route.js'
-import { Server } from "socket.io";
 import { socketAuth } from "./middlewares/socketAuth.middleware.js";
+import { socketServer } from "./lib/socket.js";
 
 const app = express();
 const httpServer = http.createServer(app);
@@ -48,12 +48,7 @@ app.use('/genres', genreRoutes)
 app.use('/admin', adminRoutes)
 app.use('/reviews', reviewRoutes)
 
-export const io = new Server(httpServer, {
-    cors: {
-        origin: "http://localhost:5173",
-        credentials: true,
-    },
-});
+const io = socketServer(httpServer);
 
 io.use(socketAuth);
 
@@ -63,10 +58,6 @@ io.on("connection", (socket) => {
         socket.join("admins");
         console.log(`User ${socket.user.id} joined admins room`);
     }
-    socket.on("send_notification", (noti) => {
-        console.log(noti)
-        io.emit("receive_notification", noti);
-    })
     socket.on("disconnect", () => {
         console.log("Socket disconnected:", socket.id);
     });

@@ -1,9 +1,7 @@
-import { join } from "@prisma/client/runtime/library";
 import prisma from "../lib/prisma.js";
 import redis from "../lib/redis.js"
+import { getIO } from "../lib/socket.js";
 import { getMovieRedisKey } from "../lib/ulti.js";
-import { configDotenv } from "dotenv";
-import { json } from "express";
 
 export const getAllMovies = async (req, res) => {
     const page = Number(req.query.page) || 1;
@@ -204,6 +202,7 @@ export const getMovie = async (req, res) => {
 export const reviewMovie = async (req, res) => {
     const movieId = Number(req.params.movieId);
     const userId = req.user.id;
+    const io = getIO();
     const { rating, comment } = req.body;
     if (isNaN(movieId)) {
         return res.status(400).json({
@@ -231,6 +230,11 @@ export const reviewMovie = async (req, res) => {
                 movieId,
                 userId,
             }
+        });
+
+        io.to("admins").emit("notification", {
+            type: "NEW_REVIEW",
+            message: comment
         });
 
         return res.status(201).json({
